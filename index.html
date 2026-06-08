@@ -125,6 +125,12 @@ input:checked+.toggle-slider:before{transform:translateX(20px)}
 .modal-tab.active{color:var(--accent);border-bottom-color:var(--accent)}
 .tab-panel{display:none}
 .tab-panel.active{display:block}
+/* Feature 2: dimension toggle button in table header */
+.dim-toggle-btn{display:inline-flex;align-items:center;justify-content:center;margin-left:4px;padding:1px 5px;font-size:11px;font-weight:700;border-radius:4px;border:1px solid rgba(88,166,255,.4);background:rgba(88,166,255,.15);color:var(--accent);cursor:pointer;vertical-align:middle;transition:all .15s;line-height:1.4}
+.dim-toggle-btn:hover{background:rgba(88,166,255,.3);border-color:var(--accent)}
+/* Feature 1: target subfield in modal */
+.ind-target-row{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;align-items:end}
+.ind-target-row .form-item{margin-bottom:0}
 </style>
 </head>
 <body>
@@ -189,8 +195,8 @@ input:checked+.toggle-slider:before{transform:translateX(20px)}
           <div class="form-item"><label>是否总部</label>
             <select id="fIsHQ"><option value="0">否</option><option value="1">是（总部）</option></select>
           </div>
-          <div class="form-item"><label>发车量（实际）</label><input id="fSalesAct" type="number" min="0" placeholder="0" oninput="previewEval()"></div>
-          <div class="form-item"><label>发车量目标</label><input id="fSalesTarget" type="number" min="0" placeholder="0" oninput="previewEval()"></div>
+          <div class="form-item"><label>月发车量（实际）</label><input id="fSalesAct" type="number" min="0" placeholder="0" oninput="previewEval()"></div>
+          <div class="form-item"><label>月发车目标（个人）</label><input id="fSalesTarget" type="number" min="0" placeholder="默认全局" oninput="previewEval()"></div>
         </div>
         <div style="font-size:13px;font-weight:700;color:var(--muted);margin-bottom:10px">📋 月过程指标</div>
         <div id="monthIndicators" class="form-grid"></div>
@@ -200,7 +206,7 @@ input:checked+.toggle-slider:before{transform:translateX(20px)}
         <div style="font-size:13px;color:var(--muted);margin-bottom:12px">录入本周实际数据（与月维度分开存储）</div>
         <div class="form-grid" style="margin-bottom:16px">
           <div class="form-item"><label>本周发车量（实际）</label><input id="wSalesAct" type="number" min="0" placeholder="0"></div>
-          <div class="form-item"><label>本周发车量目标</label><input id="wSalesTarget" type="number" min="0" placeholder="0"></div>
+          <div class="form-item"><label>周发车目标（个人）</label><input id="wSalesTarget" type="number" min="0" placeholder="默认全局"></div>
         </div>
         <div style="font-size:13px;font-weight:700;color:var(--muted);margin-bottom:10px">📋 周过程指标</div>
         <div id="weekIndicators" class="form-grid"></div>
@@ -235,6 +241,8 @@ const DEFAULT_INDICATORS = [
 let mode = 'week'; // week | month
 let currentPage = 'dashboard';
 let editingId = null;
+// Feature 2: per-indicator dimension state (key: ind.id or 'sales', value: 'week'|'month')
+let indicatorDimensions = {}; // resets on page reload
 
 const DEFAULT_WEIGHTS = {weekProcess:80,weekResult:20,monthProcess:20,monthResult:80};
 
@@ -255,18 +263,34 @@ function saveData(d) {
 }
 
 // ─── SCORING ───
+// Feature 2: get effective dimension for a given indicator id (or 'sales')
+// Falls back to global mode if not individually set
+function getIndDim(indId) {
+  return indicatorDimensions[indId] !== undefined ? indicatorDimensions[indId] : mode;
+}
+
 function calcScore(rec, indicators, m) {
-  // result score: salesAct/salesTarget * 100, capped 120
-  const sa = m==='week' ? (rec.wSalesAct||0) : (rec.salesAct||0);
-  const st = m==='week' ? (rec.wSalesTarget||rec.salesTarget||1) : (rec.salesTarget||1);
+  // Feature 2: result score uses per-indicator (sales) dimension if available, else m
+  const salesDim = indicatorDimensions['sales'] !== undefined ? indicatorDimensions['sales'] : m;
+  const sa = salesDim==='week' ? (rec.wSalesAct||0) : (rec.salesAct||0);
+  // Feature 1: use personal sales target if stored in rec, else fall back to field
+  const personalSalesTarget = salesDim==='week'
+    ? (rec['target_周_sales'] !== undefined ? rec['target_周_sales'] : (rec.wSalesTarget||rec.salesTarget||1))
+    : (rec['target_月_sales'] !== undefined ? rec['target_月_sales'] : (rec.salesTarget||1));
+  const st = personalSalesTarget || 1;
   const resultScore = Math.min(120, st>0 ? (sa/st)*100 : 0);
 
   // process score: avg of (act/target)*100 for each enabled indicator
   const activeInds = indicators.filter(i=>i.enabled);
   let procTotal = 0, procCount = 0;
   activeInds.forEach(ind => {
-    const target = m==='week' ? ind.weekTarget : ind.monthTarget;
-    const actKey = m==='week' ? ('w_'+ind.id) : ('m_'+ind.id);
+    // Feature 2: use per-indicator dimension
+    const indDim = indicatorDimensions[ind.id] !== undefined ? indicatorDimensions[ind.id] : m;
+    // Feature 1: use personal target if stored in rec, else fall back to global
+    const globalTarget = indDim==='week' ? ind.weekTarget : ind.monthTarget;
+    const personalTargetKey = indDim==='week' ? ('target_周_'+ind.id) : ('target_月_'+ind.id);
+    const target = rec[personalTargetKey] !== undefined ? rec[personalTargetKey] : globalTarget;
+    const actKey = indDim==='week' ? ('w_'+ind.id) : ('m_'+ind.id);
     const act = rec[actKey] || 0;
     if (target > 0) {
       procTotal += Math.min(120, (act/target)*100);
@@ -352,13 +376,20 @@ function renderDashboard(c) {
   // Table per region
   regions.forEach(region => {
     const rPeople = people.filter(p=>p.region===region);
+    // Feature 2: dimension toggle helper
+    const salesDim = indicatorDimensions['sales'] !== undefined ? indicatorDimensions['sales'] : mode;
+    const salesDimLabel = salesDim === 'week' ? '周' : '月';
     html += `<div style="margin-bottom:24px"><div class="section-title">📍 ${region}省区</div>
     <div class="table-wrap"><table><thead><tr>
       <th>姓名</th><th>身份</th>
-      ${isWeek ? '<th class="num">周发车实际</th><th class="num">周发车目标</th>' : '<th class="num">月发车实际</th><th class="num">月发车目标</th>'}
+      <th class="num">发车实际<button class="dim-toggle-btn" onclick="toggleIndDim('sales')" title="切换维度">${salesDimLabel}</button></th>
+      <th class="num">发车目标</th>
       <th class="num">完成率</th>`;
     indicators.forEach(ind => {
-      html += `<th class="num">${ind.name}<br><small style="color:var(--muted)">${isWeek?'周目标'+ind.weekTarget:'月目标'+ind.monthTarget}</small></th>`;
+      const indDim = indicatorDimensions[ind.id] !== undefined ? indicatorDimensions[ind.id] : mode;
+      const indDimLabel = indDim === 'week' ? '周' : '月';
+      const globalTgt = indDim === 'week' ? ind.weekTarget : ind.monthTarget;
+      html += `<th class="num">${ind.name}<button class="dim-toggle-btn" onclick="toggleIndDim('${ind.id}')" title="切换维度">${indDimLabel}</button><br><small style="color:var(--muted)">目标${globalTgt}</small></th>`;
     });
     html += `<th class="num">过程分</th><th class="num">结果分</th><th class="num">综合分</th><th>等级</th><th></th></tr></thead><tbody>`;
 
@@ -366,8 +397,11 @@ function renderDashboard(c) {
       const key = p.name+'_'+p.region;
       const rec = latestRecs[key] || {};
       const {resultScore, processScore, composite, grade, gradeClass} = calcScore(rec, d.indicators, mode);
-      const sa = isWeek ? (rec.wSalesAct||0) : (rec.salesAct||0);
-      const st = isWeek ? (rec.wSalesTarget||rec.salesTarget||0) : (rec.salesTarget||0);
+      const sa = salesDim==='week' ? (rec.wSalesAct||0) : (rec.salesAct||0);
+      // Feature 1: use personal sales target if available
+      const personalSalesTgtKey = salesDim==='week' ? 'target_周_sales' : 'target_月_sales';
+      const globalSalesTgt = salesDim==='week' ? (rec.wSalesTarget||rec.salesTarget||0) : (rec.salesTarget||0);
+      const st = rec[personalSalesTgtKey] !== undefined ? rec[personalSalesTgtKey] : globalSalesTgt;
       const rate = st>0 ? Math.min(120,(sa/st*100)).toFixed(0) : 0;
       const rateColor = rate>=100?'var(--green)':rate>=70?'var(--yellow)':'var(--red)';
       let trClass = composite>=90?'good':composite<50?'warn':'';
@@ -376,8 +410,12 @@ function renderDashboard(c) {
         <td class="num">${sa}</td><td class="num">${st}</td>
         <td class="num"><span style="color:${rateColor};font-weight:700">${rate}%</span></td>`;
       indicators.forEach(ind => {
-        const actKey = isWeek ? ('w_'+ind.id) : ('m_'+ind.id);
-        const tgt = isWeek ? ind.weekTarget : ind.monthTarget;
+        const indDim = indicatorDimensions[ind.id] !== undefined ? indicatorDimensions[ind.id] : mode;
+        const actKey = indDim==='week' ? ('w_'+ind.id) : ('m_'+ind.id);
+        // Feature 1: use personal target if available
+        const personalTgtKey = indDim==='week' ? ('target_周_'+ind.id) : ('target_月_'+ind.id);
+        const globalTgt = indDim==='week' ? ind.weekTarget : ind.monthTarget;
+        const tgt = rec[personalTgtKey] !== undefined ? rec[personalTgtKey] : globalTgt;
         const act = rec[actKey]||0;
         const pct = tgt>0 ? Math.min(100,act/tgt*100) : 0;
         const fillColor = pct>=100?'var(--green)':pct>=70?'var(--yellow)':'var(--red)';
@@ -391,6 +429,14 @@ function renderDashboard(c) {
     });
     html += `</tbody></table></div></div>`;
   });
+
+  // Feature 2: toggle function for indicator dimension
+  // Must be set on window for onclick to work
+  window.toggleIndDim = function(indId) {
+    const cur = indicatorDimensions[indId] !== undefined ? indicatorDimensions[indId] : mode;
+    indicatorDimensions[indId] = cur === 'week' ? 'month' : 'week';
+    render();
+  };
 
   c.innerHTML = html;
 }
@@ -803,14 +849,42 @@ function buildIndicatorInputs() {
   const d = loadData();
   const inds = d.indicators.filter(i=>i.enabled);
 
+  // Feature 1: load existing record to get personal targets
+  let existingRec = {};
+  if (_editName && _editRegion) {
+    const latestRecs = {};
+    d.records.forEach(r => {
+      const k = r.name+'_'+r.region;
+      if (!latestRecs[k] || r.month >= latestRecs[k].month) latestRecs[k] = r;
+    });
+    existingRec = latestRecs[_editName+'_'+_editRegion] || {};
+  }
+
   let mHtml = '', wHtml = '';
   inds.forEach(ind => {
     const mVal = (_editName && _editRegion) ? getRecordVal(_editName, _editRegion, 'm_'+ind.id) : '';
     const wVal = (_editName && _editRegion) ? getRecordVal(_editName, _editRegion, 'w_'+ind.id) : '';
-    mHtml += `<div class="form-item"><label>${ind.name}（月目标${ind.monthTarget}${ind.unit}）</label>
-      <input id="fi_m_${ind.id}" type="number" min="0" value="${mVal}" placeholder="0" oninput="previewEval()"></div>`;
-    wHtml += `<div class="form-item"><label>${ind.name}（周目标${ind.weekTarget}${ind.unit}）</label>
-      <input id="fi_w_${ind.id}" type="number" min="0" value="${wVal}" placeholder="0"></div>`;
+    // Feature 1: personal targets (default to global if not set)
+    const mTgtVal = existingRec['target_月_'+ind.id] !== undefined ? existingRec['target_月_'+ind.id] : ind.monthTarget;
+    const wTgtVal = existingRec['target_周_'+ind.id] !== undefined ? existingRec['target_周_'+ind.id] : ind.weekTarget;
+
+    mHtml += `<div style="grid-column:1/-1;background:var(--surface2);border-radius:8px;padding:10px 12px;margin-bottom:4px">
+      <div style="font-size:13px;font-weight:700;margin-bottom:8px;color:var(--text)">${ind.name} <small style="color:var(--muted);font-weight:400">${ind.unit}</small></div>
+      <div class="ind-target-row">
+        <div class="form-item"><label>实际完成</label><input id="fi_m_${ind.id}" type="number" min="0" value="${mVal}" placeholder="0" oninput="previewEval()"></div>
+        <div class="form-item"><label>月目标（个人）</label><input id="ftgt_m_${ind.id}" type="number" min="0" value="${mTgtVal}" placeholder="${ind.monthTarget}" oninput="previewEval()"></div>
+        <div class="form-item"><label style="color:var(--muted)">全局月目标: ${ind.monthTarget}</label><div style="font-size:12px;color:var(--muted);padding:9px 0">个人目标优先</div></div>
+      </div>
+    </div>`;
+
+    wHtml += `<div style="grid-column:1/-1;background:var(--surface2);border-radius:8px;padding:10px 12px;margin-bottom:4px">
+      <div style="font-size:13px;font-weight:700;margin-bottom:8px;color:var(--text)">${ind.name} <small style="color:var(--muted);font-weight:400">${ind.unit}</small></div>
+      <div class="ind-target-row">
+        <div class="form-item"><label>实际完成</label><input id="fi_w_${ind.id}" type="number" min="0" value="${wVal}" placeholder="0"></div>
+        <div class="form-item"><label>周目标（个人）</label><input id="ftgt_w_${ind.id}" type="number" min="0" value="${wTgtVal}" placeholder="${ind.weekTarget}"></div>
+        <div class="form-item"><label style="color:var(--muted)">全局周目标: ${ind.weekTarget}</label><div style="font-size:12px;color:var(--muted);padding:9px 0">个人目标优先</div></div>
+      </div>
+    </div>`;
   });
   document.getElementById('monthIndicators').innerHTML = mHtml;
   document.getElementById('weekIndicators').innerHTML = wHtml;
@@ -880,11 +954,16 @@ function switchTab(tabId) {
 function previewEval() {
   const d = loadData();
   const sa = +(document.getElementById('fSalesAct').value||0);
-  const st = +(document.getElementById('fSalesTarget').value||1);
-  const tmpRec = {salesAct:sa, salesTarget:st};
+  const stRaw = document.getElementById('fSalesTarget').value;
+  // Feature 1: use personal sales target if entered, else fall back to 1
+  const st = stRaw !== '' ? +(stRaw||1) : 1;
+  const tmpRec = {salesAct:sa, salesTarget:st, 'target_月_sales': st};
   d.indicators.filter(i=>i.enabled).forEach(ind => {
     const el = document.getElementById('fi_m_'+ind.id);
+    const tgtEl = document.getElementById('ftgt_m_'+ind.id);
     if (el) tmpRec['m_'+ind.id] = +(el.value||0);
+    // Feature 1: pass personal month target
+    if (tgtEl && tgtEl.value !== '') tmpRec['target_月_'+ind.id] = +(tgtEl.value||0);
   });
   const {resultScore, processScore, composite, grade, gradeClass} = calcScore(tmpRec, d.indicators, 'month');
   document.getElementById('evalPreview').innerHTML = `
@@ -914,11 +993,22 @@ function saveRecord() {
     wSalesTarget: +(document.getElementById('wSalesTarget').value||0),
   };
 
+  // Feature 1: save personal sales targets
+  const mSalesTgt = document.getElementById('fSalesTarget').value;
+  if (mSalesTgt !== '') rec['target_月_sales'] = +(mSalesTgt||0);
+  const wSalesTgt = document.getElementById('wSalesTarget').value;
+  if (wSalesTgt !== '') rec['target_周_sales'] = +(wSalesTgt||0);
+
   d.indicators.filter(i=>i.enabled).forEach(ind => {
     const mEl = document.getElementById('fi_m_'+ind.id);
     const wEl = document.getElementById('fi_w_'+ind.id);
     if (mEl) rec['m_'+ind.id] = +(mEl.value||0);
     if (wEl) rec['w_'+ind.id] = +(wEl.value||0);
+    // Feature 1: save personal indicator targets
+    const mTgtEl = document.getElementById('ftgt_m_'+ind.id);
+    const wTgtEl = document.getElementById('ftgt_w_'+ind.id);
+    if (mTgtEl && mTgtEl.value !== '') rec['target_月_'+ind.id] = +(mTgtEl.value||0);
+    if (wTgtEl && wTgtEl.value !== '') rec['target_周_'+ind.id] = +(wTgtEl.value||0);
   });
 
   // upsert by name+region+month
