@@ -287,9 +287,12 @@ function rreg(c){
   const regs=[...new Set(d.people.map(p=>p.region))];
   const rd=regs.map(region=>{
     const rp=d.people.filter(p=>p.region===region);
-    let ta=0,tt=0,ts=0;
-    rp.forEach(p=>{const rec=lrecs[p.name+'_'+p.region]||{};ta+=rec['salesAct'+s]||0;tt+=rec['salesTarget'+s]||0;ts+=cs(rec,d.indicators,dim).comp;});
-    return{region,rp,ta,tt,rate:tt>0?(ta/tt*100):0,avg:rp.length?ts/rp.length:0};
+    // 发车/非个人指标：取总部负责人数据代表全省（避免重复累加）
+    const hq=rp.find(p=>p.isHQ)||rp[0];
+    const hqRec=hq?lrecs[hq.name+'_'+hq.region]||{}:{};
+    const ta=hqRec['salesAct'+s]||0, tt=hqRec['salesTarget'+s]||0;
+    const ts=rp.reduce((n,p)=>n+cs(lrecs[p.name+'_'+p.region]||{},d.indicators,dim).comp,0);
+    return{region,rp,hq,hqRec,ta,tt,rate:tt>0?(ta/tt*100):0,avg:rp.length?ts/rp.length:0};
   }).sort((a,b)=>b.rate-a.rate);
   const em2=['🥇','🥈','🥉','4️⃣','5️⃣','6️⃣'];
   let bh=`<div class="acard" style="margin-bottom:20px"><h3>🗺️ 省份发车完成率（${dl}）</h3>`;
@@ -297,8 +300,32 @@ function rreg(c){
   bh+='</div>';
   let ch='<div class="rgrid">';
   rd.forEach((r,i)=>{
-    ch+=`<div class="rcard"><h3>${em2[i]||'#'+(i+1)} ${r.region} <span style="font-size:12px;color:var(--muted);font-weight:400">${r.rp.length}人</span></h3><div class="rstat"><span>发车实际</span><span style="font-weight:700">${r.ta}台</span></div><div class="rstat"><span>发车目标</span><span>${r.tt}台</span></div><div class="rstat"><span>完成率</span><span style="font-weight:700;color:${r.rate>=100?'var(--green)':r.rate>=70?'var(--yellow)':'var(--red)'}">${r.rate.toFixed(1)}%</span></div><div class="rstat"><span>平均综合分</span><span style="font-weight:700;color:var(--accent)">${r.avg.toFixed(0)}分</span></div>`;
-    r.rp.forEach(p=>{const rec=lrecs[p.name+'_'+p.region]||{},sa=rec['salesAct'+s]||0,st=rec['salesTarget'+s]||0,rt=st>0?(sa/st*100).toFixed(0):0,{comp}=cs(rec,d.indicators,dim);ch+=`<div class="rstat" style="font-size:12px"><span>${p.isHQ?'⭐':''} ${p.name}</span><span style="color:var(--muted)">${sa}/${st}(${rt}%) · ${comp.toFixed(0)}分</span></div>`;});
+    // 非个人过程指标（标杆、游学、运行改善）：取总部负责人数据
+    const groupInds=d.indicators.filter(ind=>ind.enabled!==false&&ind.id!=='daKa'&&ind.id!=='douYin');
+    const personalInds=d.indicators.filter(ind=>ind.enabled!==false&&(ind.id==='daKa'||ind.id==='douYin'));
+    let indRows=groupInds.map(ind=>{
+      const a=r.hqRec['act'+s+'_'+ind.id]||0, t=r.hqRec['tgt'+s+'_'+ind.id]||0;
+      const rate=t>0?(a/t*100).toFixed(0):'-';
+      const color=t>0&&a>=t?'var(--green)':t>0&&a/t>=0.7?'var(--yellow)':'var(--muted)';
+      return `<div class="rstat"><span>${ind.name}</span><span style="font-weight:600;color:${color}">${a}/${t} (${rate}%)</span></div>`;
+    }).join('');
+    ch+=`<div class="rcard"><h3>${em2[i]||'#'+(i+1)} ${r.region} <span style="font-size:12px;color:var(--muted);font-weight:400">${r.rp.length}人</span></h3>`;
+    ch+=`<div class="rstat"><span>发车实际</span><span style="font-weight:700">${r.ta}台</span></div>`;
+    ch+=`<div class="rstat"><span>发车目标</span><span>${r.tt}台</span></div>`;
+    ch+=`<div class="rstat"><span>完成率</span><span style="font-weight:700;color:${r.rate>=100?'var(--green)':r.rate>=70?'var(--yellow)':'var(--red)'}">${r.rate.toFixed(1)}%</span></div>`;
+    ch+=`<div class="rstat"><span>平均综合分</span><span style="font-weight:700;color:var(--accent)">${r.avg.toFixed(0)}分</span></div>`;
+    ch+=indRows;
+    if(personalInds.length){
+      ch+=`<div style="font-size:11px;color:var(--muted);padding:6px 0 2px;border-top:1px solid var(--border);margin-top:4px">📋 个人过程指标</div>`;
+      r.rp.forEach(p=>{
+        const rec=lrecs[p.name+'_'+p.region]||{};
+        const pTxt=personalInds.map(ind=>{
+          const a=rec['act'+s+'_'+ind.id]||0, t=rec['tgt'+s+'_'+ind.id]||0;
+          return `${ind.name}${a}/${t}`;
+        }).join(' · ');
+        ch+=`<div class="rstat" style="font-size:12px"><span>${p.isHQ?'⭐':''} ${p.name}</span><span style="color:var(--muted)">${pTxt}</span></div>`;
+      });
+    }
     ch+='</div>';
   });
   ch+='</div>';
