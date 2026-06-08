@@ -15,1057 +15,569 @@
 html,body{width:100%;height:100%;font-family:'PingFang SC','Microsoft YaHei',sans-serif;background:var(--bg);color:var(--text);overflow:hidden}
 input,select,textarea,button{font-family:inherit}
 .app{display:flex;height:100vh}
-.sidebar{width:220px;background:var(--surface);border-right:1px solid var(--border);display:flex;flex-direction:column;flex-shrink:0}
+.sidebar{width:210px;background:var(--surface);border-right:1px solid var(--border);display:flex;flex-direction:column;flex-shrink:0}
 .main{flex:1;display:flex;flex-direction:column;overflow:hidden}
-.header{height:64px;background:var(--surface);border-bottom:1px solid var(--border);display:flex;align-items:center;padding:0 24px;gap:16px;flex-shrink:0}
-.content{flex:1;overflow:auto;padding:24px}
-.sidebar-logo{padding:20px 16px;border-bottom:1px solid var(--border);font-size:16px;font-weight:800;color:var(--accent)}
-.sidebar-logo span{display:block;font-size:12px;color:var(--muted);font-weight:400;margin-top:2px}
-.nav-item{display:flex;align-items:center;gap:10px;padding:12px 16px;cursor:pointer;font-size:14px;color:var(--muted);border-bottom:1px solid rgba(255,255,255,.03);transition:all .15s}
+.header{height:60px;background:var(--surface);border-bottom:1px solid var(--border);display:flex;align-items:center;padding:0 20px;gap:12px;flex-shrink:0}
+.content{flex:1;overflow:auto;padding:20px}
+.sidebar-logo{padding:18px 16px;border-bottom:1px solid var(--border);font-size:15px;font-weight:800;color:var(--accent)}
+.sidebar-logo span{display:block;font-size:11px;color:var(--muted);font-weight:400;margin-top:2px}
+.nav-item{display:flex;align-items:center;gap:10px;padding:11px 16px;cursor:pointer;font-size:14px;color:var(--muted);border-bottom:1px solid rgba(255,255,255,.03);transition:all .15s}
 .nav-item:hover{background:rgba(255,255,255,.04);color:var(--text)}
 .nav-item.active{background:rgba(88,166,255,.12);color:var(--accent);border-left:3px solid var(--accent)}
-.header-title{font-size:20px;font-weight:700}
-.header-sub{font-size:13px;color:var(--muted)}
-.mode-toggle{display:flex;background:var(--surface2);border-radius:20px;padding:3px;margin-left:auto;gap:2px}
-.mode-btn{padding:6px 16px;border-radius:17px;border:none;cursor:pointer;font-size:13px;font-weight:600;color:var(--muted);background:transparent;transition:all .2s}
-.mode-btn.active{background:var(--accent);color:#fff}
-.hdr-actions{display:flex;gap:8px;margin-left:16px}
-.btn{padding:7px 16px;border-radius:8px;border:1px solid var(--border);background:var(--surface2);color:var(--text);cursor:pointer;font-size:13px;font-weight:600;transition:all .15s;white-space:nowrap}
-.btn:hover{background:var(--surface);border-color:var(--accent);color:var(--accent)}
+.dim-toggle{display:flex;background:var(--surface2);border-radius:20px;padding:3px;margin-left:auto;gap:2px}
+.dim-btn{padding:5px 14px;border-radius:17px;border:none;cursor:pointer;font-size:13px;font-weight:600;color:var(--muted);background:transparent;transition:all .2s}
+.dim-btn.active{background:var(--accent);color:#fff}
+.hdr-actions{display:flex;gap:8px;margin-left:12px}
+.btn{padding:6px 14px;border-radius:8px;border:1px solid var(--border);background:var(--surface2);color:var(--text);cursor:pointer;font-size:13px;font-weight:600;transition:all .15s;white-space:nowrap}
+.btn:hover{border-color:var(--accent);color:var(--accent)}
 .btn-primary{background:var(--accent);color:#fff;border-color:var(--accent)}
-.btn-primary:hover{background:#4090e0;color:#fff}
-.btn-danger{background:rgba(248,81,73,.15);color:var(--red);border-color:rgba(248,81,73,.3)}
-.btn-danger:hover{background:rgba(248,81,73,.25)}
-.btn-sm{padding:4px 10px;font-size:12px}
-.card{background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:20px}
-.stat-row{display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:16px;margin-bottom:24px}
-.stat-card{background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:18px 20px}
-.stat-card .label{font-size:13px;color:var(--muted);margin-bottom:6px}
-.stat-card .value{font-size:28px;font-weight:800;line-height:1}
-.stat-card .sub{font-size:13px;color:var(--muted);margin-top:4px}
-.section-title{font-size:18px;font-weight:700;margin-bottom:16px;padding-bottom:10px;border-bottom:1px solid var(--border);display:flex;align-items:center;gap:10px}
+.btn-primary:hover{background:#4090e0;color:#fff;border-color:#4090e0}
+.btn-sm{padding:3px 9px;font-size:12px}
+.stat-row{display:grid;grid-template-columns:repeat(auto-fill,minmax(160px,1fr));gap:14px;margin-bottom:20px}
+.stat-card{background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:16px 18px}
+.stat-card .label{font-size:12px;color:var(--muted);margin-bottom:4px}
+.stat-card .value{font-size:26px;font-weight:800;line-height:1}
+.stat-card .sub{font-size:12px;color:var(--muted);margin-top:4px}
+.section-title{font-size:17px;font-weight:700;margin-bottom:14px;padding-bottom:8px;border-bottom:1px solid var(--border)}
 .table-wrap{overflow-x:auto}
-table{width:100%;border-collapse:collapse;font-size:14px}
-th{background:rgba(88,166,255,.1);color:var(--accent);padding:10px 12px;text-align:left;font-weight:600;border-bottom:1px solid var(--accent);position:sticky;top:0;white-space:nowrap}
-td{padding:10px 12px;border-bottom:1px solid rgba(255,255,255,.05);vertical-align:middle}
+table{width:100%;border-collapse:collapse;font-size:13px}
+th{background:rgba(88,166,255,.1);color:var(--accent);padding:9px 11px;text-align:left;font-weight:600;border-bottom:1px solid var(--accent);position:sticky;top:0;white-space:nowrap}
+td{padding:9px 11px;border-bottom:1px solid rgba(255,255,255,.05);vertical-align:middle}
 tr:hover td{background:rgba(255,255,255,.02)}
-.num{text-align:right;font-variant-numeric:tabular-nums}
-.cell-score{font-size:20px;font-weight:900;min-width:50px;text-align:center}
-.cell-badge{display:inline-flex;align-items:center;justify-content:center;padding:3px 12px;border-radius:12px;font-size:13px;font-weight:700;min-width:70px}
-.cb-green{background:rgba(63,185,80,.15);color:var(--green);border:1px solid rgba(63,185,80,.3)}
-.cb-yellow{background:rgba(210,153,34,.15);color:var(--yellow);border:1px solid rgba(210,153,34,.3)}
-.cb-red{background:rgba(248,81,73,.15);color:var(--red);border:1px solid rgba(248,81,73,.3)}
-.cb-blue{background:rgba(88,166,255,.15);color:var(--accent);border:1px solid rgba(88,166,255,.3)}
-.prog-wrap{display:flex;align-items:center;gap:8px}
-.prog-track{flex:1;height:8px;background:rgba(255,255,255,.08);border-radius:4px;overflow:hidden;min-width:60px}
-.prog-fill{height:100%;border-radius:4px;transition:width .6s}
-.prog-val{font-size:13px;min-width:40px;text-align:right;font-weight:600}
-/* Modal */
-.modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,.6);display:none;align-items:center;justify-content:center;z-index:1000;backdrop-filter:blur(4px)}
+tr.good td{background:rgba(63,185,80,.04)}
+tr.warn td{background:rgba(248,81,73,.04)}
+.num{text-align:right}
+.cell-badge{display:inline-block;padding:2px 7px;border-radius:10px;font-size:11px;font-weight:600}
+.cb-blue{background:rgba(88,166,255,.15);color:var(--accent)}
+.grade-s{color:#ffd700;font-weight:800}
+.grade-a{color:var(--green);font-weight:700}
+.grade-b{color:var(--accent);font-weight:700}
+.grade-c{color:var(--yellow);font-weight:700}
+.grade-d{color:var(--red);font-weight:700}
+.prog-wrap{display:flex;align-items:center;gap:6px;justify-content:flex-end}
+.prog-track{width:60px;height:6px;background:var(--surface2);border-radius:3px;overflow:hidden;flex-shrink:0}
+.prog-fill{height:100%;border-radius:3px;transition:width .3s}
+.prog-val{font-size:12px;min-width:24px;text-align:right}
+.modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,.6);display:none;align-items:center;justify-content:center;z-index:1000}
 .modal-overlay.show{display:flex}
-.modal{background:var(--surface);border:1px solid var(--border);border-radius:16px;width:min(900px,95vw);max-height:90vh;overflow:auto}
-.modal-header{padding:20px 24px;border-bottom:1px solid var(--border);display:flex;align-items:center;gap:12px;font-size:18px;font-weight:700}
-.modal-header .close{background:none;border:none;color:var(--muted);cursor:pointer;font-size:20px;margin-left:auto;padding:4px 8px;border-radius:6px}
-.modal-header .close:hover{background:rgba(255,255,255,.1);color:var(--text)}
-.modal-body{padding:24px}
-.modal-footer{padding:16px 24px;border-top:1px solid var(--border);display:flex;gap:8px;justify-content:flex-end}
-.form-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px}
-.form-item{margin-bottom:12px}
-.form-item label{display:block;font-size:13px;color:var(--muted);margin-bottom:6px;font-weight:600}
-.form-item input,.form-item select{width:100%;padding:9px 12px;background:var(--surface2);border:1px solid var(--border);border-radius:8px;color:var(--text);font-size:14px}
-.form-item input:focus,.form-item select:focus{outline:none;border-color:var(--accent)}
-/* Toggle switch */
-.toggle-switch{position:relative;display:inline-block;width:44px;height:24px}
-.toggle-switch input{opacity:0;width:0;height:0}
-.toggle-slider{position:absolute;cursor:pointer;inset:0;background:rgba(255,255,255,.15);border-radius:12px;transition:.3s}
-.toggle-slider:before{position:absolute;content:"";height:18px;width:18px;left:3px;bottom:3px;background:#fff;border-radius:50%;transition:.3s}
-input:checked+.toggle-slider{background:var(--accent)}
-input:checked+.toggle-slider:before{transform:translateX(20px)}
-/* Config */
-.config-section{margin-bottom:28px}
-.config-section h3{font-size:15px;font-weight:700;color:var(--accent);margin-bottom:14px;padding-bottom:8px;border-bottom:1px solid var(--border)}
-.field-row{display:flex;align-items:center;gap:12px;padding:10px 0;border-bottom:1px solid rgba(255,255,255,.04)}
-.field-row .fname{flex:1;font-size:14px}
-.field-row .fmeta{font-size:12px;color:var(--muted);flex:2}
-/* Ranking */
-.rank-card{background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:16px 20px;margin-bottom:10px;display:flex;align-items:center;gap:16px;transition:all .2s}
-.rank-card:hover{border-color:var(--accent);background:rgba(88,166,255,.04)}
-.rank-num{font-size:28px;font-weight:900;min-width:50px;text-align:center}
-.rank-num.gold{color:#ffd700}
-.rank-num.silver{color:#c0c0c0}
-.rank-num.bronze{color:#cd7f32}
-.rank-num.other{color:var(--muted)}
+.modal{background:var(--surface);border:1px solid var(--border);border-radius:14px;padding:28px;width:680px;max-width:95vw;max-height:88vh;overflow-y:auto}
+.modal h2{font-size:18px;font-weight:800;margin-bottom:20px;color:var(--accent)}
+.form-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.form-item{display:flex;flex-direction:column;gap:5px}
+.form-item label{font-size:12px;color:var(--muted);font-weight:600}
+.form-item input,.form-item select{background:var(--surface2);border:1px solid var(--border);border-radius:8px;padding:8px 10px;color:var(--text);font-size:14px;outline:none;transition:border-color .2s}
+.form-item input:focus,.form-item select:focus{border-color:var(--accent)}
+.form-section{margin-top:18px;padding:14px;background:rgba(88,166,255,.05);border:1px solid rgba(88,166,255,.15);border-radius:10px}
+.form-section h4{font-size:13px;font-weight:700;color:var(--accent);margin-bottom:12px}
+.ind-row{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;margin-bottom:8px;align-items:end}
+.ind-row .form-item{margin:0}
+.ind-label{font-size:12px;font-weight:700;color:var(--text);padding:8px 0 4px;border-bottom:1px solid var(--border);margin-bottom:8px}
+.preview-box{margin-top:14px;padding:12px;background:var(--surface2);border-radius:8px;font-size:13px;line-height:1.8}
+.modal-actions{display:flex;gap:10px;justify-content:flex-end;margin-top:20px;padding-top:16px;border-top:1px solid var(--border)}
+.ranking-card{background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:14px 18px;margin-bottom:10px;display:flex;align-items:center;gap:14px}
+.rank-num{font-size:22px;font-weight:900;width:32px;text-align:center}
 .rank-info{flex:1}
-.rank-name{font-size:16px;font-weight:700}
-.rank-region{font-size:13px;color:var(--muted);margin-top:2px}
-.rank-scores{display:flex;gap:20px;align-items:center}
-.rank-score-item{text-align:center}
-.rank-score-item .sv{font-size:18px;font-weight:800}
-.rank-score-item .sl{font-size:11px;color:var(--muted);margin-top:2px}
-/* Indicator config */
-.indicator-item{background:var(--surface2);border:1px solid var(--border);border-radius:10px;padding:14px 16px;margin-bottom:10px}
-.indicator-item-header{display:flex;align-items:center;gap:10px;margin-bottom:10px}
-.indicator-item-header .iname{flex:1;font-weight:600}
-.indicator-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:10px}
-.indicator-grid .form-item{margin-bottom:0}
-.indicator-grid .form-item label{font-size:12px}
-.indicator-grid .form-item input{padding:7px 10px;font-size:13px}
-/* Week data section */
-.week-section{background:rgba(88,166,255,.05);border:1px solid rgba(88,166,255,.2);border-radius:10px;padding:14px;margin-top:10px}
-.week-section h4{font-size:13px;font-weight:700;color:var(--accent);margin-bottom:10px}
-.week-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(130px,1fr));gap:10px}
-.week-field{background:var(--surface2);border-radius:8px;padding:8px 10px}
-.week-field label{font-size:11px;color:var(--muted);display:block;margin-bottom:4px}
-.week-field input{width:100%;background:transparent;border:none;border-bottom:1px solid var(--border);color:var(--text);font-size:14px;font-weight:600;padding:2px 0;outline:none}
-.week-field input:focus{border-bottom-color:var(--accent)}
-.week-field .wt{font-size:11px;color:var(--muted);margin-top:3px}
-/* Tabs in modal */
-.modal-tabs{display:flex;gap:4px;padding:0 24px;border-bottom:1px solid var(--border);margin-top:-1px}
-.modal-tab{padding:10px 16px;cursor:pointer;font-size:14px;color:var(--muted);border-bottom:2px solid transparent;font-weight:600;transition:all .15s}
-.modal-tab.active{color:var(--accent);border-bottom-color:var(--accent)}
-.tab-panel{display:none}
-.tab-panel.active{display:block}
-/* Feature 2: dimension toggle button in table header */
-.dim-toggle-btn{display:inline-flex;align-items:center;justify-content:center;margin-left:4px;padding:1px 5px;font-size:11px;font-weight:700;border-radius:4px;border:1px solid rgba(88,166,255,.4);background:rgba(88,166,255,.15);color:var(--accent);cursor:pointer;vertical-align:middle;transition:all .15s;line-height:1.4}
-.dim-toggle-btn:hover{background:rgba(88,166,255,.3);border-color:var(--accent)}
-/* Feature 1: target subfield in modal */
-.ind-target-row{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;align-items:end}
-.ind-target-row .form-item{margin-bottom:0}
+.rank-name{font-size:15px;font-weight:700}
+.rank-region{font-size:12px;color:var(--muted)}
+.rank-score{font-size:22px;font-weight:900;color:var(--accent)}
+.rank-bar{height:8px;background:var(--surface2);border-radius:4px;margin-top:6px;overflow:hidden}
+.rank-fill{height:100%;border-radius:4px;background:var(--accent)}
+.config-card{background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:18px;margin-bottom:16px}
+.config-card h3{font-size:14px;font-weight:700;color:var(--accent);margin-bottom:14px}
+.ind-config-row{display:flex;align-items:center;gap:10px;padding:8px 0;border-bottom:1px solid rgba(255,255,255,.04)}
+.ind-config-row:last-child{border:none}
+.toggle-switch{position:relative;display:inline-block;width:36px;height:20px;flex-shrink:0}
+.toggle-switch input{opacity:0;width:0;height:0}
+.toggle-slider{position:absolute;cursor:pointer;inset:0;background:var(--border);border-radius:10px;transition:.3s}
+.toggle-slider:before{content:'';position:absolute;height:14px;width:14px;left:3px;bottom:3px;background:#fff;border-radius:50%;transition:.3s}
+input:checked+.toggle-slider{background:var(--accent)}
+input:checked+.toggle-slider:before{transform:translateX(16px)}
 </style>
 </head>
 <body>
 <div class="app">
-  <!-- Sidebar -->
   <div class="sidebar">
-    <div class="sidebar-logo">🦞 销售管理<span>六省区大客户中心</span></div>
+    <div class="sidebar-logo">六省区销售管理<span>2026年6月 · 13人</span></div>
     <div class="nav-item active" onclick="showPage('dashboard')" id="nav-dashboard">📊 数据看板</div>
     <div class="nav-item" onclick="showPage('ranking')" id="nav-ranking">🏆 销售排名</div>
-    <div class="nav-item" onclick="showPage('config')" id="nav-config">⚙️ 系统配置</div>
-    <div style="margin-top:auto;padding:16px;border-top:1px solid var(--border)">
-      <div style="font-size:12px;color:var(--muted);margin-bottom:8px">数据操作</div>
-      <button class="btn btn-sm" style="width:100%;margin-bottom:6px" onclick="exportCSV()">📥 导出CSV</button>
-      <button class="btn btn-sm" style="width:100%" onclick="document.getElementById('importFile').click()">📤 导入CSV</button>
-      <input type="file" id="importFile" accept=".csv" style="display:none" onchange="importCSV(event)">
-    </div>
+    <div class="nav-item" onclick="showPage('config')" id="nav-config">⚙️ 配置管理</div>
   </div>
-  <!-- Main -->
   <div class="main">
-    <!-- Header -->
     <div class="header">
-      <div>
-        <div class="header-title" id="pageTitle">数据看板</div>
-        <div class="header-sub" id="pageSubtitle">六省区销售过程管理</div>
-      </div>
-      <div class="mode-toggle" id="modeToggle">
-        <button class="mode-btn active" onclick="setMode('week')" id="modeWeek">周会模式</button>
-        <button class="mode-btn" onclick="setMode('month')" id="modeMonth">月会模式</button>
+      <div id="headerTitle" style="font-size:18px;font-weight:700">📊 数据看板</div>
+      <div class="dim-toggle" id="dimToggle">
+        <button class="dim-btn active" onclick="setDim('month')" id="dimMonth">月维度</button>
+        <button class="dim-btn" onclick="setDim('week')" id="dimWeek">周维度</button>
       </div>
       <div class="hdr-actions">
-        <button class="btn btn-primary" onclick="openAdd()">＋ 录入数据</button>
+        <button class="btn" onclick="document.getElementById('importFile').click()">📥 导入CSV</button>
+        <input type="file" id="importFile" accept=".csv" style="display:none" onchange="importCSV(event)">
+        <button class="btn" onclick="exportCSV()">📤 导出CSV</button>
+        <button class="btn btn-primary" onclick="openAddRecord()">✏️ 录入数据</button>
       </div>
     </div>
-    <!-- Content -->
-    <div class="content" id="mainContent"></div>
+    <div class="content" id="pageContent"></div>
   </div>
 </div>
 
-<!-- Edit/Add Modal -->
-<div class="modal-overlay" id="editModal">
-  <div class="modal">
-    <div class="modal-header">
-      <span id="modalTitle">录入数据</span>
-      <button class="close" onclick="closeModal('editModal')">✕</button>
-    </div>
-    <div class="modal-tabs">
-      <div class="modal-tab active" onclick="switchTab('tabMonth')" id="tabMonthBtn">月维度数据</div>
-      <div class="modal-tab" onclick="switchTab('tabWeek')" id="tabWeekBtn">周维度数据</div>
-    </div>
-    <div class="modal-body">
-      <div class="tab-panel active" id="tabMonth">
-        <div class="form-grid" style="margin-bottom:16px">
-          <div class="form-item"><label>姓名</label><input id="fName" placeholder="姓名"></div>
-          <div class="form-item"><label>省区</label>
-            <select id="fRegion">
-              <option value="江苏">江苏</option><option value="山东">山东</option>
-              <option value="河北">河北</option><option value="河南">河南</option>
-              <option value="安徽">安徽</option><option value="辽宁">辽宁</option>
-            </select>
-          </div>
-          <div class="form-item"><label>月份</label><input id="fMonth" type="month"></div>
-          <div class="form-item"><label>是否总部</label>
-            <select id="fIsHQ"><option value="0">否</option><option value="1">是（总部）</option></select>
-          </div>
-          <div class="form-item"><label>月发车量（实际）</label><input id="fSalesAct" type="number" min="0" placeholder="0" oninput="previewEval()"></div>
-          <div class="form-item"><label>月发车目标（个人）</label><input id="fSalesTarget" type="number" min="0" placeholder="默认全局" oninput="previewEval()"></div>
-        </div>
-        <div style="font-size:13px;font-weight:700;color:var(--muted);margin-bottom:10px">📋 月过程指标</div>
-        <div id="monthIndicators" class="form-grid"></div>
-        <div style="margin-top:16px;padding:14px;background:var(--surface2);border-radius:10px" id="evalPreview"></div>
-      </div>
-      <div class="tab-panel" id="tabWeek">
-        <div style="font-size:13px;color:var(--muted);margin-bottom:12px">录入本周实际数据（与月维度分开存储）</div>
-        <div class="form-grid" style="margin-bottom:16px">
-          <div class="form-item"><label>本周发车量（实际）</label><input id="wSalesAct" type="number" min="0" placeholder="0"></div>
-          <div class="form-item"><label>周发车目标（个人）</label><input id="wSalesTarget" type="number" min="0" placeholder="默认全局"></div>
-        </div>
-        <div style="font-size:13px;font-weight:700;color:var(--muted);margin-bottom:10px">📋 周过程指标</div>
-        <div id="weekIndicators" class="form-grid"></div>
-      </div>
-    </div>
-    <div class="modal-footer">
-      <button class="btn" onclick="closeModal('editModal')">取消</button>
-      <button class="btn btn-primary" onclick="saveRecord()">保存</button>
+<!-- 录入/编辑弹窗 -->
+<div class="modal-overlay" id="recordModal" onclick="if(event.target===this)closeModal()">
+<div class="modal">
+  <h2 id="modalTitle">✏️ 录入数据</h2>
+  <div class="form-grid">
+    <div class="form-item"><label>姓名</label><select id="fName" onchange="onPersonChange()"><option value="">请选择</option></select></div>
+    <div class="form-item"><label>月份</label><input id="fMonth" type="month" value="2026-06"></div>
+  </div>
+  <div class="form-section">
+    <h4>🚚 发车数据</h4>
+    <div class="form-grid">
+      <div class="form-item"><label>月发车实际</label><input id="fSalesAct_m" type="number" min="0" placeholder="0" oninput="preview()"></div>
+      <div class="form-item"><label>月发车目标（个人）</label><input id="fSalesTgt_m" type="number" min="0" placeholder="0" oninput="preview()"></div>
+      <div class="form-item"><label>周发车实际</label><input id="fSalesAct_w" type="number" min="0" placeholder="0" oninput="preview()"></div>
+      <div class="form-item"><label>周发车目标（个人）</label><input id="fSalesTgt_w" type="number" min="0" placeholder="0" oninput="preview()"></div>
     </div>
   </div>
+  <div class="form-section" id="indSection"></div>
+  <div class="preview-box" id="previewBox">填写数据后自动预览评分</div>
+  <div class="modal-actions">
+    <button class="btn" onclick="closeModal()">取消</button>
+    <button class="btn btn-primary" onclick="saveRecord()">保存</button>
+  </div>
+</div>
 </div>
 
 <script>
-// ─── DATA ───
-const DEFAULT_PEOPLE = [
-  {name:'李鸿鹤',region:'江苏',isHQ:true},{name:'曹琪',region:'江苏',isHQ:false},
-  {name:'苏峰',region:'江苏',isHQ:false},{name:'杜明光',region:'江苏',isHQ:false},
-  {name:'牟青',region:'山东',isHQ:true},{name:'赵成顺',region:'山东',isHQ:false},
-  {name:'罗坤',region:'山东',isHQ:false},{name:'王政',region:'河北',isHQ:true},
-  {name:'姚晓强',region:'河北',isHQ:false},{name:'周子坤',region:'河南',isHQ:true},
-  {name:'卢恩',region:'河南',isHQ:false},{name:'熊志',region:'安徽',isHQ:false},
-  {name:'许亮',region:'辽宁',isHQ:false}
-];
-const DEFAULT_INDICATORS = [
-  {id:'biaoGan',name:'标杆打造',monthTarget:2,weekTarget:1,unit:'次',enabled:true},
-  {id:'youXue',name:'游学沙龙',monthTarget:4,weekTarget:1,unit:'次',enabled:true},
-  {id:'daKa',name:'打卡次数',monthTarget:30,weekTarget:8,unit:'次',enabled:true},
-  {id:'douYin',name:'抖音发布',monthTarget:8,weekTarget:2,unit:'条',enabled:true},
-  {id:'yunXing',name:'运行改善',monthTarget:2,weekTarget:1,unit:'次',enabled:true}
-];
+// ========== 数据结构 ==========
+// rec字段：salesAct_m, salesTarget_m, salesAct_w, salesTarget_w
+//          act_m_<id>, tgt_m_<id>, act_w_<id>, tgt_w_<id>
+// dim: 'month' | 'week'
 
-let mode = 'week'; // week | month
-let currentPage = 'dashboard';
+const DEFAULT_INDICATORS = [{"id": "biaoGan", "name": "标杆打造", "unit": "次"}, {"id": "youXue", "name": "游学沙龙", "unit": "次"}, {"id": "daKa", "name": "打卡次数", "unit": "次"}, {"id": "douYin", "name": "抖音发布", "unit": "条"}, {"id": "yunXing", "name": "运行改善", "unit": "次"}];
+const DEFAULT_RECORDS = [{"id": "init_0", "name": "周子坤", "region": "河南", "month": "2026-06", "isHQ": true, "salesAct_m": 8, "salesTarget_m": 150, "salesAct_w": 8, "salesTarget_w": 20, "act_m_biaoGan": 1, "tgt_m_biaoGan": 1, "act_w_biaoGan": 1, "tgt_w_biaoGan": 0, "act_m_youXue": 0, "tgt_m_youXue": 0, "act_w_youXue": 0, "tgt_w_youXue": 0, "act_m_daKa": 7, "tgt_m_daKa": 40, "act_w_daKa": 7, "tgt_w_daKa": 8, "act_m_douYin": 2, "tgt_m_douYin": 8, "act_w_douYin": 2, "tgt_w_douYin": 2, "act_m_yunXing": 0, "tgt_m_yunXing": 0, "act_w_yunXing": 0, "tgt_w_yunXing": 0}, {"id": "init_1", "name": "赵成顺", "region": "山东", "month": "2026-06", "isHQ": false, "salesAct_m": 5, "salesTarget_m": 75, "salesAct_w": 5, "salesTarget_w": 2, "act_m_biaoGan": 0, "tgt_m_biaoGan": 1, "act_w_biaoGan": 0, "tgt_w_biaoGan": 0, "act_m_youXue": 0, "tgt_m_youXue": 0, "act_w_youXue": 0, "tgt_w_youXue": 0, "act_m_daKa": 15, "tgt_m_daKa": 50, "act_w_daKa": 15, "tgt_w_daKa": 10, "act_m_douYin": 4, "tgt_m_douYin": 8, "act_w_douYin": 4, "tgt_w_douYin": 2, "act_m_yunXing": 0, "tgt_m_yunXing": 0, "act_w_yunXing": 0, "tgt_w_yunXing": 0}, {"id": "init_2", "name": "姚晓强", "region": "河北", "month": "2026-06", "isHQ": false, "salesAct_m": 9, "salesTarget_m": 150, "salesAct_w": 9, "salesTarget_w": 10, "act_m_biaoGan": 0, "tgt_m_biaoGan": 1, "act_w_biaoGan": 0, "tgt_w_biaoGan": 0, "act_m_youXue": 0, "tgt_m_youXue": 0, "act_w_youXue": 0, "tgt_w_youXue": 0, "act_m_daKa": 11, "tgt_m_daKa": 50, "act_w_daKa": 11, "tgt_w_daKa": 10, "act_m_douYin": 0, "tgt_m_douYin": 8, "act_w_douYin": 0, "tgt_w_douYin": 2, "act_m_yunXing": 0, "tgt_m_yunXing": 0, "act_w_yunXing": 0, "tgt_w_yunXing": 0}, {"id": "init_3", "name": "许亮", "region": "辽宁", "month": "2026-06", "isHQ": false, "salesAct_m": 1, "salesTarget_m": 30, "salesAct_w": 1, "salesTarget_w": 3, "act_m_biaoGan": 0, "tgt_m_biaoGan": 1, "act_w_biaoGan": 0, "tgt_w_biaoGan": 0, "act_m_youXue": 0, "tgt_m_youXue": 0, "act_w_youXue": 0, "tgt_w_youXue": 0, "act_m_daKa": 4, "tgt_m_daKa": 40, "act_w_daKa": 4, "tgt_w_daKa": 10, "act_m_douYin": 0, "tgt_m_douYin": 8, "act_w_douYin": 0, "tgt_w_douYin": 2, "act_m_yunXing": 0, "tgt_m_yunXing": 0, "act_w_yunXing": 0, "tgt_w_yunXing": 0}, {"id": "init_4", "name": "熊志", "region": "安徽", "month": "2026-06", "isHQ": false, "salesAct_m": 3, "salesTarget_m": 70, "salesAct_w": 3, "salesTarget_w": 6, "act_m_biaoGan": 0, "tgt_m_biaoGan": 1, "act_w_biaoGan": 0, "tgt_w_biaoGan": 0, "act_m_youXue": 0, "tgt_m_youXue": 0, "act_w_youXue": 0, "tgt_w_youXue": 0, "act_m_daKa": 11, "tgt_m_daKa": 50, "act_w_daKa": 11, "tgt_w_daKa": 10, "act_m_douYin": 0, "tgt_m_douYin": 8, "act_w_douYin": 0, "tgt_w_douYin": 2, "act_m_yunXing": 0, "tgt_m_yunXing": 0, "act_w_yunXing": 0, "tgt_w_yunXing": 0}, {"id": "init_5", "name": "王政", "region": "河北", "month": "2026-06", "isHQ": true, "salesAct_m": 9, "salesTarget_m": 150, "salesAct_w": 9, "salesTarget_w": 10, "act_m_biaoGan": 0, "tgt_m_biaoGan": 1, "act_w_biaoGan": 0, "tgt_w_biaoGan": 0, "act_m_youXue": 0, "tgt_m_youXue": 0, "act_w_youXue": 0, "tgt_w_youXue": 0, "act_m_daKa": 5, "tgt_m_daKa": 40, "act_w_daKa": 5, "tgt_w_daKa": 8, "act_m_douYin": 0, "tgt_m_douYin": 8, "act_w_douYin": 0, "tgt_w_douYin": 2, "act_m_yunXing": 0, "tgt_m_yunXing": 0, "act_w_yunXing": 0, "tgt_w_yunXing": 0}, {"id": "init_6", "name": "苏峰", "region": "江苏", "month": "2026-06", "isHQ": false, "salesAct_m": 0, "salesTarget_m": 30, "salesAct_w": 0, "salesTarget_w": 6, "act_m_biaoGan": 0, "tgt_m_biaoGan": 1, "act_w_biaoGan": 0, "tgt_w_biaoGan": 0, "act_m_youXue": 0, "tgt_m_youXue": 0, "act_w_youXue": 0, "tgt_w_youXue": 0, "act_m_daKa": 9, "tgt_m_daKa": 50, "act_w_daKa": 9, "tgt_w_daKa": 10, "act_m_douYin": 0, "tgt_m_douYin": 8, "act_w_douYin": 0, "tgt_w_douYin": 2, "act_m_yunXing": 0, "tgt_m_yunXing": 0, "act_w_yunXing": 0, "tgt_w_yunXing": 0}, {"id": "init_7", "name": "牟青", "region": "山东", "month": "2026-06", "isHQ": true, "salesAct_m": 11, "salesTarget_m": 150, "salesAct_w": 11, "salesTarget_w": 7, "act_m_biaoGan": 0, "tgt_m_biaoGan": 2, "act_w_biaoGan": 0, "tgt_w_biaoGan": 0, "act_m_youXue": 0, "tgt_m_youXue": 0, "act_w_youXue": 0, "tgt_w_youXue": 0, "act_m_daKa": 10, "tgt_m_daKa": 40, "act_w_daKa": 10, "tgt_w_daKa": 8, "act_m_douYin": 1, "tgt_m_douYin": 8, "act_w_douYin": 1, "tgt_w_douYin": 2, "act_m_yunXing": 0, "tgt_m_yunXing": 0, "act_w_yunXing": 0, "tgt_w_yunXing": 0}, {"id": "init_8", "name": "卢恩", "region": "河南", "month": "2026-06", "isHQ": false, "salesAct_m": 8, "salesTarget_m": 150, "salesAct_w": 8, "salesTarget_w": 20, "act_m_biaoGan": 1, "tgt_m_biaoGan": 1, "act_w_biaoGan": 1, "tgt_w_biaoGan": 0, "act_m_youXue": 0, "tgt_m_youXue": 0, "act_w_youXue": 0, "tgt_w_youXue": 0, "act_m_daKa": 11, "tgt_m_daKa": 50, "act_w_daKa": 11, "tgt_w_daKa": 10, "act_m_douYin": 3, "tgt_m_douYin": 8, "act_w_douYin": 3, "tgt_w_douYin": 2, "act_m_yunXing": 0, "tgt_m_yunXing": 0, "act_w_yunXing": 0, "tgt_w_yunXing": 0}, {"id": "init_9", "name": "罗坤", "region": "山东", "month": "2026-06", "isHQ": false, "salesAct_m": 6, "salesTarget_m": 75, "salesAct_w": 6, "salesTarget_w": 5, "act_m_biaoGan": 0, "tgt_m_biaoGan": 1, "act_w_biaoGan": 0, "tgt_w_biaoGan": 0, "act_m_youXue": 0, "tgt_m_youXue": 0, "act_w_youXue": 0, "tgt_w_youXue": 0, "act_m_daKa": 11, "tgt_m_daKa": 50, "act_w_daKa": 11, "tgt_w_daKa": 10, "act_m_douYin": 0, "tgt_m_douYin": 8, "act_w_douYin": 0, "tgt_w_douYin": 2, "act_m_yunXing": 0, "tgt_m_yunXing": 0, "act_w_yunXing": 0, "tgt_w_yunXing": 0}, {"id": "init_10", "name": "李鸿鹤", "region": "江苏", "month": "2026-06", "isHQ": true, "salesAct_m": 2, "salesTarget_m": 100, "salesAct_w": 2, "salesTarget_w": 16, "act_m_biaoGan": 0, "tgt_m_biaoGan": 2, "act_w_biaoGan": 0, "tgt_w_biaoGan": 0, "act_m_youXue": 0, "tgt_m_youXue": 0, "act_w_youXue": 0, "tgt_w_youXue": 0, "act_m_daKa": 6, "tgt_m_daKa": 40, "act_w_daKa": 6, "tgt_w_daKa": 8, "act_m_douYin": 0, "tgt_m_douYin": 8, "act_w_douYin": 0, "tgt_w_douYin": 2, "act_m_yunXing": 0, "tgt_m_yunXing": 0, "act_w_yunXing": 0, "tgt_w_yunXing": 0}, {"id": "init_11", "name": "杜明光", "region": "江苏", "month": "2026-06", "isHQ": false, "salesAct_m": 0, "salesTarget_m": 40, "salesAct_w": 0, "salesTarget_w": 5, "act_m_biaoGan": 0, "tgt_m_biaoGan": 1, "act_w_biaoGan": 0, "tgt_w_biaoGan": 0, "act_m_youXue": 0, "tgt_m_youXue": 0, "act_w_youXue": 0, "tgt_w_youXue": 0, "act_m_daKa": 7, "tgt_m_daKa": 50, "act_w_daKa": 7, "tgt_w_daKa": 10, "act_m_douYin": 0, "tgt_m_douYin": 8, "act_w_douYin": 0, "tgt_w_douYin": 2, "act_m_yunXing": 0, "tgt_m_yunXing": 0, "act_w_yunXing": 0, "tgt_w_yunXing": 0}, {"id": "init_12", "name": "曹琪", "region": "江苏", "month": "2026-06", "isHQ": false, "salesAct_m": 2, "salesTarget_m": 30, "salesAct_w": 2, "salesTarget_w": 5, "act_m_biaoGan": 0, "tgt_m_biaoGan": 1, "act_w_biaoGan": 0, "tgt_w_biaoGan": 0, "act_m_youXue": 0, "tgt_m_youXue": 0, "act_w_youXue": 0, "tgt_w_youXue": 0, "act_m_daKa": 8, "tgt_m_daKa": 50, "act_w_daKa": 8, "tgt_w_daKa": 10, "act_m_douYin": 2, "tgt_m_douYin": 8, "act_w_douYin": 2, "tgt_w_douYin": 2, "act_m_yunXing": 0, "tgt_m_yunXing": 0, "act_w_yunXing": 0, "tgt_w_yunXing": 0}];
+const DEFAULT_PEOPLE = [{"name": "周子坤", "region": "河南", "isHQ": true}, {"name": "赵成顺", "region": "山东", "isHQ": false}, {"name": "姚晓强", "region": "河北", "isHQ": false}, {"name": "许亮", "region": "辽宁", "isHQ": false}, {"name": "熊志", "region": "安徽", "isHQ": false}, {"name": "王政", "region": "河北", "isHQ": true}, {"name": "苏峰", "region": "江苏", "isHQ": false}, {"name": "牟青", "region": "山东", "isHQ": true}, {"name": "卢恩", "region": "河南", "isHQ": false}, {"name": "罗坤", "region": "山东", "isHQ": false}, {"name": "李鸿鹤", "region": "江苏", "isHQ": true}, {"name": "杜明光", "region": "江苏", "isHQ": false}, {"name": "曹琪", "region": "江苏", "isHQ": false}];
+const DEFAULT_WEIGHTS = {processWeight: 50, resultWeight: 50};
+
+let dim = 'month';
 let editingId = null;
-// Feature 2: per-indicator dimension state (key: ind.id or 'sales', value: 'week'|'month')
-let indicatorDimensions = {}; // resets on page reload
-
-const DEFAULT_WEIGHTS = {weekProcess:80,weekResult:20,monthProcess:20,monthResult:80};
 
 function loadData() {
   return {
-    records: JSON.parse(localStorage.getItem('sm_records')||'[]'),
-    people: JSON.parse(localStorage.getItem('sm_people')||JSON.stringify(DEFAULT_PEOPLE)),
-    indicators: JSON.parse(localStorage.getItem('sm_indicators')||JSON.stringify(DEFAULT_INDICATORS)),
-    config: JSON.parse(localStorage.getItem('sm_config')||'{"showResult":true,"showProcess":true,"showScore":true,"showGrade":true}'),
-    weights: JSON.parse(localStorage.getItem('sm_weights')||JSON.stringify(DEFAULT_WEIGHTS))
+    indicators: JSON.parse(localStorage.getItem('sm_indicators') || JSON.stringify(DEFAULT_INDICATORS)),
+    records: JSON.parse(localStorage.getItem('sm_records') || JSON.stringify(DEFAULT_RECORDS)),
+    people: JSON.parse(localStorage.getItem('sm_people') || JSON.stringify(DEFAULT_PEOPLE)),
+    weights: JSON.parse(localStorage.getItem('sm_weights') || JSON.stringify(DEFAULT_WEIGHTS)),
   };
 }
 function saveData(d) {
+  localStorage.setItem('sm_indicators', JSON.stringify(d.indicators));
   localStorage.setItem('sm_records', JSON.stringify(d.records));
   localStorage.setItem('sm_people', JSON.stringify(d.people));
-  localStorage.setItem('sm_indicators', JSON.stringify(d.indicators));
-  localStorage.setItem('sm_config', JSON.stringify(d.config));
+  localStorage.setItem('sm_weights', JSON.stringify(d.weights));
 }
 
-// ─── SCORING ───
-// Feature 2: get effective dimension for a given indicator id (or 'sales')
-// Falls back to global mode if not individually set
-function getIndDim(indId) {
-  return indicatorDimensions[indId] !== undefined ? indicatorDimensions[indId] : mode;
-}
+// ========== 评分 ==========
+// dim: 'month'|'week'
+function calcScore(rec, indicators, d) {
+  const sfx = d === 'month' ? '_m' : '_w';
+  const sa = rec['salesAct'+sfx] || 0;
+  const st = rec['salesTarget'+sfx] || 1;
+  const resultScore = Math.min(120, st > 0 ? (sa / st) * 100 : 0);
 
-function calcScore(rec, indicators, m) {
-  // Feature 2: result score uses per-indicator (sales) dimension if available, else m
-  const salesDim = indicatorDimensions['sales'] !== undefined ? indicatorDimensions['sales'] : m;
-  const sa = salesDim==='week' ? (rec.wSalesAct||0) : (rec.salesAct||0);
-  // Feature 1: use personal sales target if stored in rec, else fall back to field
-  const personalSalesTarget = salesDim==='week'
-    ? (rec['target_周_sales'] !== undefined ? rec['target_周_sales'] : (rec.wSalesTarget||rec.salesTarget||1))
-    : (rec['target_月_sales'] !== undefined ? rec['target_月_sales'] : (rec.salesTarget||1));
-  const st = personalSalesTarget || 1;
-  const resultScore = Math.min(120, st>0 ? (sa/st)*100 : 0);
-
-  // process score: avg of (act/target)*100 for each enabled indicator
-  const activeInds = indicators.filter(i=>i.enabled);
+  const activeInds = indicators.filter(i => i.enabled !== false);
   let procTotal = 0, procCount = 0;
   activeInds.forEach(ind => {
-    // Feature 2: use per-indicator dimension
-    const indDim = indicatorDimensions[ind.id] !== undefined ? indicatorDimensions[ind.id] : m;
-    // Feature 1: use personal target if stored in rec, else fall back to global
-    const globalTarget = indDim==='week' ? ind.weekTarget : ind.monthTarget;
-    const personalTargetKey = indDim==='week' ? ('target_周_'+ind.id) : ('target_月_'+ind.id);
-    const target = rec[personalTargetKey] !== undefined ? rec[personalTargetKey] : globalTarget;
-    const actKey = indDim==='week' ? ('w_'+ind.id) : ('m_'+ind.id);
-    const act = rec[actKey] || 0;
-    if (target > 0) {
-      procTotal += Math.min(120, (act/target)*100);
+    const act = rec['act'+sfx+'_'+ind.id] || 0;
+    const tgt = rec['tgt'+sfx+'_'+ind.id] || 0;
+    if (tgt > 0) {
+      procTotal += Math.min(120, (act / tgt) * 100);
       procCount++;
     }
   });
-  const processScore = procCount > 0 ? procTotal/procCount : 0;
+  const processScore = procCount > 0 ? procTotal / procCount : 0;
 
-  const wts = JSON.parse(localStorage.getItem('sm_weights')||JSON.stringify(DEFAULT_WEIGHTS));
-  const pw = m==='week' ? (wts.weekProcess||80)/100 : (wts.monthProcess||20)/100;
-  const rw = m==='week' ? (wts.weekResult||20)/100 : (wts.monthResult||80)/100;
-  const composite = processScore*pw + resultScore*rw;
+  const wts = JSON.parse(localStorage.getItem('sm_weights') || JSON.stringify(DEFAULT_WEIGHTS));
+  const pw = (wts.processWeight || 50) / 100;
+  const rw = (wts.resultWeight || 50) / 100;
+  const composite = processScore * pw + resultScore * rw;
 
-  let grade = '预警', gradeClass = 'cb-red';
-  if (composite >= 90) { grade='优秀'; gradeClass='cb-green'; }
-  else if (composite >= 70) { grade='良好'; gradeClass='cb-blue'; }
-  else if (composite >= 50) { grade='达标'; gradeClass='cb-yellow'; }
-
-  return {resultScore, processScore, composite, grade, gradeClass};
+  let grade = 'D', gradeClass = 'grade-d';
+  if (composite >= 90) { grade = 'S'; gradeClass = 'grade-s'; }
+  else if (composite >= 75) { grade = 'A'; gradeClass = 'grade-a'; }
+  else if (composite >= 60) { grade = 'B'; gradeClass = 'grade-b'; }
+  else if (composite >= 45) { grade = 'C'; gradeClass = 'grade-c'; }
+  return { resultScore, processScore, composite, grade, gradeClass };
 }
 
-// ─── PAGE ROUTING ───
+// ========== 页面切换 ==========
+let curPage = 'dashboard';
 function showPage(page) {
-  currentPage = page;
-  document.querySelectorAll('.nav-item').forEach(n=>n.classList.remove('active'));
-  document.getElementById('nav-'+page)?.classList.add('active');
-  const titles = {dashboard:'数据看板',ranking:'销售排名',config:'系统配置'};
-  document.getElementById('pageTitle').textContent = titles[page]||page;
-  const modeToggle = document.getElementById('modeToggle');
-  modeToggle.style.display = page==='config' ? 'none' : 'flex';
+  curPage = page;
+  document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
+  document.getElementById('nav-' + page).classList.add('active');
+  const titles = {dashboard:'📊 数据看板', ranking:'🏆 销售排名', config:'⚙️ 配置管理'};
+  document.getElementById('headerTitle').textContent = titles[page];
+  document.getElementById('dimToggle').style.display = page === 'config' ? 'none' : 'flex';
   render();
 }
-
-function setMode(m) {
-  mode = m;
-  document.getElementById('modeWeek').classList.toggle('active', m==='week');
-  document.getElementById('modeMonth').classList.toggle('active', m==='month');
+function setDim(d) {
+  dim = d;
+  document.getElementById('dimMonth').classList.toggle('active', d === 'month');
+  document.getElementById('dimWeek').classList.toggle('active', d === 'week');
   render();
 }
-
 function render() {
-  const c = document.getElementById('mainContent');
-  if (currentPage==='dashboard') renderDashboard(c);
-  else if (currentPage==='ranking') renderRanking(c);
-  else if (currentPage==='config') renderConfig(c);
+  const c = document.getElementById('pageContent');
+  if (curPage === 'dashboard') renderDashboard(c);
+  else if (curPage === 'ranking') renderRanking(c);
+  else renderConfig(c);
 }
 
-// ─── DASHBOARD ───
+// ========== 看板 ==========
 function renderDashboard(c) {
   const d = loadData();
-  const now = new Date();
-  const curMonth = now.toISOString().slice(0,7);
-  const isWeek = mode==='week';
+  const sfx = dim === 'month' ? '_m' : '_w';
+  const dimLabel = dim === 'month' ? '月' : '周';
 
-  // Get latest record per person
+  // 构建最新记录
   const latestRecs = {};
   d.records.forEach(r => {
-    const key = r.name+'_'+r.region;
-    if (!latestRecs[key] || r.month >= latestRecs[key].month) latestRecs[key] = r;
+    const k = r.name + '_' + r.region;
+    if (!latestRecs[k] || r.month >= latestRecs[k].month) latestRecs[k] = r;
   });
 
-  const people = d.people;
-  const indicators = d.indicators.filter(i=>i.enabled);
-  const regions = [...new Set(people.map(p=>p.region))];
-
-  // Stats
-  const allScores = people.map(p => {
-    const key = p.name+'_'+p.region;
-    const rec = latestRecs[key] || {};
-    return calcScore(rec, d.indicators, mode).composite;
+  // 统计
+  const scores = d.people.map(p => {
+    const rec = latestRecs[p.name+'_'+p.region] || {};
+    return calcScore(rec, d.indicators, dim).composite;
   });
-  const avgScore = allScores.length ? (allScores.reduce((a,b)=>a+b,0)/allScores.length).toFixed(1) : 0;
-  const excellent = allScores.filter(s=>s>=90).length;
-  const warning = allScores.filter(s=>s<50).length;
+  const avgScore = scores.length ? (scores.reduce((a,b)=>a+b,0)/scores.length).toFixed(1) : 0;
+  const reachCount = scores.filter(s => s >= 60).length;
+  const warnCount = scores.filter(s => s < 60).length;
+
+  const totalSalesAct = d.people.reduce((sum, p) => {
+    const rec = latestRecs[p.name+'_'+p.region] || {};
+    return sum + (rec['salesAct'+sfx] || 0);
+  }, 0);
+  const totalSalesTgt = d.people.reduce((sum, p) => {
+    const rec = latestRecs[p.name+'_'+p.region] || {};
+    return sum + (rec['salesTarget'+sfx] || 0);
+  }, 0);
+  const totalRate = totalSalesTgt > 0 ? ((totalSalesAct/totalSalesTgt)*100).toFixed(1) : 0;
 
   let html = `<div class="stat-row">
-    <div class="stat-card"><div class="label">总人数</div><div class="value" style="color:var(--accent)">${people.length}</div><div class="sub">六省区</div></div>
-    <div class="stat-card"><div class="label">平均综合分</div><div class="value" style="color:var(--green)">${avgScore}</div><div class="sub">${isWeek?'周会':'月会'}模式</div></div>
-    <div class="stat-card"><div class="label">优秀人数</div><div class="value" style="color:var(--green)">${excellent}</div><div class="sub">≥90分</div></div>
-    <div class="stat-card"><div class="label">预警人数</div><div class="value" style="color:var(--red)">${warning}</div><div class="sub">&lt;50分</div></div>
+    <div class="stat-card"><div class="label">${dimLabel}发车合计</div><div class="value" style="color:var(--green)">${totalSalesAct}</div><div class="sub">目标 ${totalSalesTgt} · 完成率 ${totalRate}%</div></div>
+    <div class="stat-card"><div class="label">平均综合分</div><div class="value" style="color:var(--accent)">${avgScore}</div><div class="sub">${dimLabel}维度</div></div>
+    <div class="stat-card"><div class="label">达标人数（≥60）</div><div class="value" style="color:var(--green)">${reachCount}</div><div class="sub">共${d.people.length}人</div></div>
+    <div class="stat-card"><div class="label">预警人数（<60）</div><div class="value" style="color:var(--red)">${warnCount}</div><div class="sub">需重点关注</div></div>
   </div>`;
 
-  // Table per region
+  // 按省区分组
+  const regions = [...new Set(d.people.map(p => p.region))];
   regions.forEach(region => {
-    const rPeople = people.filter(p=>p.region===region);
-    // Feature 2: dimension toggle helper
-    const salesDim = indicatorDimensions['sales'] !== undefined ? indicatorDimensions['sales'] : mode;
-    const salesDimLabel = salesDim === 'week' ? '周' : '月';
-    html += `<div style="margin-bottom:24px"><div class="section-title">📍 ${region}省区</div>
-    <div class="table-wrap"><table><thead><tr>
+    const rPeople = d.people.filter(p => p.region === region);
+    html += `<div style="margin-bottom:28px"><div class="section-title">📍 ${region}省区</div><div class="table-wrap"><table><thead><tr>
       <th>姓名</th><th>身份</th>
-      <th class="num">发车实际<button class="dim-toggle-btn" onclick="toggleIndDim('sales')" title="切换维度">${salesDimLabel}</button></th>
-      <th class="num">发车目标</th>
-      <th class="num">完成率</th>`;
-    indicators.forEach(ind => {
-      const indDim = indicatorDimensions[ind.id] !== undefined ? indicatorDimensions[ind.id] : mode;
-      const indDimLabel = indDim === 'week' ? '周' : '月';
-      const globalTgt = indDim === 'week' ? ind.weekTarget : ind.monthTarget;
-      html += `<th class="num">${ind.name}<button class="dim-toggle-btn" onclick="toggleIndDim('${ind.id}')" title="切换维度">${indDimLabel}</button><br><small style="color:var(--muted)">目标${globalTgt}</small></th>`;
+      <th class="num">发车实际</th><th class="num">发车目标</th><th class="num">完成率</th>`;
+    d.indicators.filter(i=>i.enabled!==false).forEach(ind => {
+      html += `<th class="num">${ind.name}</th>`;
     });
     html += `<th class="num">过程分</th><th class="num">结果分</th><th class="num">综合分</th><th>等级</th><th></th></tr></thead><tbody>`;
 
     rPeople.forEach(p => {
-      const key = p.name+'_'+p.region;
-      const rec = latestRecs[key] || {};
-      const {resultScore, processScore, composite, grade, gradeClass} = calcScore(rec, d.indicators, mode);
-      const sa = salesDim==='week' ? (rec.wSalesAct||0) : (rec.salesAct||0);
-      // Feature 1: use personal sales target if available
-      const personalSalesTgtKey = salesDim==='week' ? 'target_周_sales' : 'target_月_sales';
-      const globalSalesTgt = salesDim==='week' ? (rec.wSalesTarget||rec.salesTarget||0) : (rec.salesTarget||0);
-      const st = rec[personalSalesTgtKey] !== undefined ? rec[personalSalesTgtKey] : globalSalesTgt;
-      const rate = st>0 ? Math.min(120,(sa/st*100)).toFixed(0) : 0;
-      const rateColor = rate>=100?'var(--green)':rate>=70?'var(--yellow)':'var(--red)';
-      let trClass = composite>=90?'good':composite<50?'warn':'';
+      const rec = latestRecs[p.name+'_'+p.region] || {};
+      const {resultScore, processScore, composite, grade, gradeClass} = calcScore(rec, d.indicators, dim);
+      const sa = rec['salesAct'+sfx] || 0;
+      const st = rec['salesTarget'+sfx] || 0;
+      const rate = st > 0 ? Math.min(120, (sa/st*100)).toFixed(0) : 0;
+      const rateColor = rate >= 100 ? 'var(--green)' : rate >= 70 ? 'var(--yellow)' : 'var(--red)';
+      let trClass = composite >= 75 ? 'good' : composite < 45 ? 'warn' : '';
       html += `<tr class="${trClass}"><td><strong>${p.name}</strong></td>
-        <td>${p.isHQ?'<span class="cell-badge cb-blue">总部</span>':''}</td>
+        <td>${p.isHQ ? '<span class="cell-badge cb-blue">总部</span>' : ''}</td>
         <td class="num">${sa}</td><td class="num">${st}</td>
         <td class="num"><span style="color:${rateColor};font-weight:700">${rate}%</span></td>`;
-      indicators.forEach(ind => {
-        const indDim = indicatorDimensions[ind.id] !== undefined ? indicatorDimensions[ind.id] : mode;
-        const actKey = indDim==='week' ? ('w_'+ind.id) : ('m_'+ind.id);
-        // Feature 1: use personal target if available
-        const personalTgtKey = indDim==='week' ? ('target_周_'+ind.id) : ('target_月_'+ind.id);
-        const globalTgt = indDim==='week' ? ind.weekTarget : ind.monthTarget;
-        const tgt = rec[personalTgtKey] !== undefined ? rec[personalTgtKey] : globalTgt;
-        const act = rec[actKey]||0;
-        const pct = tgt>0 ? Math.min(100,act/tgt*100) : 0;
-        const fillColor = pct>=100?'var(--green)':pct>=70?'var(--yellow)':'var(--red)';
-        html += `<td class="num"><div class="prog-wrap"><div class="prog-track"><div class="prog-fill" style="width:${pct}%;background:${fillColor}"></div></div><span class="prog-val">${act}</span></div></td>`;
+      d.indicators.filter(i=>i.enabled!==false).forEach(ind => {
+        const act = rec['act'+sfx+'_'+ind.id] || 0;
+        const tgt = rec['tgt'+sfx+'_'+ind.id] || 0;
+        const pct = tgt > 0 ? Math.min(100, act/tgt*100) : 0;
+        const fillColor = pct >= 100 ? 'var(--green)' : pct >= 70 ? 'var(--yellow)' : 'var(--red)';
+        html += `<td class="num"><div class="prog-wrap"><div class="prog-track"><div class="prog-fill" style="width:${pct}%;background:${fillColor}"></div></div><span class="prog-val">${act}/${tgt}</span></div></td>`;
       });
-      html += `<td class="num cell-score" style="color:var(--purple)">${processScore.toFixed(0)}</td>
-        <td class="num cell-score" style="color:var(--orange)">${resultScore.toFixed(0)}</td>
-        <td class="num cell-score" style="color:${composite>=90?'var(--green)':composite<50?'var(--red)':'var(--accent)'}">${composite.toFixed(0)}</td>
-        <td><span class="cell-badge ${gradeClass}">${grade}</span></td>
-        <td><button class="btn btn-sm" onclick="openEdit('${p.name}','${p.region}')">编辑</button> <button class="btn btn-sm" style="background:rgba(188,140,255,.15);color:var(--purple);border-color:rgba(188,140,255,.3)" onclick="openAnalysis('${p.name}','${p.region}')">分析</button></td></tr>`;
+      html += `<td class="num">${processScore.toFixed(0)}</td><td class="num">${resultScore.toFixed(0)}</td>
+        <td class="num"><strong>${composite.toFixed(0)}</strong></td>
+        <td><span class="${gradeClass}">${grade}</span></td>
+        <td><button class="btn btn-sm" onclick="openEditRecord('${p.name}','${p.region}')">编辑</button></td></tr>`;
     });
-    html += `</tbody></table></div></div>`;
+    html += '</tbody></table></div></div>';
   });
-
-  // Feature 2: toggle function for indicator dimension
-  // Must be set on window for onclick to work
-  window.toggleIndDim = function(indId) {
-    const cur = indicatorDimensions[indId] !== undefined ? indicatorDimensions[indId] : mode;
-    indicatorDimensions[indId] = cur === 'week' ? 'month' : 'week';
-    render();
-  };
 
   c.innerHTML = html;
 }
 
-// ─── RANKING ───
+// ========== 排名 ==========
 function renderRanking(c) {
   const d = loadData();
-  const isWeek = mode==='week';
+  const sfx = dim === 'month' ? '_m' : '_w';
+  const dimLabel = dim === 'month' ? '月' : '周';
 
   const latestRecs = {};
   d.records.forEach(r => {
-    const key = r.name+'_'+r.region;
-    if (!latestRecs[key] || r.month >= latestRecs[key].month) latestRecs[key] = r;
+    const k = r.name+'_'+r.region;
+    if (!latestRecs[k] || r.month >= latestRecs[k].month) latestRecs[k] = r;
   });
 
   const ranked = d.people.map(p => {
-    const key = p.name+'_'+p.region;
-    const rec = latestRecs[key] || {};
-    const scores = calcScore(rec, d.indicators, mode);
-    return {...p, ...scores};
-  }).sort((a,b)=>b.composite-a.composite);
+    const rec = latestRecs[p.name+'_'+p.region] || {};
+    const scores = calcScore(rec, d.indicators, dim);
+    return {...p, ...scores, rec};
+  }).sort((a,b) => b.composite - a.composite);
 
-  const wts = loadData().weights || DEFAULT_WEIGHTS;
-  const modeDesc = isWeek
-    ? `周会模式（过程${wts.weekProcess||80}%+结果${wts.weekResult||20}%）`
-    : `月会模式（结果${wts.monthResult||80}%+过程${wts.monthProcess||20}%）`;
+  const rankColors = ['#ffd700','#c0c0c0','#cd7f32'];
+  const rankEmoji = ['🥇','🥈','🥉'];
 
-  let rankingView = 'all';
-
-  function renderRankingContent(view) {
-    let html2 = `<div class="section-title">🏆 销售综合排名 <span style="font-size:13px;color:var(--muted);font-weight:400">${modeDesc}</span></div>`;
-    html2 += `<div style="display:flex;gap:8px;margin-bottom:20px">
-      <button class="btn ${view==='all'?'btn-primary':''}" onclick="renderRankingView('all')">全员排名</button>
-      <button class="btn ${view==='region'?'btn-primary':''}" onclick="renderRankingView('region')">省区排名</button>
+  let html = `<div class="section-title">🏆 ${dimLabel}维度综合排名</div>`;
+  ranked.forEach((p, i) => {
+    const sa = p.rec['salesAct'+sfx] || 0;
+    const st = p.rec['salesTarget'+sfx] || 0;
+    const rate = st > 0 ? (sa/st*100).toFixed(0) : 0;
+    const barWidth = Math.min(100, p.composite);
+    html += `<div class="ranking-card">
+      <div class="rank-num" style="color:${rankColors[i]||'var(--muted)'}">${rankEmoji[i]||('#'+(i+1))}</div>
+      <div class="rank-info">
+        <div class="rank-name">${p.name} ${p.isHQ?'<span class="cell-badge cb-blue">总部</span>':''}</div>
+        <div class="rank-region">${p.region} · 发车 ${sa}/${st} (${rate}%) · 过程 ${p.processScore.toFixed(0)}分 · 结果 ${p.resultScore.toFixed(0)}分</div>
+        <div class="rank-bar"><div class="rank-fill" style="width:${barWidth}%;background:${p.composite>=75?'var(--green)':p.composite>=60?'var(--accent)':p.composite>=45?'var(--yellow)':'var(--red)'}"></div></div>
+      </div>
+      <div>
+        <div class="rank-score">${p.composite.toFixed(0)}</div>
+        <div style="text-align:center;font-size:13px"><span class="${p.gradeClass}">${p.grade}</span></div>
+      </div>
     </div>`;
-
-    if (view==='all') {
-      ranked.forEach((p, i) => {
-        const rank = i+1;
-        const numClass = rank===1?'gold':rank===2?'silver':rank===3?'bronze':'other';
-        const medal = rank===1?'🥇':rank===2?'🥈':rank===3?'🥉':'';
-        html2 += `<div class="rank-card">
-          <div class="rank-num ${numClass}">${medal||rank}</div>
-          <div class="rank-info">
-            <div class="rank-name">${p.name} ${p.isHQ?'<span class="cell-badge cb-blue" style="font-size:11px;padding:1px 8px">总部</span>':''}</div>
-            <div class="rank-region">📍 ${p.region}</div>
-          </div>
-          <div class="rank-scores">
-            <div class="rank-score-item"><div class="sv" style="color:var(--orange)">${p.resultScore.toFixed(0)}</div><div class="sl">结果分</div></div>
-            <div class="rank-score-item"><div class="sv" style="color:var(--purple)">${p.processScore.toFixed(0)}</div><div class="sl">过程分</div></div>
-            <div class="rank-score-item"><div class="sv" style="color:${p.composite>=90?'var(--green)':p.composite<50?'var(--red)':'var(--accent)'};font-size:22px">${p.composite.toFixed(0)}</div><div class="sl">综合分</div></div>
-            <div class="rank-score-item"><span class="cell-badge ${p.gradeClass}">${p.grade}</span></div>
-          </div>
-        </div>`;
-      });
-    } else {
-      const regions = [...new Set(ranked.map(p=>p.region))];
-      regions.forEach(region => {
-        const regionPeople = ranked.filter(p=>p.region===region).sort((a,b)=>b.composite-a.composite);
-        const avg = regionPeople.length ? (regionPeople.reduce((s,p)=>s+p.composite,0)/regionPeople.length).toFixed(1) : '0.0';
-        html2 += `<div style="margin-bottom:24px">
-          <div class="section-title" style="font-size:15px">📍 ${region}省区 <span style="font-size:13px;color:var(--muted);font-weight:400">省区平均分 ${avg}</span></div>`;
-        regionPeople.forEach((p, i) => {
-          const rank = i+1;
-          const numClass = rank===1?'gold':rank===2?'silver':rank===3?'bronze':'other';
-          const medal = rank===1?'🥇':rank===2?'🥈':rank===3?'🥉':'';
-          html2 += `<div class="rank-card">
-            <div class="rank-num ${numClass}">${medal||rank}</div>
-            <div class="rank-info">
-              <div class="rank-name">${p.name} ${p.isHQ?'<span class="cell-badge cb-blue" style="font-size:11px;padding:1px 8px">总部</span>':''}</div>
-              <div class="rank-region">📍 ${p.region}</div>
-            </div>
-            <div class="rank-scores">
-              <div class="rank-score-item"><div class="sv" style="color:var(--orange)">${p.resultScore.toFixed(0)}</div><div class="sl">结果分</div></div>
-              <div class="rank-score-item"><div class="sv" style="color:var(--purple)">${p.processScore.toFixed(0)}</div><div class="sl">过程分</div></div>
-              <div class="rank-score-item"><div class="sv" style="color:${p.composite>=90?'var(--green)':p.composite<50?'var(--red)':'var(--accent)'};font-size:22px">${p.composite.toFixed(0)}</div><div class="sl">综合分</div></div>
-              <div class="rank-score-item"><span class="cell-badge ${p.gradeClass}">${p.grade}</span></div>
-            </div>
-          </div>`;
-        });
-        html2 += `</div>`;
-      });
-    }
-    return html2;
-  }
-
-  window.renderRankingView = function(view) {
-    c.innerHTML = renderRankingContent(view);
-  };
-
-  let html = renderRankingContent('all');
-
+  });
   c.innerHTML = html;
 }
 
-// ─── CONFIG ───
+// ========== 配置 ==========
 function renderConfig(c) {
   const d = loadData();
-  const cfg = d.config;
-
-  let indHtml = '';
-  d.indicators.forEach((ind, idx) => {
-    indHtml += `<div class="indicator-item" id="ind_${idx}">
-      <div class="indicator-item-header">
-        <span class="iname">${ind.name}</span>
-        <label class="toggle-switch">
-          <input type="checkbox" ${ind.enabled?'checked':''} onchange="toggleIndicator(${idx},this.checked)">
-          <span class="toggle-slider"></span>
-        </label>
-        <button class="btn btn-sm btn-danger" onclick="deleteIndicator(${idx})">删除</button>
-      </div>
-      <div class="indicator-grid">
-        <div class="form-item"><label>指标名称</label><input value="${ind.name}" onchange="updateIndicator(${idx},'name',this.value)"></div>
-        <div class="form-item"><label>月目标</label><input type="number" value="${ind.monthTarget}" onchange="updateIndicator(${idx},'monthTarget',+this.value)"></div>
-        <div class="form-item"><label>周目标</label><input type="number" value="${ind.weekTarget}" onchange="updateIndicator(${idx},'weekTarget',+this.value)"></div>
-        <div class="form-item"><label>单位</label><input value="${ind.unit||'次'}" onchange="updateIndicator(${idx},'unit',this.value)"></div>
-      </div>
-    </div>`;
-  });
-
-  let fieldCfg = `
-    <div class="field-row"><span class="fname">结果数据列</span><label class="toggle-switch"><input type="checkbox" ${cfg.showResult?'checked':''} onchange="updateConfig('showResult',this.checked)"><span class="toggle-slider"></span></label></div>
-    <div class="field-row"><span class="fname">过程指标列</span><label class="toggle-switch"><input type="checkbox" ${cfg.showProcess?'checked':''} onchange="updateConfig('showProcess',this.checked)"><span class="toggle-slider"></span></label></div>
-    <div class="field-row"><span class="fname">综合评分列</span><label class="toggle-switch"><input type="checkbox" ${cfg.showScore?'checked':''} onchange="updateConfig('showScore',this.checked)"><span class="toggle-slider"></span></label></div>
-    <div class="field-row"><span class="fname">等级徽章列</span><label class="toggle-switch"><input type="checkbox" ${cfg.showGrade?'checked':''} onchange="updateConfig('showGrade',this.checked)"><span class="toggle-slider"></span></label></div>
-  `;
-
   const wts = d.weights || DEFAULT_WEIGHTS;
-  const weightCfg = `
-    <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:8px">
-      <div>
-        <div style="font-size:13px;font-weight:700;color:var(--muted);margin-bottom:10px">周会模式</div>
-        <div class="field-row"><span class="fname">过程权重 %</span>
-          <input type="number" min="0" max="100" value="${wts.weekProcess}" style="width:80px;background:var(--surface2);border:1px solid var(--border);border-radius:8px;padding:6px 10px;color:var(--text)" id="cfgWeekP" oninput="onWeightInput('week','P')">
-        </div>
-        <div class="field-row"><span class="fname">结果权重 %</span>
-          <input type="number" min="0" max="100" value="${wts.weekResult}" style="width:80px;background:var(--surface2);border:1px solid var(--border);border-radius:8px;padding:6px 10px;color:var(--text)" id="cfgWeekR" oninput="onWeightInput('week','R')">
-        </div>
-        <div id="weekWeightTip" style="font-size:12px;margin-top:4px;color:var(--muted)">过程+结果=${wts.weekProcess+wts.weekResult}%</div>
-      </div>
-      <div>
-        <div style="font-size:13px;font-weight:700;color:var(--muted);margin-bottom:10px">月会模式</div>
-        <div class="field-row"><span class="fname">过程权重 %</span>
-          <input type="number" min="0" max="100" value="${wts.monthProcess}" style="width:80px;background:var(--surface2);border:1px solid var(--border);border-radius:8px;padding:6px 10px;color:var(--text)" id="cfgMonthP" oninput="onWeightInput('month','P')">
-        </div>
-        <div class="field-row"><span class="fname">结果权重 %</span>
-          <input type="number" min="0" max="100" value="${wts.monthResult}" style="width:80px;background:var(--surface2);border:1px solid var(--border);border-radius:8px;padding:6px 10px;color:var(--text)" id="cfgMonthR" oninput="onWeightInput('month','R')">
-        </div>
-        <div id="monthWeightTip" style="font-size:12px;margin-top:4px;color:var(--muted)">过程+结果=${wts.monthProcess+wts.monthResult}%</div>
-      </div>
-    </div>
-    <button class="btn btn-primary" onclick="saveWeights()">保存权重配置</button>
-  `;
-
+  let indRows = '';
+  d.indicators.forEach((ind, idx) => {
+    indRows += `<div class="ind-config-row">
+      <label class="toggle-switch"><input type="checkbox" ${ind.enabled!==false?'checked':''} onchange="toggleInd(${idx},this.checked)"><span class="toggle-slider"></span></label>
+      <span style="flex:1;font-size:14px">${ind.name}</span>
+      <span style="font-size:12px;color:var(--muted)">${ind.unit}/次</span>
+    </div>`;
+  });
   c.innerHTML = `
-    <div class="config-section">
-      <h3>过程指标管理</h3>
-      ${indHtml}
-      <button class="btn btn-primary" style="margin-top:10px" onclick="addIndicator()">＋ 添加指标</button>
-    </div>
-    <div class="config-section">
-      <h3>评分权重配置</h3>
-      ${weightCfg}
-    </div>
-    <div class="config-section">
-      <h3>字段显示配置</h3>
-      ${fieldCfg}
-    </div>
-    <div class="config-section">
-      <h3>人员管理</h3>
-      <div class="table-wrap"><table><thead><tr><th>姓名</th><th>省区</th><th>身份</th><th></th></tr></thead><tbody>
-      ${d.people.map((p,i)=>`<tr><td>${p.name}</td><td>${p.region}</td><td>${p.isHQ?'总部':'-'}</td>
-        <td><button class="btn btn-sm btn-danger" onclick="deletePerson(${i})">删除</button></td></tr>`).join('')}
-      </tbody></table></div>
-      <div style="margin-top:12px;display:flex;gap:8px;flex-wrap:wrap">
-        <input id="newPersonName" placeholder="姓名" style="background:var(--surface2);border:1px solid var(--border);border-radius:8px;padding:7px 12px;color:var(--text);width:120px">
-        <select id="newPersonRegion" style="background:var(--surface2);border:1px solid var(--border);border-radius:8px;padding:7px 12px;color:var(--text)">
-          <option>江苏</option><option>山东</option><option>河北</option><option>河南</option><option>安徽</option><option>辽宁</option>
-        </select>
-        <select id="newPersonHQ" style="background:var(--surface2);border:1px solid var(--border);border-radius:8px;padding:7px 12px;color:var(--text)">
-          <option value="0">普通</option><option value="1">总部</option>
-        </select>
-        <button class="btn btn-primary" onclick="addPerson()">添加</button>
+    <div class="config-card">
+      <h3>⚖️ 评分权重</h3>
+      <div style="display:flex;gap:20px;align-items:center">
+        <div class="form-item" style="flex:1"><label>过程指标权重 (%)</label>
+          <input type="number" min="0" max="100" value="${wts.processWeight||50}" onchange="updateWeights('processWeight',+this.value)"></div>
+        <div class="form-item" style="flex:1"><label>结果指标权重 (%)</label>
+          <input type="number" min="0" max="100" value="${wts.resultWeight||50}" onchange="updateWeights('resultWeight',+this.value)"></div>
       </div>
+      <div style="font-size:12px;color:var(--muted);margin-top:8px">综合分 = 过程均分×${wts.processWeight||50}% + 发车完成率×${wts.resultWeight||50}%</div>
     </div>
-  `;
+    <div class="config-card">
+      <h3>📋 过程指标开关</h3>
+      ${indRows}
+    </div>
+    <div class="config-card">
+      <h3>🗑️ 数据管理</h3>
+      <div style="display:flex;gap:10px">
+        <button class="btn" style="color:var(--red);border-color:var(--red)" onclick="if(confirm('确认清空所有录入数据？人员和指标配置保留。')){const d=loadData();d.records=[];saveData(d);render()}">清空录入数据</button>
+        <button class="btn" style="color:var(--red);border-color:var(--red)" onclick="if(confirm('确认重置全部？所有数据恢复出厂。')){localStorage.clear();location.reload()}">恢复出厂设置</button>
+      </div>
+    </div>`;
 }
 
-function onWeightInput(mode, type) {
-  const pEl = document.getElementById('cfg'+capitalize(mode)+'P');
-  const rEl = document.getElementById('cfg'+capitalize(mode)+'R');
-  const tipEl = document.getElementById(mode+'WeightTip');
-  if (!pEl || !rEl || !tipEl) return;
-  const p = +(pEl.value||0), r = +(rEl.value||0);
-  const sum = p+r;
-  tipEl.textContent = '过程+结果='+sum+'%';
-  tipEl.style.color = sum===100 ? 'var(--green)' : 'var(--red)';
+function toggleInd(idx, val) {
+  const d = loadData(); d.indicators[idx].enabled = val; saveData(d); renderConfig(document.getElementById('pageContent'));
 }
-
-function capitalize(s) { return s.charAt(0).toUpperCase()+s.slice(1); }
-
-function saveWeights() {
-  const wP = +(document.getElementById('cfgWeekP').value||80);
-  const wR = +(document.getElementById('cfgWeekR').value||20);
-  const mP = +(document.getElementById('cfgMonthP').value||20);
-  const mR = +(document.getElementById('cfgMonthR').value||80);
-  if (wP+wR !== 100) return alert('周会模式：过程权重+结果权重必须等于100%');
-  if (mP+mR !== 100) return alert('月会模式：过程权重+结果权重必须等于100%');
-  localStorage.setItem('sm_weights', JSON.stringify({weekProcess:wP,weekResult:wR,monthProcess:mP,monthResult:mR}));
-  alert('权重配置已保存！');
-}
-
-// ─── ANALYSIS MODAL ───
-function openAnalysis(name, region) {
+function updateWeights(key, val) {
   const d = loadData();
+  d.weights = d.weights || DEFAULT_WEIGHTS;
+  d.weights[key] = val;
+  if (key === 'processWeight') d.weights.resultWeight = 100 - val;
+  else d.weights.processWeight = 100 - val;
+  saveData(d);
+  renderConfig(document.getElementById('pageContent'));
+}
+
+// ========== 录入弹窗 ==========
+function openAddRecord() {
+  editingId = null;
+  document.getElementById('modalTitle').textContent = '✏️ 录入数据';
+  const d = loadData();
+  const sel = document.getElementById('fName');
+  sel.innerHTML = '<option value="">请选择</option>' + d.people.map(p=>`<option value="${p.name}|${p.region}">${p.name}（${p.region}）</option>`).join('');
+  document.getElementById('fMonth').value = '2026-06';
+  clearForm();
+  buildIndSection();
+  document.getElementById('recordModal').classList.add('show');
+}
+
+function openEditRecord(name, region) {
+  editingId = name + '_' + region;
+  document.getElementById('modalTitle').textContent = '✏️ 编辑数据 - ' + name;
+  const d = loadData();
+  const sel = document.getElementById('fName');
+  sel.innerHTML = '<option value="">请选择</option>' + d.people.map(p=>`<option value="${p.name}|${p.region}">${p.name}（${p.region}）</option>`).join('');
+  sel.value = name + '|' + region;
+
   const latestRecs = {};
   d.records.forEach(r => {
     const k = r.name+'_'+r.region;
     if (!latestRecs[k] || r.month >= latestRecs[k].month) latestRecs[k] = r;
   });
   const rec = latestRecs[name+'_'+region] || {};
-  const indicators = d.indicators.filter(i=>i.enabled);
-  const person = d.people.find(p=>p.name===name&&p.region===region)||{name,region,isHQ:false};
-  const isWeek = mode==='week';
 
-  const {resultScore, processScore, composite, grade, gradeClass} = calcScore(rec, d.indicators, mode);
+  document.getElementById('fMonth').value = rec.month || '2026-06';
+  document.getElementById('fSalesAct_m').value = rec.salesAct_m || '';
+  document.getElementById('fSalesTgt_m').value = rec.salesTarget_m || '';
+  document.getElementById('fSalesAct_w').value = rec.salesAct_w || '';
+  document.getElementById('fSalesTgt_w').value = rec.salesTarget_w || '';
 
-  // Compute average
-  const allScores = d.people.map(p => {
-    const k = p.name+'_'+p.region;
-    return calcScore(latestRecs[k]||{}, d.indicators, mode).composite;
-  });
-  const avg = allScores.length ? allScores.reduce((a,b)=>a+b,0)/allScores.length : 0;
-  const diff = composite - avg;
-  const diffSign = diff >= 0 ? '+' : '';
-  const diffColor = diff >= 0 ? 'var(--green)' : 'var(--red)';
-
-  // Process indicators
-  let indHtml = '';
-  let weakestInd = null, weakestPct = Infinity;
-  indicators.forEach(ind => {
-    const tgt = isWeek ? ind.weekTarget : ind.monthTarget;
-    const actKey = isWeek ? ('w_'+ind.id) : ('m_'+ind.id);
-    const act = rec[actKey]||0;
-    const pct = tgt > 0 ? Math.min(100, act/tgt*100) : 0;
-    const fillColor = pct>=100?'var(--green)':pct>=70?'var(--yellow)':'var(--red)';
-    if (pct < weakestPct) { weakestPct = pct; weakestInd = ind; }
-    indHtml += `<div style="margin-bottom:12px">
-      <div style="display:flex;justify-content:space-between;font-size:13px;margin-bottom:4px">
-        <span>${ind.name}</span><span style="color:${fillColor};font-weight:700">${pct.toFixed(0)}%</span>
-      </div>
-      <div class="prog-track" style="height:10px">
-        <div class="prog-fill" style="width:${pct}%;background:${fillColor}"></div>
-      </div>
-      <div style="font-size:12px;color:var(--muted);margin-top:2px">实际 ${act} / 目标 ${tgt} ${ind.unit||'次'}</div>
-    </div>`;
-  });
-
-  // Result analysis
-  const sa = isWeek ? (rec.wSalesAct||0) : (rec.salesAct||0);
-  const st = isWeek ? (rec.wSalesTarget||rec.salesTarget||0) : (rec.salesTarget||0);
-  const rateVal = st>0 ? (sa/st*100) : 0;
-  const rateColor = rateVal>=100?'var(--green)':rateVal>=70?'var(--yellow)':'var(--red)';
-  const rateTrend = rateVal>=100?'已完成目标，表现优异':rateVal>=80?'接近目标，继续努力':'尚有差距，需加强推进';
-
-  // AI-style analysis
-  const procLevel = processScore>=90?'优秀':processScore>=70?'良好':processScore>=50?'一般':'偏弱';
-  const resLevel = resultScore>=90?'优秀':resultScore>=70?'良好':resultScore>=50?'一般':'偏弱';
-  let aiText = '';
-  if (processScore>=70 && resultScore>=70) {
-    aiText = '过程指标与结果指标均表现良好，综合能力均衡，建议保持当前节奏并冲击更高目标。';
-  } else if (processScore>=70 && resultScore<70) {
-    aiText = '过程指标完成较好，日常推进积极；但结果指标（发车量）有待提升，建议关注转化效率，将过程投入转化为实际业绩。';
-  } else if (processScore<70 && resultScore>=70) {
-    aiText = '结果指标表现良好，发车业绩突出；但过程指标有所欠缺，建议加强日常打卡、沙龙等过程管理，为后续持续增长打好基础。';
-  } else {
-    aiText = '当前过程与结果指标均有提升空间，建议优先聚焦核心动作，加强标杆打造和客户拜访，同时确保发车目标的落地推进。';
-  }
-
-  // Suggestion based on weakest
-  let suggestion = '整体表现良好，建议继续保持。';
-  if (weakestInd && weakestPct < 80) {
-    suggestion = `「${weakestInd.name}」是当前最薄弱环节（完成率${weakestPct.toFixed(0)}%），建议优先提升此项，制定具体行动计划，争取下周期达标。`;
-  }
-
-  const modalHtml = `
-  <div class="modal-overlay show" id="analysisModal" onclick="if(event.target===this)closeModal('analysisModal')">
-    <div class="modal" style="width:min(680px,95vw)">
-      <div class="modal-header">
-        <span>🔍 个人工作分析</span>
-        <button class="close" onclick="closeModal('analysisModal')">✕</button>
-      </div>
-      <div class="modal-body">
-        <div style="display:flex;gap:16px;align-items:center;padding:14px;background:var(--surface2);border-radius:10px;margin-bottom:20px">
-          <div style="font-size:36px">👤</div>
-          <div>
-            <div style="font-size:18px;font-weight:800">${name} ${person.isHQ?'<span class="cell-badge cb-blue" style="font-size:11px">总部</span>':''}</div>
-            <div style="font-size:14px;color:var(--muted);margin-top:4px">📍 ${region}省区 · ${isWeek?'周会':'月会'}模式分析</div>
-          </div>
-          <div style="margin-left:auto;text-align:center">
-            <div style="font-size:36px;font-weight:900;color:${composite>=90?'var(--green)':composite<50?'var(--red)':'var(--accent)'}">${composite.toFixed(0)}</div>
-            <span class="cell-badge ${gradeClass}">${grade}</span>
-          </div>
-        </div>
-
-        <div style="margin-bottom:20px">
-          <div class="section-title" style="font-size:14px">📋 过程指标完成情况</div>
-          ${indHtml}
-        </div>
-
-        <div style="margin-bottom:20px;padding:14px;background:var(--surface2);border-radius:10px">
-          <div style="font-size:14px;font-weight:700;margin-bottom:10px">🚚 发车完成率分析</div>
-          <div style="display:flex;gap:24px;align-items:center;margin-bottom:8px">
-            <div><span style="font-size:24px;font-weight:900;color:${rateColor}">${rateVal.toFixed(0)}%</span><div style="font-size:12px;color:var(--muted)">完成率</div></div>
-            <div><span style="font-size:18px;font-weight:700">${sa}</span><div style="font-size:12px;color:var(--muted)">实际发车</div></div>
-            <div><span style="font-size:18px;font-weight:700">${st}</span><div style="font-size:12px;color:var(--muted)">目标发车</div></div>
-          </div>
-          <div style="font-size:13px;color:var(--muted)">${rateTrend}</div>
-        </div>
-
-        <div style="margin-bottom:20px;padding:14px;background:var(--surface2);border-radius:10px">
-          <div style="font-size:14px;font-weight:700;margin-bottom:10px">📊 综合评分对比</div>
-          <div style="display:flex;gap:24px">
-            <div><span style="font-size:18px;font-weight:700;color:var(--purple)">${processScore.toFixed(0)}</span><div style="font-size:12px;color:var(--muted)">过程分（${procLevel}）</div></div>
-            <div><span style="font-size:18px;font-weight:700;color:var(--orange)">${resultScore.toFixed(0)}</span><div style="font-size:12px;color:var(--muted)">结果分（${resLevel}）</div></div>
-            <div><span style="font-size:18px;font-weight:700;color:var(--muted)">${avg.toFixed(1)}</span><div style="font-size:12px;color:var(--muted)">团队平均</div></div>
-            <div><span style="font-size:18px;font-weight:700;color:${diffColor}">${diffSign}${diff.toFixed(1)}</span><div style="font-size:12px;color:var(--muted)">${diff>=0?'高于':'低于'}平均</div></div>
-          </div>
-        </div>
-
-        <div style="margin-bottom:16px;padding:14px;background:rgba(88,166,255,.06);border:1px solid rgba(88,166,255,.2);border-radius:10px">
-          <div style="font-size:14px;font-weight:700;margin-bottom:6px">🤖 AI 分析</div>
-          <div style="font-size:14px;line-height:1.7;color:var(--text)">${aiText}</div>
-        </div>
-
-        <div style="padding:14px;background:rgba(63,185,80,.06);border:1px solid rgba(63,185,80,.2);border-radius:10px">
-          <div style="font-size:14px;font-weight:700;margin-bottom:6px">💡 改进建议</div>
-          <div style="font-size:14px;line-height:1.7;color:var(--text)">${suggestion}</div>
-        </div>
-      </div>
-      <div class="modal-footer">
-        <button class="btn btn-primary" onclick="closeModal('analysisModal')">关闭</button>
-      </div>
-    </div>
-  </div>`;
-
-  // Remove existing analysis modal if any
-  const existing = document.getElementById('analysisModal');
-  if (existing) existing.remove();
-  document.body.insertAdjacentHTML('beforeend', modalHtml);
+  buildIndSection(rec);
+  document.getElementById('recordModal').classList.add('show');
+  preview();
 }
 
-function updateConfig(key, val) {
+function onPersonChange() {
   const d = loadData();
-  d.config[key] = val;
-  saveData(d);
-}
-
-function addIndicator() {
-  const d = loadData();
-  const newId = 'ind_'+Date.now();
-  d.indicators.push({id:newId, name:'新指标', monthTarget:4, weekTarget:1, unit:'次', enabled:true});
-  saveData(d);
-  renderConfig(document.getElementById('mainContent'));
-}
-
-function deleteIndicator(idx) {
-  if (!confirm('确认删除该指标？')) return;
-  const d = loadData();
-  d.indicators.splice(idx, 1);
-  saveData(d);
-  renderConfig(document.getElementById('mainContent'));
-}
-
-function updateIndicator(idx, key, val) {
-  const d = loadData();
-  d.indicators[idx][key] = val;
-  saveData(d);
-}
-
-function toggleIndicator(idx, val) {
-  const d = loadData();
-  d.indicators[idx].enabled = val;
-  saveData(d);
-}
-
-function addPerson() {
-  const name = document.getElementById('newPersonName').value.trim();
-  const region = document.getElementById('newPersonRegion').value;
-  const isHQ = document.getElementById('newPersonHQ').value==='1';
-  if (!name) return alert('请输入姓名');
-  const d = loadData();
-  d.people.push({name, region, isHQ});
-  saveData(d);
-  renderConfig(document.getElementById('mainContent'));
-}
-
-function deletePerson(idx) {
-  if (!confirm('确认删除该人员？')) return;
-  const d = loadData();
-  d.people.splice(idx, 1);
-  saveData(d);
-  renderConfig(document.getElementById('mainContent'));
-}
-
-// ─── MODAL ───
-let _editName = null, _editRegion = null;
-
-function buildIndicatorInputs() {
-  const d = loadData();
-  const inds = d.indicators.filter(i=>i.enabled);
-
-  // Feature 1: load existing record to get personal targets
-  let existingRec = {};
-  if (_editName && _editRegion) {
-    const latestRecs = {};
-    d.records.forEach(r => {
-      const k = r.name+'_'+r.region;
-      if (!latestRecs[k] || r.month >= latestRecs[k].month) latestRecs[k] = r;
-    });
-    existingRec = latestRecs[_editName+'_'+_editRegion] || {};
-  }
-
-  let mHtml = '', wHtml = '';
-  inds.forEach(ind => {
-    const mVal = (_editName && _editRegion) ? getRecordVal(_editName, _editRegion, 'm_'+ind.id) : '';
-    const wVal = (_editName && _editRegion) ? getRecordVal(_editName, _editRegion, 'w_'+ind.id) : '';
-    // Feature 1: personal targets (default to global if not set)
-    const mTgtVal = existingRec['target_月_'+ind.id] !== undefined ? existingRec['target_月_'+ind.id] : ind.monthTarget;
-    const wTgtVal = existingRec['target_周_'+ind.id] !== undefined ? existingRec['target_周_'+ind.id] : ind.weekTarget;
-
-    mHtml += `<div style="grid-column:1/-1;background:var(--surface2);border-radius:8px;padding:10px 12px;margin-bottom:4px">
-      <div style="font-size:13px;font-weight:700;margin-bottom:8px;color:var(--text)">${ind.name} <small style="color:var(--muted);font-weight:400">${ind.unit}</small></div>
-      <div class="ind-target-row">
-        <div class="form-item"><label>实际完成</label><input id="fi_m_${ind.id}" type="number" min="0" value="${mVal}" placeholder="0" oninput="previewEval()"></div>
-        <div class="form-item"><label>月目标（个人）</label><input id="ftgt_m_${ind.id}" type="number" min="0" value="${mTgtVal}" placeholder="${ind.monthTarget}" oninput="previewEval()"></div>
-        <div class="form-item"><label style="color:var(--muted)">全局月目标: ${ind.monthTarget}</label><div style="font-size:12px;color:var(--muted);padding:9px 0">个人目标优先</div></div>
-      </div>
-    </div>`;
-
-    wHtml += `<div style="grid-column:1/-1;background:var(--surface2);border-radius:8px;padding:10px 12px;margin-bottom:4px">
-      <div style="font-size:13px;font-weight:700;margin-bottom:8px;color:var(--text)">${ind.name} <small style="color:var(--muted);font-weight:400">${ind.unit}</small></div>
-      <div class="ind-target-row">
-        <div class="form-item"><label>实际完成</label><input id="fi_w_${ind.id}" type="number" min="0" value="${wVal}" placeholder="0"></div>
-        <div class="form-item"><label>周目标（个人）</label><input id="ftgt_w_${ind.id}" type="number" min="0" value="${wTgtVal}" placeholder="${ind.weekTarget}"></div>
-        <div class="form-item"><label style="color:var(--muted)">全局周目标: ${ind.weekTarget}</label><div style="font-size:12px;color:var(--muted);padding:9px 0">个人目标优先</div></div>
-      </div>
-    </div>`;
-  });
-  document.getElementById('monthIndicators').innerHTML = mHtml;
-  document.getElementById('weekIndicators').innerHTML = wHtml;
-}
-
-function getRecordVal(name, region, key) {
-  const d = loadData();
+  const val = document.getElementById('fName').value;
+  if (!val) { clearForm(); buildIndSection(); return; }
+  const [name, region] = val.split('|');
   const latestRecs = {};
   d.records.forEach(r => {
     const k = r.name+'_'+r.region;
     if (!latestRecs[k] || r.month >= latestRecs[k].month) latestRecs[k] = r;
   });
   const rec = latestRecs[name+'_'+region] || {};
-  return rec[key] !== undefined ? rec[key] : '';
+  document.getElementById('fMonth').value = rec.month || '2026-06';
+  document.getElementById('fSalesAct_m').value = rec.salesAct_m || '';
+  document.getElementById('fSalesTgt_m').value = rec.salesTarget_m || '';
+  document.getElementById('fSalesAct_w').value = rec.salesAct_w || '';
+  document.getElementById('fSalesTgt_w').value = rec.salesTarget_w || '';
+  buildIndSection(rec);
+  preview();
 }
 
-function openAdd() {
-  _editName = null; _editRegion = null; editingId = null;
-  document.getElementById('modalTitle').textContent = '录入数据';
-  const now = new Date();
-  document.getElementById('fName').value = '';
-  document.getElementById('fMonth').value = now.toISOString().slice(0,7);
-  document.getElementById('fSalesAct').value = '';
-  document.getElementById('fSalesTarget').value = '';
-  document.getElementById('fIsHQ').value = '0';
-  document.getElementById('wSalesAct').value = '';
-  document.getElementById('wSalesTarget').value = '';
-  buildIndicatorInputs();
-  switchTab('tabMonth');
-  document.getElementById('evalPreview').innerHTML = '';
-  document.getElementById('editModal').classList.add('show');
+function clearForm() {
+  ['fSalesAct_m','fSalesTgt_m','fSalesAct_w','fSalesTgt_w'].forEach(id => document.getElementById(id).value = '');
 }
 
-function openEdit(name, region) {
-  _editName = name; _editRegion = region;
+function buildIndSection(rec) {
+  rec = rec || {};
   const d = loadData();
-  const latestRecs = {};
-  d.records.forEach(r => {
-    const k = r.name+'_'+r.region;
-    if (!latestRecs[k] || r.month >= latestRecs[k].month) latestRecs[k] = r;
-  });
-  const rec = latestRecs[name+'_'+region] || {};
-  editingId = rec.id || null;
-
-  document.getElementById('modalTitle').textContent = `编辑：${name}（${region}）`;
-  document.getElementById('fName').value = name;
-  document.getElementById('fRegion').value = region;
-  document.getElementById('fMonth').value = rec.month || new Date().toISOString().slice(0,7);
-  document.getElementById('fIsHQ').value = rec.isHQ ? '1' : '0';
-  document.getElementById('fSalesAct').value = rec.salesAct || '';
-  document.getElementById('fSalesTarget').value = rec.salesTarget || '';
-  document.getElementById('wSalesAct').value = rec.wSalesAct || '';
-  document.getElementById('wSalesTarget').value = rec.wSalesTarget || '';
-  buildIndicatorInputs();
-  previewEval();
-  switchTab('tabMonth');
-  document.getElementById('editModal').classList.add('show');
-}
-
-function switchTab(tabId) {
-  ['tabMonth','tabWeek'].forEach(t => {
-    document.getElementById(t).classList.toggle('active', t===tabId);
-    document.getElementById(t+'Btn').classList.toggle('active', t===tabId);
-  });
-}
-
-function previewEval() {
-  const d = loadData();
-  const sa = +(document.getElementById('fSalesAct').value||0);
-  const stRaw = document.getElementById('fSalesTarget').value;
-  // Feature 1: use personal sales target if entered, else fall back to 1
-  const st = stRaw !== '' ? +(stRaw||1) : 1;
-  const tmpRec = {salesAct:sa, salesTarget:st, 'target_月_sales': st};
-  d.indicators.filter(i=>i.enabled).forEach(ind => {
-    const el = document.getElementById('fi_m_'+ind.id);
-    const tgtEl = document.getElementById('ftgt_m_'+ind.id);
-    if (el) tmpRec['m_'+ind.id] = +(el.value||0);
-    // Feature 1: pass personal month target
-    if (tgtEl && tgtEl.value !== '') tmpRec['target_月_'+ind.id] = +(tgtEl.value||0);
-  });
-  const {resultScore, processScore, composite, grade, gradeClass} = calcScore(tmpRec, d.indicators, 'month');
-  document.getElementById('evalPreview').innerHTML = `
-    <div style="font-size:13px;font-weight:700;color:var(--muted);margin-bottom:8px">评分预览（月维度）</div>
-    <div style="display:flex;gap:20px;align-items:center">
-      <div><span style="color:var(--orange);font-size:22px;font-weight:900">${resultScore.toFixed(0)}</span><div style="font-size:12px;color:var(--muted)">结果分</div></div>
-      <div><span style="color:var(--purple);font-size:22px;font-weight:900">${processScore.toFixed(0)}</span><div style="font-size:12px;color:var(--muted)">过程分</div></div>
-      <div><span style="color:var(--accent);font-size:26px;font-weight:900">${composite.toFixed(0)}</span><div style="font-size:12px;color:var(--muted)">综合分</div></div>
-      <span class="cell-badge ${gradeClass}" style="font-size:15px">${grade}</span>
+  let html = '<h4>📋 过程指标</h4>';
+  d.indicators.forEach(ind => {
+    if (ind.enabled === false) return;
+    html += `<div class="ind-label">${ind.name}（${ind.unit}）</div>
+    <div class="ind-row">
+      <div class="form-item"><label>月实际</label><input id="fi_act_m_${ind.id}" type="number" min="0" value="${rec['act_m_'+ind.id]||''}" placeholder="0" oninput="preview()"></div>
+      <div class="form-item"><label>月目标（个人）</label><input id="fi_tgt_m_${ind.id}" type="number" min="0" value="${rec['tgt_m_'+ind.id]||''}" placeholder="0" oninput="preview()"></div>
+      <div class="form-item" style="visibility:hidden"></div>
+      <div class="form-item"><label>周实际</label><input id="fi_act_w_${ind.id}" type="number" min="0" value="${rec['act_w_'+ind.id]||''}" placeholder="0" oninput="preview()"></div>
+      <div class="form-item"><label>周目标（个人）</label><input id="fi_tgt_w_${ind.id}" type="number" min="0" value="${rec['tgt_w_'+ind.id]||''}" placeholder="0" oninput="preview()"></div>
+      <div class="form-item" style="visibility:hidden"></div>
     </div>`;
+  });
+  document.getElementById('indSection').innerHTML = html;
+}
+
+function preview() {
+  const d = loadData();
+  const rec = buildTempRec(d);
+  const ms = calcScore(rec, d.indicators, 'month');
+  const ws = calcScore(rec, d.indicators, 'week');
+  document.getElementById('previewBox').innerHTML =
+    `<strong>月维度：</strong> 过程 ${ms.processScore.toFixed(0)}分 · 结果 ${ms.resultScore.toFixed(0)}分 · <strong>综合 ${ms.composite.toFixed(0)}分</strong> · 等级 <span class="${ms.gradeClass}">${ms.grade}</span><br>
+     <strong>周维度：</strong> 过程 ${ws.processScore.toFixed(0)}分 · 结果 ${ws.resultScore.toFixed(0)}分 · <strong>综合 ${ws.composite.toFixed(0)}分</strong> · 等级 <span class="${ws.gradeClass}">${ws.grade}</span>`;
+}
+
+function buildTempRec(d) {
+  const rec = {
+    salesAct_m: +(document.getElementById('fSalesAct_m').value||0),
+    salesTarget_m: +(document.getElementById('fSalesTgt_m').value||1),
+    salesAct_w: +(document.getElementById('fSalesAct_w').value||0),
+    salesTarget_w: +(document.getElementById('fSalesTgt_w').value||1),
+  };
+  d.indicators.forEach(ind => {
+    if (ind.enabled === false) return;
+    rec['act_m_'+ind.id] = +(document.getElementById('fi_act_m_'+ind.id)?.value||0);
+    rec['tgt_m_'+ind.id] = +(document.getElementById('fi_tgt_m_'+ind.id)?.value||0);
+    rec['act_w_'+ind.id] = +(document.getElementById('fi_act_w_'+ind.id)?.value||0);
+    rec['tgt_w_'+ind.id] = +(document.getElementById('fi_tgt_w_'+ind.id)?.value||0);
+  });
+  return rec;
 }
 
 function saveRecord() {
   const d = loadData();
-  const name = document.getElementById('fName').value.trim();
-  const region = document.getElementById('fRegion').value;
-  const month = document.getElementById('fMonth').value;
-  if (!name) return alert('请输入姓名');
-
+  const nameVal = document.getElementById('fName').value;
+  if (!nameVal) { alert('请选择姓名'); return; }
+  const [name, region] = nameVal.split('|');
+  const month = document.getElementById('fMonth').value || '2026-06';
+  const p = d.people.find(p => p.name===name && p.region===region);
   const rec = {
-    id: editingId || Date.now()+'',
-    name, region, month,
-    isHQ: document.getElementById('fIsHQ').value==='1',
-    salesAct: +(document.getElementById('fSalesAct').value||0),
-    salesTarget: +(document.getElementById('fSalesTarget').value||0),
-    wSalesAct: +(document.getElementById('wSalesAct').value||0),
-    wSalesTarget: +(document.getElementById('wSalesTarget').value||0),
+    id: Date.now()+'',
+    name, region, month, isHQ: p ? p.isHQ : false,
+    salesAct_m: +(document.getElementById('fSalesAct_m').value||0),
+    salesTarget_m: +(document.getElementById('fSalesTgt_m').value||0),
+    salesAct_w: +(document.getElementById('fSalesAct_w').value||0),
+    salesTarget_w: +(document.getElementById('fSalesTgt_w').value||0),
   };
-
-  // Feature 1: save personal sales targets
-  const mSalesTgt = document.getElementById('fSalesTarget').value;
-  if (mSalesTgt !== '') rec['target_月_sales'] = +(mSalesTgt||0);
-  const wSalesTgt = document.getElementById('wSalesTarget').value;
-  if (wSalesTgt !== '') rec['target_周_sales'] = +(wSalesTgt||0);
-
-  d.indicators.filter(i=>i.enabled).forEach(ind => {
-    const mEl = document.getElementById('fi_m_'+ind.id);
-    const wEl = document.getElementById('fi_w_'+ind.id);
-    if (mEl) rec['m_'+ind.id] = +(mEl.value||0);
-    if (wEl) rec['w_'+ind.id] = +(wEl.value||0);
-    // Feature 1: save personal indicator targets
-    const mTgtEl = document.getElementById('ftgt_m_'+ind.id);
-    const wTgtEl = document.getElementById('ftgt_w_'+ind.id);
-    if (mTgtEl && mTgtEl.value !== '') rec['target_月_'+ind.id] = +(mTgtEl.value||0);
-    if (wTgtEl && wTgtEl.value !== '') rec['target_周_'+ind.id] = +(wTgtEl.value||0);
+  d.indicators.forEach(ind => {
+    if (ind.enabled === false) return;
+    rec['act_m_'+ind.id] = +(document.getElementById('fi_act_m_'+ind.id)?.value||0);
+    rec['tgt_m_'+ind.id] = +(document.getElementById('fi_tgt_m_'+ind.id)?.value||0);
+    rec['act_w_'+ind.id] = +(document.getElementById('fi_act_w_'+ind.id)?.value||0);
+    rec['tgt_w_'+ind.id] = +(document.getElementById('fi_tgt_w_'+ind.id)?.value||0);
   });
-
-  // upsert by name+region+month
   const existing = d.records.findIndex(r => r.name===name && r.region===region && r.month===month);
-  if (existing>=0) d.records[existing] = rec;
-  else d.records.push(rec);
-
-  // ensure person exists
-  if (!d.people.find(p=>p.name===name&&p.region===region)) {
-    d.people.push({name, region, isHQ: rec.isHQ});
-  }
-
+  if (existing >= 0) d.records[existing] = rec; else d.records.push(rec);
   saveData(d);
-  closeModal('editModal');
+  closeModal();
   render();
 }
 
-function closeModal(id) {
-  document.getElementById(id).classList.remove('show');
+function closeModal() {
+  document.getElementById('recordModal').classList.remove('show');
+  editingId = null;
 }
 
-// ─── CSV ───
+// ========== CSV 导入导出 ==========
 function exportCSV() {
   const d = loadData();
-  const inds = d.indicators;
-  const headers = ['姓名','省区','月份','是否总部','发车实际(月)','发车目标(月)','发车实际(周)','发车目标(周)'];
-  inds.forEach(ind => {
-    headers.push(ind.name+'_月实际', ind.name+'_月目标', ind.name+'_周实际', ind.name+'_周目标');
-  });
-  headers.push('月结果分','月过程分','月综合分','月等级','周结果分','周过程分','周综合分','周等级');
-
-  const rows = [headers];
   const latestRecs = {};
   d.records.forEach(r => {
     const k = r.name+'_'+r.region;
     if (!latestRecs[k] || r.month >= latestRecs[k].month) latestRecs[k] = r;
   });
+  const inds = d.indicators;
+  const headers = ['姓名','省区','是否总部','月发车实际','月发车目标(个人)','周发车实际','周发车目标(个人)'];
+  inds.forEach(ind => headers.push(ind.name+'_月实际', ind.name+'_月目标(个人)', ind.name+'_周实际', ind.name+'_周目标(个人)'));
 
+  const rows = [headers];
   d.people.forEach(p => {
     const rec = latestRecs[p.name+'_'+p.region] || {};
     const ms = calcScore(rec, d.indicators, 'month');
     const ws = calcScore(rec, d.indicators, 'week');
-    const row = [p.name, p.region, rec.month||'', p.isHQ?'是':'否',
-      rec.salesAct||0, rec.salesTarget||0, rec.wSalesAct||0, rec.wSalesTarget||0];
-    inds.forEach(ind => {
-      row.push(rec['m_'+ind.id]||0, ind.monthTarget, rec['w_'+ind.id]||0, ind.weekTarget);
-    });
-    row.push(ms.resultScore.toFixed(0), ms.processScore.toFixed(0), ms.composite.toFixed(0), ms.grade,
-             ws.resultScore.toFixed(0), ws.processScore.toFixed(0), ws.composite.toFixed(0), ws.grade);
+    const row = [p.name, p.region, p.isHQ?'是':'否',
+      rec.salesAct_m||0, rec.salesTarget_m||0, rec.salesAct_w||0, rec.salesTarget_w||0];
+    inds.forEach(ind => row.push(
+      rec['act_m_'+ind.id]||0, rec['tgt_m_'+ind.id]||0,
+      rec['act_w_'+ind.id]||0, rec['tgt_w_'+ind.id]||0
+    ));
     rows.push(row);
   });
-
-  const csv = '\ufeff' + rows.map(r=>r.map(v=>'"'+String(v).replace(/"/g,'""')+'"').join(',')).join('\n');
-  const blob = new Blob([csv], {type:'text/csv;charset=utf-8'});
-  const url = URL.createObjectURL(blob);
-  const a = document.createElement('a'); a.href=url; a.download='销售数据.csv'; a.click();
-  URL.revokeObjectURL(url);
+  const csv = '\ufeff' + rows.map(r=>r.map(v=>'"'+String(v).replace(/"/g,'\"\"')+'"').join(',')).join('\n');
+  const a = document.createElement('a');
+  a.href = 'data:text/csv;charset=utf-8,' + encodeURIComponent(csv);
+  a.download = '销售管理工具_' + new Date().toISOString().slice(0,10) + '.csv';
+  a.click();
 }
 
 function importCSV(e) {
@@ -1074,64 +586,63 @@ function importCSV(e) {
   reader.onload = ev => {
     try {
       let text = ev.target.result;
-      if (text.charCodeAt(0)===0xFEFF) text = text.slice(1);
-      const lines = text.split('\n').filter(l=>l.trim());
-      const headers = parseCSVLine(lines[0]);
+      if (text.charCodeAt(0) === 0xFEFF) text = text.slice(1);
+      const lines = text.split('\n').filter(l => l.trim());
+      const headers = parseCSVLine(lines[0]).map(h => h.trim());
+      const col = {};
+      headers.forEach((h, i) => { col[h] = i; });
+      const get = (vals, name, def='') => col[name]!==undefined && col[name]<vals.length ? vals[col[name]] : def;
+      const getNum = (vals, name) => { const v=get(vals,name,''); return v!==''?+v||0:0; };
+
       const d = loadData();
       let count = 0;
-      for (let i=1;i<lines.length;i++) {
+      for (let i = 1; i < lines.length; i++) {
         const vals = parseCSVLine(lines[i]);
-        if (vals.length<4) continue;
-        const name=vals[0], region=vals[1], month=vals[2];
-        if (!name||!region) continue;
-        const rec = {id:Date.now()+'_'+i, name, region, month, isHQ:vals[3]==='是',
-          salesAct:+vals[4]||0, salesTarget:+vals[5]||0, wSalesAct:+vals[6]||0, wSalesTarget:+vals[7]||0};
-        // 读取过程指标数据（从第8列开始，每个指标4列：月实际,月目标,周实际,周目标）
-        let col = 8;
+        if (vals.length < 3) continue;
+        const name = get(vals,'姓名') || vals[0];
+        const region = get(vals,'省区') || vals[1];
+        if (!name || !region) continue;
+        const monthNow = new Date().getFullYear()+'-'+(new Date().getMonth()+1).toString().padStart(2,'0');
+        const month = get(vals,'月份') || monthNow;
+        const isHQVal = get(vals,'是否总部');
+        const isHQ = isHQVal==='是'||isHQVal==='1';
+        const rec = {id:Date.now()+'_'+i, name, region, month, isHQ};
+        rec.salesAct_m  = getNum(vals,'月发车实际');
+        rec.salesTarget_m = getNum(vals,'月发车目标(个人)') || getNum(vals,'月发车目标');
+        rec.salesAct_w  = getNum(vals,'周发车实际');
+        rec.salesTarget_w = getNum(vals,'周发车目标(个人)') || getNum(vals,'周发车目标');
         d.indicators.forEach(ind => {
-          if (col < vals.length) rec['m_'+ind.id] = +vals[col]||0;
-          if (col+1 < vals.length && vals[col+1]!=='') rec['target_月_'+ind.id] = +vals[col+1]||0;
-          if (col+2 < vals.length) rec['w_'+ind.id] = +vals[col+2]||0;
-          if (col+3 < vals.length && vals[col+3]!=='') rec['target_周_'+ind.id] = +vals[col+3]||0;
-          col += 4;
+          rec['act_m_'+ind.id] = getNum(vals, ind.name+'_月实际');
+          rec['tgt_m_'+ind.id] = getNum(vals, ind.name+'_月目标(个人)') || getNum(vals, ind.name+'_月目标');
+          rec['act_w_'+ind.id] = getNum(vals, ind.name+'_周实际');
+          rec['tgt_w_'+ind.id] = getNum(vals, ind.name+'_周目标(个人)') || getNum(vals, ind.name+'_周目标');
         });
-        const existing = d.records.findIndex(r=>r.name===name&&r.region===region&&r.month===month);
-        if (existing>=0) d.records[existing]=rec; else d.records.push(rec);
-        if (!d.people.find(p=>p.name===name&&p.region===region)) d.people.push({name,region,isHQ:rec.isHQ});
+        const existing = d.records.findIndex(r => r.name===name && r.region===region && r.month===month);
+        if (existing >= 0) d.records[existing] = rec; else d.records.push(rec);
+        if (!d.people.find(p => p.name===name && p.region===region)) d.people.push({name, region, isHQ});
         count++;
       }
       saveData(d); render();
       alert('成功导入 '+count+' 条数据！');
     } catch(err) { alert('导入失败：'+err.message); }
   };
-  reader.readAsText(file,'utf-8');
-  e.target.value='';
+  reader.readAsText(file, 'utf-8');
+  e.target.value = '';
 }
 
 function parseCSVLine(line) {
   const result=[]; let cur=''; let inQ=false;
   for(let i=0;i<line.length;i++){
     const ch=line[i];
-    if(ch==='"'){inQ=!inQ;}
-    else if(ch===','&&!inQ){result.push(cur);cur='';}
-    else cur+=ch;
+    if(inQ){if(ch==='"'&&line[i+1]==='"'){cur+='"';i++;}else if(ch==='"'){inQ=false;}else{cur+=ch;}}
+    else{if(ch==='"'){inQ=true;}else if(ch===','){result.push(cur.trim());cur='';}else{cur+=ch;}}
   }
-  result.push(cur);
-  return result.map(s=>s.trim());
+  result.push(cur.trim());
+  return result;
 }
 
-// ─── INIT ───
-function init() {
-  // seed default people if no records but people exist
-  const d = loadData();
-  if (!d.people || d.people.length===0) {
-    d.people = DEFAULT_PEOPLE;
-    saveData(d);
-  }
-  render();
-}
-
-init();
+// 初始渲染
+render();
 </script>
 </body>
 </html>
