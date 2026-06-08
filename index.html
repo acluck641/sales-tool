@@ -224,8 +224,10 @@ function rdash(c){
   const d=ld(),s=dim==='month'?'_m':'_w',dl=dim==='month'?'月':'周',lrecs=lr(d);
   const scores=d.people.map(p=>cs(lrecs[p.name+'_'+p.region]||{},d.indicators,dim).comp);
   const avg=scores.length?(scores.reduce((a,b)=>a+b,0)/scores.length).toFixed(1):0;
-  const ta=d.people.reduce((n,p)=>n+(lrecs[p.name+'_'+p.region]||{})['salesAct'+s]||0,0);
-  const tt=d.people.reduce((n,p)=>n+(lrecs[p.name+'_'+p.region]||{})['salesTarget'+s]||0,0);
+  // 发车合计：每省只取总部负责人数据（无总部则取该省第一人），避免重复
+  const regsForTotal=[...new Set(d.people.map(p=>p.region))];
+  const ta=regsForTotal.reduce((n,region)=>{const rp=d.people.filter(p=>p.region===region);const hq=rp.find(p=>p.isHQ)||rp[0];return n+((hq&&lrecs[hq.name+'_'+hq.region])||{})['salesAct'+s]||0;},0);
+  const tt=regsForTotal.reduce((n,region)=>{const rp=d.people.filter(p=>p.region===region);const hq=rp.find(p=>p.isHQ)||rp[0];return n+((hq&&lrecs[hq.name+'_'+hq.region])||{})['salesTarget'+s]||0;},0);
   const tr2=tt>0?((ta/tt)*100).toFixed(1):0;
   let h=`<div class="stat-row">
     <div class="stat-card"><div class="lbl">${dl}发车合计</div><div class="val" style="color:var(--green)">${ta}</div><div class="sub">目标${tt} · ${tr2}%</div></div>
