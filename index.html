@@ -1086,6 +1086,15 @@ function importCSV(e) {
         if (!name||!region) continue;
         const rec = {id:Date.now()+'_'+i, name, region, month, isHQ:vals[3]==='是',
           salesAct:+vals[4]||0, salesTarget:+vals[5]||0, wSalesAct:+vals[6]||0, wSalesTarget:+vals[7]||0};
+        // 读取过程指标数据（从第8列开始，每个指标4列：月实际,月目标,周实际,周目标）
+        let col = 8;
+        d.indicators.forEach(ind => {
+          if (col < vals.length) rec['m_'+ind.id] = +vals[col]||0;
+          if (col+1 < vals.length && vals[col+1]!=='') rec['target_月_'+ind.id] = +vals[col+1]||0;
+          if (col+2 < vals.length) rec['w_'+ind.id] = +vals[col+2]||0;
+          if (col+3 < vals.length && vals[col+3]!=='') rec['target_周_'+ind.id] = +vals[col+3]||0;
+          col += 4;
+        });
         const existing = d.records.findIndex(r=>r.name===name&&r.region===region&&r.month===month);
         if (existing>=0) d.records[existing]=rec; else d.records.push(rec);
         if (!d.people.find(p=>p.name===name&&p.region===region)) d.people.push({name,region,isHQ:rec.isHQ});
