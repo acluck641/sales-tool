@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Style B — Neo-Grid Bold</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&family=JetBrains+Mono:wght@400;700&family=Noto+Sans+SC:wght@700;900&display=swap" rel="stylesheet">
+<style>
+:root {
+  --paper: #F5F4EF;
+  --bg: #ECECE8;
+  --ink: #0A0A0A;
+  --lemon: #E6FF3D;
+  --muted: #8A8A85;
+  --stage-bg: #1A1A1A;
+}
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+html, body { width: 100%; height: 100%; overflow: hidden; background: var(--stage-bg); }
+.deck-viewport { position: fixed; inset: 0; overflow: hidden; background: var(--stage-bg); }
+.deck-stage {
+  position: absolute; left: 0; top: 0;
+  width: 1920px; height: 1080px;
+  overflow: hidden; transform-origin: 0 0;
+  background: var(--bg);
+}
+
+.slide {
+  position: absolute; inset: 0;
+  width: 1920px; height: 1080px;
+  background: var(--bg);
+  display: grid;
+  grid-template-columns: repeat(12, 1fr);
+  grid-template-rows: repeat(8, 1fr);
+  gap: 12px;
+  padding: 40px;
+  visibility: visible; opacity: 1;
+}
+
+/* Corner mark stamp */
+.corner-mark {
+  position: absolute;
+  top: 40px; right: 40px;
+  width: 20px; height: 20px;
+  background: var(--ink);
+  z-index: 10;
+}
+.corner-mark::after {
+  content: '';
+  position: absolute;
+  top: 6px; left: 6px;
+  width: 8px; height: 8px;
+  background: var(--lemon);
+}
+
+/* Title block: cols 1-7, rows 2-6 */
+.title-block {
+  grid-column: 1 / span 7;
+  grid-row: 2 / span 5;
+  background: var(--ink);
+  display: flex; flex-direction: column;
+  justify-content: flex-end;
+  padding: 48px 56px;
+  position: relative;
+  overflow: hidden;
+}
+.title-block::before {
+  content: '';
+  position: absolute; top: 0; left: 0; right: 0;
+  height: 4px; background: var(--lemon);
+}
+
+.title-eyebrow {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 13px; font-weight: 700;
+  letter-spacing: 0.12em; text-transform: uppercase;
+  color: var(--lemon);
+  margin-bottom: 20px;
+}
+.title-main {
+  font-family: 'Space Grotesk', 'Noto Sans SC', sans-serif;
+  font-size: 104px; font-weight: 700;
+  letter-spacing: -3px; line-height: 0.92;
+  color: var(--paper);
+  text-transform: uppercase;
+}
+.title-sub {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 22px; font-weight: 400;
+  color: rgba(240,236,227,0.5);
+  margin-top: 20px; letter-spacing: -0.3px;
+}
+
+/* Lemon accent block: cols 8-10, rows 1-4 */
+.accent-block {
+  grid-column: 8 / span 3;
+  grid-row: 1 / span 4;
+  background: var(--lemon);
+  display: flex; flex-direction: column;
+  justify-content: flex-end;
+  padding: 28px 32px;
+}
+.accent-stat {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 72px; font-weight: 700;
+  color: var(--ink); line-height: 1;
+}
+.accent-label {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 12px; letter-spacing: 0.1em;
+  text-transform: uppercase; color: rgba(10,10,10,0.6);
+  margin-top: 8px;
+}
+
+/* Paper info block: cols 11-12, rows 1-4 */
+.info-block {
+  grid-column: 11 / span 2;
+  grid-row: 1 / span 4;
+  background: var(--paper);
+  display: flex; flex-direction: column;
+  justify-content: space-between;
+  padding: 28px 24px;
+}
+.info-tag {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11px; letter-spacing: 0.1em;
+  text-transform: uppercase; color: var(--muted);
+}
+.info-divider { width: 100%; height: 1px; background: rgba(10,10,10,0.1); }
+.info-val {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 18px; font-weight: 700; color: var(--ink);
+}
+
+/* Bottom strip: cols 1-7, row 7-8 */
+.bottom-strip {
+  grid-column: 1 / span 7;
+  grid-row: 7 / span 2;
+  background: var(--paper);
+  display: flex; align-items: center;
+  padding: 0 56px;
+  gap: 40px;
+}
+.strip-item {
+  display: flex; flex-direction: column; gap: 4px;
+}
+.strip-label {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11px; letter-spacing: 0.1em;
+  text-transform: uppercase; color: var(--muted);
+}
+.strip-val {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 20px; font-weight: 700; color: var(--ink);
+}
+.strip-sep { width: 1px; height: 40px; background: rgba(10,10,10,0.1); }
+
+/* Right bottom block: cols 8-12, rows 5-8 */
+.right-bottom {
+  grid-column: 8 / span 5;
+  grid-row: 5 / span 4;
+  background: var(--ink);
+  display: flex; flex-direction: column;
+  justify-content: space-between;
+  padding: 32px 40px;
+}
+.rb-title {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 12px; letter-spacing: 0.12em;
+  text-transform: uppercase; color: rgba(240,236,227,0.4);
+}
+.rb-items { display: flex; flex-direction: column; gap: 12px; }
+.rb-item {
+  display: flex; align-items: center; gap: 16px;
+  padding-bottom: 12px;
+  border-bottom: 1px solid rgba(255,255,255,0.06);
+}
+.rb-item:last-child { border-bottom: none; padding-bottom: 0; }
+.rb-num {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11px; color: var(--lemon); width: 24px;
+}
+.rb-text {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 17px; color: rgba(240,236,227,0.75);
+}
+.rb-foot {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11px; color: rgba(240,236,227,0.25);
+  letter-spacing: 0.1em; text-transform: uppercase;
+}
+
+/* Animation */
+.deck-stage { opacity: 0; transform: scale(1.01); transition: all 0.5s cubic-bezier(0.16,1,0.3,1); }
+.loaded .deck-stage { opacity: 1; transform: scale(1); }
+</style>
+</head>
+<body>
+<div class="deck-viewport">
+  <main class="deck-stage" id="stage">
+    <section class="slide">
+      <div class="corner-mark"></div>
+
+      <div class="title-block">
+        <div class="title-eyebrow">快递无人车攻坚 · 快递生态大客户管理中心</div>
+        <div class="title-main">6月<br>第一周<br>作战<br>周报</div>
+        <div class="title-sub">六省区综合进度 · 6.1—6.9</div>
+      </div>
+
+      <div class="accent-block">
+        <div class="accent-stat">34</div>
+        <div class="accent-label">本月已发车（台）</div>
+      </div>
+
+      <div class="info-block">
+        <div class="info-tag">月度目标</div>
+        <div class="info-divider"></div>
+        <div class="info-val">650台</div>
+        <div class="info-divider"></div>
+        <div class="info-tag">完成率</div>
+        <div class="info-divider"></div>
+        <div class="info-val">5.2%</div>
+      </div>
+
+      <div class="bottom-strip">
+        <div class="strip-item">
+          <span class="strip-label">汇报人</span>
+          <span class="strip-val">陈子航</span>
+        </div>
+        <div class="strip-sep"></div>
+        <div class="strip-item">
+          <span class="strip-label">日期</span>
+          <span class="strip-val">2026.06.09</span>
+        </div>
+        <div class="strip-sep"></div>
+        <div class="strip-item">
+          <span class="strip-label">本周活动</span>
+          <span class="strip-val">沙龙 4场 · 标杆 1个</span>
+        </div>
+      </div>
+
+      <div class="right-bottom">
+        <div class="rb-title">本周报告章节</div>
+        <div class="rb-items">
+          <div class="rb-item"><span class="rb-num">01</span><span class="rb-text">六省区发车看板</span></div>
+          <div class="rb-item"><span class="rb-num">02</span><span class="rb-text">本周四大关键事件</span></div>
+          <div class="rb-item"><span class="rb-num">03</span><span class="rb-text">三大网对接进展</span></div>
+          <div class="rb-item"><span class="rb-num">04</span><span class="rb-text">风险卡点 · 下周行动</span></div>
+        </div>
+        <div class="rb-foot">快递生态大客户管理中心</div>
+      </div>
+    </section>
+  </main>
+</div>
+<script>
+const s = document.getElementById('stage');
+const scale = () => {
+  const f = Math.min(window.innerWidth/1920, window.innerHeight/1080);
+  const x = (window.innerWidth-1920*f)/2, y = (window.innerHeight-1080*f)/2;
+  s.style.transform = `translate(${x}px,${y}px) scale(${f})`;
+};
+scale(); window.addEventListener('resize', scale);
+requestAnimationFrame(() => requestAnimationFrame(() => document.body.classList.add('loaded')));
+</script>
+</body>
+</html>
