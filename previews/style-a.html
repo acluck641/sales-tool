@@ -1,0 +1,288 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Style A — Signal</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:ital,wght@0,400;0,600;1,400;1,600&family=DM+Sans:wght@400;500&family=IBM+Plex+Mono:wght@400;700&family=Noto+Sans+SC:wght@400;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --navy: #1C2644;
+  --navy-alt: #232F55;
+  --cream: #F0ECE3;
+  --cream-alt: #E6E0D4;
+  --gold: #C8A870;
+  --ink: #1A2030;
+  --text-warm: #E2DCD0;
+  --text-muted: #8A96A8;
+  --stage-bg: #0E1520;
+}
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+html, body { width: 100%; height: 100%; overflow: hidden; background: var(--stage-bg); }
+.deck-viewport { position: fixed; inset: 0; overflow: hidden; background: var(--stage-bg); }
+.deck-stage {
+  position: absolute; left: 0; top: 0;
+  width: 1920px; height: 1080px;
+  overflow: hidden; transform-origin: 0 0;
+  background: var(--navy);
+}
+
+/* Grid texture overlay */
+.deck-stage::before {
+  content: '';
+  position: absolute; inset: 0; z-index: 0;
+  background-image: repeating-linear-gradient(
+    0deg, transparent, transparent 79px,
+    rgba(255,255,255,0.025) 79px, rgba(255,255,255,0.025) 80px
+  ), repeating-linear-gradient(
+    90deg, transparent, transparent 79px,
+    rgba(255,255,255,0.025) 79px, rgba(255,255,255,0.025) 80px
+  );
+  pointer-events: none;
+}
+
+.slide {
+  position: absolute; inset: 0;
+  width: 1920px; height: 1080px;
+  display: flex; visibility: visible; opacity: 1;
+  background: var(--navy);
+}
+
+/* Left cream panel */
+.left-panel {
+  width: 820px; height: 100%;
+  background: var(--cream);
+  display: flex; flex-direction: column;
+  justify-content: space-between;
+  padding: 80px 72px 72px;
+  position: relative; z-index: 1;
+}
+
+.masthead {
+  display: flex; flex-direction: column; gap: 0;
+}
+.masthead-kicker {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 13px; letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--gold);
+  margin-bottom: 32px;
+}
+.masthead-rule {
+  width: 100%; height: 1px;
+  background: linear-gradient(90deg, var(--gold), transparent);
+  margin-bottom: 48px;
+}
+
+.main-title {
+  font-family: 'Source Serif 4', 'Noto Sans SC', serif;
+  font-size: 86px;
+  font-weight: 600;
+  line-height: 1.0;
+  color: var(--ink);
+  letter-spacing: -1px;
+  margin-bottom: 12px;
+}
+.main-title em {
+  font-style: italic;
+  color: var(--gold);
+}
+.subtitle {
+  font-family: 'DM Sans', sans-serif;
+  font-size: 22px;
+  font-weight: 400;
+  color: #5a5040;
+  margin-top: 24px;
+  line-height: 1.5;
+}
+
+.meta-block {
+  display: flex; flex-direction: column; gap: 24px;
+}
+.meta-rule {
+  width: 48px; height: 2px;
+  background: var(--gold);
+}
+.meta-row {
+  display: grid; grid-template-columns: 1fr 1fr;
+  gap: 16px;
+}
+.meta-item label {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 11px; letter-spacing: 0.1em;
+  text-transform: uppercase; color: #9a8c7c;
+  display: block; margin-bottom: 4px;
+}
+.meta-item span {
+  font-family: 'DM Sans', sans-serif;
+  font-size: 18px; color: var(--ink); font-weight: 500;
+}
+
+/* Right dark panel */
+.right-panel {
+  flex: 1; height: 100%;
+  background: var(--navy);
+  display: flex; flex-direction: column;
+  justify-content: space-between;
+  padding: 80px 72px 72px;
+  position: relative; z-index: 1;
+}
+
+.right-top {
+  display: flex; justify-content: flex-end;
+}
+.issue-tag {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 13px; letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+}
+
+.right-center {
+  display: flex; flex-direction: column; gap: 32px;
+}
+
+.stat-block {
+  border-left: 1px solid var(--gold);
+  padding-left: 24px;
+  margin-bottom: 8px;
+}
+.stat-num {
+  font-family: 'Source Serif 4', serif;
+  font-size: 72px; font-weight: 600;
+  color: var(--gold);
+  line-height: 1;
+  font-style: italic;
+}
+.stat-label {
+  font-family: 'DM Sans', sans-serif;
+  font-size: 18px; color: var(--text-muted);
+  margin-top: 4px;
+}
+
+.divider { width: 100%; height: 1px; background: rgba(255,255,255,0.08); }
+
+.chapters {
+  display: flex; flex-direction: column; gap: 16px;
+}
+.chapter-item {
+  display: flex; align-items: center; gap: 20px;
+}
+.ch-num {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 12px; color: var(--gold);
+  letter-spacing: 0.08em;
+  width: 28px;
+}
+.ch-title {
+  font-family: 'DM Sans', sans-serif;
+  font-size: 17px; color: var(--text-warm);
+}
+.ch-sep { flex: 1; height: 1px; background: rgba(255,255,255,0.08); }
+.ch-page {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 11px; color: var(--text-muted);
+}
+
+.right-bottom {
+  display: flex; justify-content: space-between; align-items: flex-end;
+}
+.bottom-logo {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 13px; color: rgba(255,255,255,0.25);
+  letter-spacing: 0.15em; text-transform: uppercase;
+}
+.page-num {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 13px; color: var(--gold);
+  letter-spacing: 0.1em;
+}
+
+/* Animation */
+.left-panel, .right-panel { opacity: 0; transform: translateY(16px); transition: all 0.7s cubic-bezier(0.16,1,0.3,1); }
+.left-panel { transition-delay: 0.1s; }
+.right-panel { transition-delay: 0.25s; }
+.loaded .left-panel, .loaded .right-panel { opacity: 1; transform: translateY(0); }
+</style>
+</head>
+<body>
+<div class="deck-viewport">
+  <main class="deck-stage" id="stage">
+    <section class="slide">
+      <div class="left-panel">
+        <div class="masthead">
+          <div class="masthead-kicker">快递无人车攻坚 · 六省区作战报告</div>
+          <div class="masthead-rule"></div>
+          <div class="main-title">6月第一周<br><em>作战周报</em></div>
+          <div class="subtitle">六省区综合进度 · 2026年6月1日—9日</div>
+        </div>
+        <div class="meta-block">
+          <div class="meta-rule"></div>
+          <div class="meta-row">
+            <div class="meta-item"><label>汇报人</label><span>陈子航</span></div>
+            <div class="meta-item"><label>汇报日期</label><span>2026.06.09</span></div>
+            <div class="meta-item"><label>月度目标</label><span>650 台</span></div>
+            <div class="meta-item"><label>当周发车</label><span>34 台</span></div>
+          </div>
+        </div>
+      </div>
+      <div class="right-panel">
+        <div class="right-top">
+          <span class="issue-tag">W01 · JUNE 2026</span>
+        </div>
+        <div class="right-center">
+          <div class="stat-block">
+            <div class="stat-num">5.2%</div>
+            <div class="stat-label">月度完成率 · 六省合计</div>
+          </div>
+          <div class="divider"></div>
+          <div class="chapters">
+            <div class="chapter-item">
+              <span class="ch-num">01</span>
+              <span class="ch-title">六省区发车看板</span>
+              <span class="ch-sep"></span>
+              <span class="ch-page">P.2</span>
+            </div>
+            <div class="chapter-item">
+              <span class="ch-num">02</span>
+              <span class="ch-title">本周四大关键事件</span>
+              <span class="ch-sep"></span>
+              <span class="ch-page">P.3</span>
+            </div>
+            <div class="chapter-item">
+              <span class="ch-num">03</span>
+              <span class="ch-title">三大网对接进展</span>
+              <span class="ch-sep"></span>
+              <span class="ch-page">P.4</span>
+            </div>
+            <div class="chapter-item">
+              <span class="ch-num">04</span>
+              <span class="ch-title">风险卡点 · 下周行动</span>
+              <span class="ch-sep"></span>
+              <span class="ch-page">P.5</span>
+            </div>
+          </div>
+        </div>
+        <div class="right-bottom">
+          <span class="bottom-logo">快递生态大客户管理中心</span>
+          <span class="page-num">—</span>
+        </div>
+      </div>
+    </section>
+  </main>
+</div>
+<script>
+const factor = Math.min(window.innerWidth/1920, window.innerHeight/1080);
+const x = (window.innerWidth - 1920*factor)/2;
+const y = (window.innerHeight - 1080*factor)/2;
+document.getElementById('stage').style.transform = `translate(${x}px,${y}px) scale(${factor})`;
+window.addEventListener('resize', () => {
+  const f = Math.min(window.innerWidth/1920, window.innerHeight/1080);
+  const px = (window.innerWidth - 1920*f)/2, py = (window.innerHeight - 1080*f)/2;
+  document.getElementById('stage').style.transform = `translate(${px}px,${py}px) scale(${f})`;
+});
+requestAnimationFrame(() => requestAnimationFrame(() => document.body.classList.add('loaded')));
+</script>
+</body>
+</html>
