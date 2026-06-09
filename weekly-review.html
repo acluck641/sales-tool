@@ -3,20 +3,14 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>快递无人车攻坚 | 周会盘点 6.9</title>
+<title>快递无人车攻坚 | 总部周会盘点 6.9</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&family=JetBrains+Mono:wght@400;500;700&family=Noto+Sans+SC:wght@400;500;700;900&display=swap" rel="stylesheet">
 <style>
-:root {
-  --paper: #F5F4EF;
-  --bg: #ECECE8;
-  --ink: #0A0A0A;
-  --lemon: #E6FF3D;
-  --muted: #8A8A85;
-  --stage-bg: #1A1A1A;
-  --red: #E53935;
-  --green: #2E7D32;
+:root{
+  --paper:#F5F4EF;--bg:#ECECE8;--ink:#0A0A0A;--lemon:#E6FF3D;
+  --muted:#8A8A85;--stage-bg:#1A1A1A;--red:#B71C1C;--green:#1B5E20;
+  --amber:#E65100;
 }
 *,*::before,*::after{margin:0;padding:0;box-sizing:border-box;}
 html,body{width:100%;height:100%;overflow:hidden;background:var(--stage-bg);}
@@ -28,619 +22,566 @@ html,body{width:100%;height:100%;overflow:hidden;background:var(--stage-bg);}
   background:var(--bg);
 }
 .slide{
-  position:absolute;inset:0;
-  width:1920px;height:1080px;
+  position:absolute;inset:0;width:1920px;height:1080px;
   overflow:hidden;display:block;
-  visibility:hidden;opacity:0;pointer-events:none;
-  background:var(--bg);
+  visibility:hidden;opacity:0;pointer-events:none;background:var(--bg);
 }
 .slide.active,.slide.visible{visibility:visible;opacity:1;pointer-events:auto;z-index:1;}
-
-/* === GRID FRAME === */
 .frame{
-  position:absolute;inset:40px;
+  position:absolute;inset:36px;
   display:grid;
   grid-template-columns:repeat(12,1fr);
   grid-template-rows:repeat(8,1fr);
-  gap:12px;
+  gap:10px;
 }
-
-/* === CARD TYPES === */
 .card{background:var(--paper);overflow:hidden;position:relative;}
 .card.ink{background:var(--ink);color:var(--paper);}
 .card.lemon{background:var(--lemon);color:var(--ink);}
-.card.red-card{background:#B71C1C;color:var(--paper);}
-.card.green-card{background:#1B5E20;color:var(--paper);}
+.card.red{background:#B71C1C;color:var(--paper);}
+.card.green{background:#1B5E20;color:var(--paper);}
+.card.amber{background:#BF360C;color:var(--paper);}
 
-/* === TYPE === */
-.display{font-family:'Space Grotesk','Noto Sans SC',sans-serif;font-size:132px;font-weight:700;line-height:.92;letter-spacing:-.025em;text-transform:uppercase;}
-.t-title{font-family:'Space Grotesk','Noto Sans SC',sans-serif;font-size:72px;font-weight:700;line-height:.95;letter-spacing:-.015em;text-transform:uppercase;}
-.t-sub{font-family:'Space Grotesk','Noto Sans SC',sans-serif;font-size:44px;font-weight:700;line-height:1;letter-spacing:-.01em;text-transform:uppercase;}
-.t-h3{font-family:'Space Grotesk','Noto Sans SC',sans-serif;font-size:30px;font-weight:700;line-height:1.05;letter-spacing:-.005em;text-transform:uppercase;}
-.t-body{font-family:'Space Grotesk','Noto Sans SC',sans-serif;font-size:24px;font-weight:400;line-height:1.5;}
-.t-body-sm{font-family:'Space Grotesk','Noto Sans SC',sans-serif;font-size:20px;font-weight:400;line-height:1.5;}
-.label{font-family:'JetBrains Mono',monospace;font-size:16px;font-weight:400;letter-spacing:.1em;text-transform:uppercase;}
-.label-sm{font-family:'JetBrains Mono',monospace;font-size:13px;font-weight:400;letter-spacing:.1em;text-transform:uppercase;}
-.stat-lg{font-family:'Space Grotesk',sans-serif;font-size:156px;font-weight:700;line-height:.9;letter-spacing:-.03em;}
-.stat-md{font-family:'Space Grotesk',sans-serif;font-size:96px;font-weight:700;line-height:.9;letter-spacing:-.025em;}
-.stat-sm{font-family:'Space Grotesk',sans-serif;font-size:64px;font-weight:700;line-height:.9;letter-spacing:-.02em;}
-
-mark{background:var(--lemon);color:var(--ink);padding:0 6px;}
+/* TYPE */
+.display{font-family:'Space Grotesk','Noto Sans SC',sans-serif;font-size:120px;font-weight:700;line-height:.9;letter-spacing:-.03em;text-transform:uppercase;}
+.t-title{font-family:'Space Grotesk','Noto Sans SC',sans-serif;font-size:68px;font-weight:700;line-height:.95;letter-spacing:-.015em;text-transform:uppercase;}
+.t-sub{font-family:'Space Grotesk','Noto Sans SC',sans-serif;font-size:42px;font-weight:700;line-height:1;letter-spacing:-.01em;text-transform:uppercase;}
+.t-h3{font-family:'Space Grotesk','Noto Sans SC',sans-serif;font-size:28px;font-weight:700;line-height:1.05;letter-spacing:-.005em;}
+.t-body{font-family:'Space Grotesk','Noto Sans SC',sans-serif;font-size:23px;font-weight:400;line-height:1.55;}
+.t-sm{font-family:'Space Grotesk','Noto Sans SC',sans-serif;font-size:19px;font-weight:400;line-height:1.5;}
+.label{font-family:'JetBrains Mono',monospace;font-size:14px;font-weight:400;letter-spacing:.1em;text-transform:uppercase;opacity:.55;}
+.mono{font-family:'JetBrains Mono',monospace;}
+.stat-xl{font-family:'Space Grotesk',sans-serif;font-size:148px;font-weight:700;line-height:.88;letter-spacing:-.035em;}
+.stat-lg{font-family:'Space Grotesk',sans-serif;font-size:96px;font-weight:700;line-height:.9;letter-spacing:-.025em;}
+.stat-md{font-family:'Space Grotesk',sans-serif;font-size:64px;font-weight:700;line-height:.9;letter-spacing:-.02em;}
+.stat-sm{font-family:'Space Grotesk',sans-serif;font-size:48px;font-weight:700;line-height:.9;letter-spacing:-.015em;}
 em{font-style:normal;color:var(--lemon);}
-.card.ink em{color:var(--lemon);}
+mark{background:var(--lemon);color:var(--ink);padding:0 6px;}
+strong{font-weight:700;}
 
-/* === PAGE NUM === */
-.pagenum{
-  position:absolute;left:0;bottom:0;
-  background:var(--paper);color:var(--ink);
-  padding:12px 20px;
-  font-family:'JetBrains Mono',monospace;font-size:18px;letter-spacing:.04em;
-  z-index:10;
-}
-.pagenum.lemon{background:var(--lemon);}
-.pagenum.ink-bg{background:var(--ink);color:var(--paper);}
-
-/* === CORNER MARK === */
-.corner-mark{
-  position:absolute;top:20px;right:20px;
-  width:32px;height:32px;
-  display:grid;grid-template-columns:1fr 1fr;gap:4px;
-  z-index:10;
-}
-.corner-mark span{display:block;background:currentColor;}
-.corner-mark span:nth-child(2){background:transparent;}
-.corner-mark span:nth-child(3){background:transparent;}
-
-/* === SLIDE COUNTER === */
-.slide-counter{
-  position:fixed;bottom:20px;right:32px;
-  font-family:'JetBrains Mono',monospace;font-size:14px;
-  color:rgba(255,255,255,.3);z-index:1000;
-  letter-spacing:.1em;
-}
-
-/* === BAR CHART === */
-.bar-wrap{display:flex;align-items:flex-end;gap:8px;height:100%;}
-.bar-col{display:flex;flex-direction:column;align-items:center;gap:6px;flex:1;}
-.bar-fill{width:100%;background:var(--ink);transition:height .3s;}
-.bar-fill.lemon-fill{background:var(--lemon);border:2px solid var(--ink);}
-.bar-fill.red-fill{background:#C62828;}
-.bar-label{font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:.06em;text-transform:uppercase;text-align:center;color:var(--ink);}
-.bar-val{font-family:'Space Grotesk',sans-serif;font-size:18px;font-weight:700;color:var(--ink);}
-
-/* === TABLE === */
-.data-table{width:100%;border-collapse:collapse;}
-.data-table th{
-  background:var(--ink);color:var(--paper);
-  font-family:'JetBrains Mono',monospace;font-size:13px;letter-spacing:.1em;text-transform:uppercase;
-  padding:14px 18px;text-align:left;
-}
-.data-table td{
-  font-family:'Space Grotesk','Noto Sans SC',sans-serif;font-size:22px;
-  padding:14px 18px;border-bottom:1.5px solid var(--ink);
-  vertical-align:middle;
-}
-.data-table tr:last-child td{border-bottom:none;}
-.pill{
-  font-family:'JetBrains Mono',monospace;font-size:13px;letter-spacing:.08em;
-  padding:4px 12px;font-weight:700;display:inline-block;
-}
-.pill.yes{background:var(--lemon);color:var(--ink);}
-.pill.warn{background:#FF6F00;color:#fff;}
-.pill.no{background:#B71C1C;color:#fff;}
+.pill{font-family:'JetBrains Mono',monospace;font-size:12px;letter-spacing:.08em;padding:5px 13px;display:inline-block;font-weight:700;text-transform:uppercase;}
 .pill.ok{background:#1B5E20;color:#fff;}
+.pill.warn{background:#E65100;color:#fff;}
+.pill.bad{background:#B71C1C;color:#fff;}
+.pill.lemon{background:var(--lemon);color:var(--ink);}
+.pill.ink{background:var(--ink);color:var(--paper);}
 
-/* === ANIMATIONS === */
-.reveal{opacity:0;transform:translateY(20px);transition:opacity .45s cubic-bezier(.16,1,.3,1),transform .45s cubic-bezier(.16,1,.3,1);}
+/* PAGE NUM */
+.pn{position:absolute;bottom:0;left:0;background:var(--lemon);color:var(--ink);padding:10px 18px;font-family:'JetBrains Mono',monospace;font-size:15px;letter-spacing:.04em;z-index:10;}
+.pn.dark{background:var(--ink);color:var(--paper);}
+
+/* NAV COUNTER */
+.counter{position:fixed;bottom:16px;right:24px;font-family:'JetBrains Mono',monospace;font-size:13px;color:rgba(255,255,255,.3);z-index:1000;letter-spacing:.1em;}
+
+/* REVEAL ANIMATION */
+.reveal{opacity:0;transform:translateY(18px);transition:opacity .4s cubic-bezier(.16,1,.3,1),transform .4s cubic-bezier(.16,1,.3,1);}
 .slide.visible .reveal{opacity:1;transform:translateY(0);}
-.reveal:nth-child(1){transition-delay:.05s}
-.reveal:nth-child(2){transition-delay:.1s}
-.reveal:nth-child(3){transition-delay:.15s}
-.reveal:nth-child(4){transition-delay:.2s}
-.reveal:nth-child(5){transition-delay:.25s}
-.reveal:nth-child(6){transition-delay:.3s}
-.reveal:nth-child(7){transition-delay:.35s}
-.reveal:nth-child(8){transition-delay:.4s}
+.reveal:nth-child(1){transition-delay:.04s}
+.reveal:nth-child(2){transition-delay:.09s}
+.reveal:nth-child(3){transition-delay:.14s}
+.reveal:nth-child(4){transition-delay:.19s}
+.reveal:nth-child(5){transition-delay:.24s}
+.reveal:nth-child(6){transition-delay:.29s}
+.reveal:nth-child(7){transition-delay:.34s}
+.reveal:nth-child(8){transition-delay:.39s}
+.reveal:nth-child(9){transition-delay:.44s}
 
-@media(prefers-reduced-motion:reduce){*,*::before,*::after{animation-duration:.01ms!important;transition-duration:.01ms!important;}}
+/* DATA TABLE */
+.dt{width:100%;border-collapse:collapse;}
+.dt th{background:var(--ink);color:var(--paper);font-family:'JetBrains Mono',monospace;font-size:13px;letter-spacing:.09em;text-transform:uppercase;padding:14px 16px;text-align:left;}
+.dt td{font-family:'Space Grotesk','Noto Sans SC',sans-serif;font-size:22px;padding:13px 16px;border-bottom:1.5px solid rgba(10,10,10,.12);vertical-align:middle;}
+.dt tr:last-child td{border-bottom:none;}
+.dt tr.total td{background:var(--ink);color:var(--paper);font-weight:700;}
+.dt tr.total td .mono{color:var(--lemon);}
+
+/* TREND ARROW */
+.arr-up{color:#2E7D32;font-size:20px;}
+.arr-dn{color:#B71C1C;font-size:20px;}
+
+/* SPARK BAR */
+.spark{display:flex;align-items:flex-end;gap:6px;height:56px;}
+.spark-b{background:var(--lemon);flex:1;min-height:8px;}
+.spark-b.prev{background:rgba(10,10,10,.2);}
 </style>
 </head>
 <body>
 <div class="deck-viewport">
 <main class="deck-stage" id="stage">
 
-<!-- ============================================================
-     SLIDE 1: 封面
-============================================================ -->
+<!-- ==================== SLIDE 1: 封面 ==================== -->
 <section class="slide active" id="s1">
-  <div class="frame">
+<div class="frame">
 
-    <!-- 大标题区：cols 1-8, rows 1-6 -->
-    <div class="card ink reveal" style="grid-column:1/span 8;grid-row:1/span 6;padding:44px 52px;display:flex;flex-direction:column;justify-content:space-between;">
-      <div>
-        <div class="label" style="color:rgba(245,244,239,.5);margin-bottom:24px;">快递无人车攻坚 · 快递生态大客户管理中心</div>
-        <div class="display" style="color:var(--paper);">全战区<br><mark>周会盘点</mark></div>
-      </div>
-      <div>
-        <div class="t-body" style="color:rgba(245,244,239,.6);margin-bottom:8px;">通达兔各战区 · 六省攻坚区 · 大网专项</div>
-        <div class="label" style="color:rgba(245,244,239,.4);">2026.06.09 · 第一周</div>
-      </div>
-      <div class="corner-mark" style="color:var(--lemon);"><span></span><span></span><span></span><span></span></div>
+  <!-- Big title: col 1-8, row 1-6 -->
+  <div class="card ink reveal" style="grid-column:1/span 8;grid-row:1/span 6;padding:44px 52px;display:flex;flex-direction:column;justify-content:space-between;">
+    <div>
+      <div class="label" style="opacity:.4;margin-bottom:20px;">快递生态大客户管理中心 · 快递无人车销售攻坚</div>
+      <div class="display" style="color:var(--paper);">总部<br><mark>周会盘点</mark></div>
     </div>
-
-    <!-- 右上：总发车 cols 9-12, rows 1-4 -->
-    <div class="card lemon reveal" style="grid-column:9/span 4;grid-row:1/span 4;padding:32px 36px;display:flex;flex-direction:column;justify-content:space-between;">
-      <div class="label-sm" style="opacity:.7;">通达兔 · 全国本月发车</div>
-      <div>
-        <div class="stat-lg">74</div>
-        <div class="t-h3" style="margin-top:8px;">目标 800 台</div>
-      </div>
-      <div class="label-sm" style="opacity:.7;">月度达成率 <strong style="font-size:18px;">9%</strong></div>
-    </div>
-
-    <!-- 右中：六省 cols 9-12, rows 5-6 -->
-    <div class="card ink reveal" style="grid-column:9/span 4;grid-row:5/span 2;padding:24px 28px;display:flex;flex-direction:column;justify-content:center;gap:8px;">
-      <div class="label-sm" style="color:rgba(245,244,239,.5);">六省攻坚区 · 本月</div>
-      <div style="display:flex;align-items:baseline;gap:12px;">
-        <span class="stat-sm" style="color:var(--lemon);">34</span>
-        <span class="t-h3" style="color:rgba(245,244,239,.5);">/ 650 台 · 5.2%</span>
-      </div>
-    </div>
-
-    <!-- 下方：目录 cols 1-12, rows 7-8 -->
-    <div class="card reveal" style="grid-column:1/span 3;grid-row:7/span 2;padding:24px 28px;display:flex;flex-direction:column;justify-content:center;gap:6px;border-right:1.5px solid var(--ink);">
-      <div class="label-sm" style="opacity:.5;">01</div>
-      <div class="t-h3">通达兔<br>各战区盘点</div>
-    </div>
-    <div class="card reveal" style="grid-column:4/span 3;grid-row:7/span 2;padding:24px 28px;display:flex;flex-direction:column;justify-content:center;gap:6px;border-right:1.5px solid var(--ink);">
-      <div class="label-sm" style="opacity:.5;">02</div>
-      <div class="t-h3">六省攻坚区<br>逐省盘点</div>
-    </div>
-    <div class="card reveal" style="grid-column:7/span 3;grid-row:7/span 2;padding:24px 28px;display:flex;flex-direction:column;justify-content:center;gap:6px;border-right:1.5px solid var(--ink);">
-      <div class="label-sm" style="opacity:.5;">03</div>
-      <div class="t-h3">大网专项<br>直播·例会·CRM</div>
-    </div>
-    <div class="card lemon reveal" style="grid-column:10/span 3;grid-row:7/span 2;padding:24px 28px;display:flex;flex-direction:column;justify-content:center;gap:6px;">
-      <div class="label-sm" style="opacity:.6;">04</div>
-      <div class="t-h3">标杆表扬<br>华中战区特别点评</div>
+    <div>
+      <div class="t-body" style="color:rgba(245,244,239,.55);margin-bottom:6px;">2026年6月 · 第一周盘点 · 六省攻坚区 + 通达兔全战区</div>
+      <div class="label" style="opacity:.3;">2026.06.09</div>
     </div>
   </div>
-  <div class="pagenum lemon">01 / 05</div>
+
+  <!-- 全国总台数 col 9-12, row 1-3 -->
+  <div class="card lemon reveal" style="grid-column:9/span 4;grid-row:1/span 3;padding:28px 32px;display:flex;flex-direction:column;justify-content:space-between;">
+    <div class="label" style="opacity:.65;">通达兔 · 全国本月发车</div>
+    <div>
+      <div class="stat-lg">74</div>
+      <div class="t-h3" style="margin-top:6px;">目标 800 台 · 达成 9%</div>
+    </div>
+    <div class="label">月初 / 后续三周为决战窗口</div>
+  </div>
+
+  <!-- 六省合计 col 9-12, row 4-5 -->
+  <div class="card ink reveal" style="grid-column:9/span 4;grid-row:4/span 2;padding:22px 28px;display:flex;flex-direction:column;justify-content:center;gap:6px;">
+    <div class="label" style="opacity:.4;">六省攻坚 · 本月发车</div>
+    <div style="display:flex;align-items:baseline;gap:12px;">
+      <span class="stat-md" style="color:var(--lemon);">34</span>
+      <span class="t-h3" style="color:rgba(245,244,239,.45);">/ 650 台 · 5.2%</span>
+    </div>
+  </div>
+
+  <!-- col 9-12, row 6 渗透率亮点 -->
+  <div class="card amber reveal" style="grid-column:9/span 4;grid-row:6/span 1;padding:16px 24px;display:flex;align-items:center;gap:14px;">
+    <div class="t-body" style="color:var(--paper);">六省拜访渗透率 3→5月 <strong>23%→41%</strong> 📈</div>
+  </div>
+
+  <!-- 议程 col 1-12, row 7-8 -->
+  <div class="card reveal" style="grid-column:1/span 3;grid-row:7/span 2;padding:20px 24px;display:flex;flex-direction:column;justify-content:center;gap:6px;border-right:1.5px solid var(--ink);">
+    <div class="label">01</div>
+    <div class="t-h3">各区订单<br>完成盘点</div>
+  </div>
+  <div class="card reveal" style="grid-column:4/span 3;grid-row:7/span 2;padding:20px 24px;display:flex;flex-direction:column;justify-content:center;gap:6px;border-right:1.5px solid var(--ink);">
+    <div class="label">02</div>
+    <div class="t-h3">渗透率<br>持续增长</div>
+  </div>
+  <div class="card reveal" style="grid-column:7/span 3;grid-row:7/span 2;padding:20px 24px;display:flex;flex-direction:column;justify-content:center;gap:6px;border-right:1.5px solid var(--ink);">
+    <div class="label">03</div>
+    <div class="t-h3">标杆提报<br>进展督促</div>
+  </div>
+  <div class="card lemon reveal" style="grid-column:10/span 3;grid-row:7/span 2;padding:20px 24px;display:flex;flex-direction:column;justify-content:center;gap:6px;">
+    <div class="label" style="opacity:.65;">04</div>
+    <div class="t-h3">大网直播<br>跟单转化</div>
+  </div>
+</div>
+<div class="pn">01 / 05</div>
 </section>
 
-<!-- ============================================================
-     SLIDE 2: 通达兔各战区盘点
-============================================================ -->
+<!-- ==================== SLIDE 2: 各区订单完成盘点 ==================== -->
 <section class="slide" id="s2">
-  <div class="frame">
+<div class="frame">
 
-    <!-- 标题 cols 1-4, rows 1-2 -->
-    <div class="card ink reveal" style="grid-column:1/span 4;grid-row:1/span 2;padding:24px 28px;display:flex;flex-direction:column;justify-content:flex-end;">
-      <div class="label-sm" style="color:rgba(245,244,239,.4);margin-bottom:8px;">01 / 通达兔各战区</div>
-      <div class="t-sub" style="color:var(--paper);">战区<mark style="color:var(--ink);">达成率</mark>盘点</div>
+  <!-- 标题 col 1-5, row 1-1 -->
+  <div class="card ink reveal" style="grid-column:1/span 5;grid-row:1/span 1;padding:0 28px;display:flex;align-items:center;justify-content:space-between;">
+    <div style="display:flex;align-items:center;gap:20px;">
+      <div class="label" style="opacity:.4;">01 / 各区订单盘点</div>
+      <div class="t-sub" style="color:var(--paper);">通达兔<mark style="color:var(--ink);">战区排名</mark></div>
     </div>
+  </div>
+  <div class="card lemon reveal" style="grid-column:6/span 2;grid-row:1/span 1;padding:0 20px;display:flex;align-items:center;gap:12px;">
+    <div class="stat-sm">74</div>
+    <div class="label" style="opacity:.7;">/ 800 · 9%<br>全国发车</div>
+  </div>
+  <div class="card reveal" style="grid-column:8/span 5;grid-row:1/span 1;padding:0 24px;display:flex;align-items:center;">
+    <div class="t-sm" style="opacity:.75;">月初9天数据。<strong>华东3% 危险红线</strong>，需区总给出本月追赶方案。华南5%同样落后，需加压。</div>
+  </div>
 
-    <!-- 总计 cols 5-6, rows 1-2 -->
-    <div class="card lemon reveal" style="grid-column:5/span 2;grid-row:1/span 2;padding:24px 20px;display:flex;flex-direction:column;justify-content:center;gap:4px;">
-      <div class="label-sm" style="opacity:.6;">全国发车</div>
-      <div class="stat-md">74</div>
-      <div class="label-sm" style="opacity:.6;">/ 800 · 9%</div>
-    </div>
+  <!-- 大表格 col 1-8, row 2-8 -->
+  <div class="card reveal" style="grid-column:1/span 8;grid-row:2/span 7;overflow:hidden;">
+    <table class="dt" style="height:100%;">
+      <thead>
+        <tr>
+          <th>战区</th>
+          <th>月度目标</th>
+          <th>本月发车</th>
+          <th>达成率</th>
+          <th>评级</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr style="background:#F1F8E9;">
+          <td><strong>🟢 西南战区（含广西）</strong></td><td>42</td>
+          <td><strong style="font-size:26px;">8</strong></td>
+          <td style="font-family:'Space Grotesk';font-size:28px;font-weight:700;color:#1B5E20;">19%</td>
+          <td><span class="pill ok">领先</span></td>
+        </tr>
+        <tr style="background:#F1F8E9;">
+          <td><strong>🟢 山东战区</strong></td><td>103</td>
+          <td><strong style="font-size:26px;">14</strong></td>
+          <td style="font-family:'Space Grotesk';font-size:28px;font-weight:700;color:#1B5E20;">14%</td>
+          <td><span class="pill ok">领先</span></td>
+        </tr>
+        <tr style="background:#F9FBE7;">
+          <td><strong>🟢 西北战区</strong></td><td>102</td>
+          <td><strong style="font-size:26px;">11</strong></td>
+          <td style="font-family:'Space Grotesk';font-size:28px;font-weight:700;color:#33691E;">11%</td>
+          <td><span class="pill ok">达标</span></td>
+        </tr>
+        <tr style="background:#F9FBE7;">
+          <td><strong>🟢 华中战区（含湘闽）</strong></td><td>95</td>
+          <td><strong style="font-size:26px;">10</strong></td>
+          <td style="font-family:'Space Grotesk';font-size:28px;font-weight:700;color:#33691E;">11%</td>
+          <td><span class="pill ok">达标</span></td>
+        </tr>
+        <tr>
+          <td><strong>🟡 华北战区</strong></td><td>137</td>
+          <td><strong style="font-size:26px;">13</strong></td>
+          <td style="font-family:'Space Grotesk';font-size:28px;font-weight:700;color:#E65100;">9%</td>
+          <td><span class="pill warn">注意</span></td>
+        </tr>
+        <tr style="background:#FFF8E1;">
+          <td><strong>🟡 豫皖战区</strong></td><td>137</td>
+          <td><strong style="font-size:26px;">11</strong></td>
+          <td style="font-family:'Space Grotesk';font-size:28px;font-weight:700;color:#E65100;">8%</td>
+          <td><span class="pill warn">落后</span></td>
+        </tr>
+        <tr style="background:#FFEBEE;">
+          <td><strong>🔴 华南战区（不含桂闽）</strong></td><td>65</td>
+          <td><strong style="font-size:26px;">3</strong></td>
+          <td style="font-family:'Space Grotesk';font-size:28px;font-weight:700;color:#B71C1C;">5%</td>
+          <td><span class="pill bad">落后</span></td>
+        </tr>
+        <tr style="background:#FFCDD2;">
+          <td><strong>🔴 华东战区</strong></td><td>119</td>
+          <td><strong style="font-size:26px;">4</strong></td>
+          <td style="font-family:'Space Grotesk';font-size:30px;font-weight:700;color:#B71C1C;">3%</td>
+          <td><span class="pill bad">⚠ 危险</span></td>
+        </tr>
+        <tr class="total">
+          <td>总计</td><td>800</td>
+          <td><span class="mono">74</span></td>
+          <td><span class="mono">9%</span></td>
+          <td><span class="pill lemon">月初</span></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
 
-    <!-- 说明 cols 7-12, rows 1-2 -->
-    <div class="card reveal" style="grid-column:7/span 6;grid-row:1/span 2;padding:24px 28px;display:flex;align-items:center;">
-      <div class="t-body" style="opacity:.7;">🟢 绿色区域 达成率≥11% · 黄色 ≥8% · 🔴 红色 危险区 · <strong>华东3%严重落后，需重点盘问</strong></div>
-    </div>
-
-    <!-- 大表格 cols 1-8, rows 3-8 -->
-    <div class="card reveal" style="grid-column:1/span 8;grid-row:3/span 6;overflow:hidden;">
-      <table class="data-table" style="width:100%;height:100%;">
-        <thead>
-          <tr>
-            <th>战区</th>
-            <th>发车目标</th>
-            <th>本月发车</th>
-            <th>达成率</th>
-            <th>状态</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr style="background:#F1F8E9;">
-            <td><strong>西南战区（含广西）</strong></td>
-            <td>42</td>
-            <td><strong>8</strong></td>
-            <td style="font-family:'Space Grotesk';font-size:26px;font-weight:700;">19%</td>
-            <td><span class="pill ok">▲ 领先</span></td>
-          </tr>
-          <tr style="background:#F1F8E9;">
-            <td><strong>山东战区</strong></td>
-            <td>103</td>
-            <td><strong>14</strong></td>
-            <td style="font-family:'Space Grotesk';font-size:26px;font-weight:700;">14%</td>
-            <td><span class="pill ok">▲ 领先</span></td>
-          </tr>
-          <tr style="background:#F9FBE7;">
-            <td><strong>西北战区</strong></td>
-            <td>102</td>
-            <td><strong>11</strong></td>
-            <td style="font-family:'Space Grotesk';font-size:26px;font-weight:700;">11%</td>
-            <td><span class="pill ok">✓ 达标</span></td>
-          </tr>
-          <tr style="background:#F9FBE7;">
-            <td><strong>华中战区（含湘闽）</strong></td>
-            <td>95</td>
-            <td><strong>10</strong></td>
-            <td style="font-family:'Space Grotesk';font-size:26px;font-weight:700;">11%</td>
-            <td><span class="pill ok">✓ 达标</span></td>
-          </tr>
-          <tr>
-            <td><strong>华北战区</strong></td>
-            <td>137</td>
-            <td><strong>13</strong></td>
-            <td style="font-family:'Space Grotesk';font-size:26px;font-weight:700;">9%</td>
-            <td><span class="pill warn">⚠ 注意</span></td>
-          </tr>
-          <tr style="background:#FFF8E1;">
-            <td><strong>豫皖战区</strong></td>
-            <td>137</td>
-            <td><strong>11</strong></td>
-            <td style="font-family:'Space Grotesk';font-size:26px;font-weight:700;color:#B71C1C;">8%</td>
-            <td><span class="pill no">▼ 落后</span></td>
-          </tr>
-          <tr style="background:#FFEBEE;">
-            <td><strong>华南战区（不含桂闽）</strong></td>
-            <td>65</td>
-            <td><strong>3</strong></td>
-            <td style="font-family:'Space Grotesk';font-size:26px;font-weight:700;color:#B71C1C;">5%</td>
-            <td><span class="pill no">▼ 落后</span></td>
-          </tr>
-          <tr style="background:#FFCDD2;">
-            <td><strong>华东战区</strong></td>
-            <td>119</td>
-            <td><strong>4</strong></td>
-            <td style="font-family:'Space Grotesk';font-size:28px;font-weight:700;color:#B71C1C;">3%</td>
-            <td><span class="pill no">🔴 危险</span></td>
-          </tr>
-          <tr style="background:var(--ink);">
-            <td style="color:var(--paper);font-weight:700;border-bottom:none;">总计</td>
-            <td style="color:var(--paper);border-bottom:none;">800</td>
-            <td style="color:var(--lemon);font-weight:700;font-size:26px;border-bottom:none;">74</td>
-            <td style="color:var(--lemon);font-weight:700;font-size:26px;border-bottom:none;">9%</td>
-            <td style="border-bottom:none;"><span class="pill" style="background:var(--lemon);color:var(--ink);">月初</span></td>
-          </tr>
-        </tbody>
-      </table>
-    </div>
-
-    <!-- 右侧: 柱状图 cols 9-12, rows 3-8 -->
-    <div class="card ink reveal" style="grid-column:9/span 4;grid-row:3/span 6;padding:28px 24px;display:flex;flex-direction:column;gap:16px;">
-      <div class="label-sm" style="color:rgba(245,244,239,.5);">各战区发车量对比</div>
-      <div style="flex:1;display:flex;align-items:flex-end;gap:6px;padding-bottom:8px;border-bottom:2px solid rgba(245,244,239,.2);">
-        <div class="bar-col">
-          <div style="font-family:'JetBrains Mono';font-size:14px;color:var(--lemon);font-weight:700;">8</div>
-          <div style="width:100%;background:#2E7D32;height:47%;"></div>
-          <div class="bar-label" style="color:rgba(245,244,239,.6);font-size:10px;">西南</div>
-        </div>
-        <div class="bar-col">
-          <div style="font-family:'JetBrains Mono';font-size:14px;color:var(--lemon);font-weight:700;">14</div>
-          <div style="width:100%;background:#2E7D32;height:82%;"></div>
-          <div class="bar-label" style="color:rgba(245,244,239,.6);font-size:10px;">山东</div>
-        </div>
-        <div class="bar-col">
-          <div style="font-family:'JetBrains Mono';font-size:14px;color:var(--lemon);font-weight:700;">11</div>
-          <div style="width:100%;background:#558B2F;height:65%;"></div>
-          <div class="bar-label" style="color:rgba(245,244,239,.6);font-size:10px;">西北</div>
-        </div>
-        <div class="bar-col">
-          <div style="font-family:'JetBrains Mono';font-size:14px;color:var(--lemon);font-weight:700;">10</div>
-          <div style="width:100%;background:#558B2F;height:59%;"></div>
-          <div class="bar-label" style="color:rgba(245,244,239,.6);font-size:10px;">华中</div>
-        </div>
-        <div class="bar-col">
-          <div style="font-family:'JetBrains Mono';font-size:14px;color:rgba(245,244,239,.7);font-weight:700;">13</div>
-          <div style="width:100%;background:#F57F17;height:76%;"></div>
-          <div class="bar-label" style="color:rgba(245,244,239,.6);font-size:10px;">华北</div>
-        </div>
-        <div class="bar-col">
-          <div style="font-family:'JetBrains Mono';font-size:14px;color:rgba(245,244,239,.7);font-weight:700;">11</div>
-          <div style="width:100%;background:#C62828;height:65%;"></div>
-          <div class="bar-label" style="color:rgba(245,244,239,.6);font-size:10px;">豫皖</div>
-        </div>
-        <div class="bar-col">
-          <div style="font-family:'JetBrains Mono';font-size:14px;color:rgba(245,244,239,.7);font-weight:700;">3</div>
-          <div style="width:100%;background:#B71C1C;height:18%;"></div>
-          <div class="bar-label" style="color:rgba(245,244,239,.6);font-size:10px;">华南</div>
-        </div>
-        <div class="bar-col">
-          <div style="font-family:'JetBrains Mono';font-size:14px;color:var(--lemon);font-weight:700;">4</div>
-          <div style="width:100%;background:#B71C1C;height:24%;border:2px solid #E53935;"></div>
-          <div class="bar-label" style="color:#EF9A9A;font-size:10px;">华东</div>
-        </div>
+  <!-- 右侧说明+六省 col 9-12, row 2-8 -->
+  <div class="card ink reveal" style="grid-column:9/span 4;grid-row:2/span 4;padding:26px 28px;display:flex;flex-direction:column;justify-content:space-between;">
+    <div class="label" style="opacity:.4;margin-bottom:10px;">六省攻坚 · 排名</div>
+    <div style="display:flex;flex-direction:column;gap:9px;">
+      <div style="display:flex;justify-content:space-between;align-items:center;padding:8px 10px;background:rgba(46,125,50,.25);">
+        <span class="t-sm" style="color:var(--paper);">🥇 山东</span>
+        <span class="mono" style="font-size:18px;color:var(--lemon);">11台 / 7.3%</span>
       </div>
-      <div style="display:flex;flex-direction:column;gap:8px;">
-        <div class="label-sm" style="color:rgba(245,244,239,.4);">盘点重点</div>
-        <div class="t-body-sm" style="color:var(--paper);">· 华东 <strong style="color:#EF9A9A;">3%</strong> — 区总必须给出解释方案</div>
-        <div class="t-body-sm" style="color:var(--paper);">· 华南 <strong style="color:#EF9A9A;">5%</strong> — 连续落后，需加快动作</div>
-        <div class="t-body-sm" style="color:var(--lemon);">· 西南/山东 稳定领跑</div>
+      <div style="display:flex;justify-content:space-between;align-items:center;padding:8px 10px;background:rgba(46,125,50,.15);">
+        <span class="t-sm" style="color:var(--paper);">🥈 河北</span>
+        <span class="mono" style="font-size:18px;color:rgba(230,255,61,.8);">9台 / 6.0%</span>
+      </div>
+      <div style="display:flex;justify-content:space-between;align-items:center;padding:8px 10px;background:rgba(46,125,50,.1);">
+        <span class="t-sm" style="color:var(--paper);">🥉 河南</span>
+        <span class="mono" style="font-size:18px;color:rgba(230,255,61,.7);">8台 / 5.3%</span>
+      </div>
+      <div style="display:flex;justify-content:space-between;align-items:center;padding:8px 10px;">
+        <span class="t-sm" style="color:rgba(245,244,239,.7);">安徽</span>
+        <span class="mono" style="font-size:18px;color:rgba(245,244,239,.6);">3台 / 4.3%</span>
+      </div>
+      <div style="display:flex;justify-content:space-between;align-items:center;padding:8px 10px;">
+        <span class="t-sm" style="color:rgba(245,244,239,.7);">辽宁</span>
+        <span class="mono" style="font-size:18px;color:rgba(245,244,239,.6);">1台 / 3.3%</span>
+      </div>
+      <div style="display:flex;justify-content:space-between;align-items:center;padding:8px 10px;background:rgba(183,28,28,.25);">
+        <span class="t-sm" style="color:var(--paper);">⚠ 江苏</span>
+        <span class="mono" style="font-size:18px;color:#EF9A9A;">2台 / 2.0%</span>
       </div>
     </div>
   </div>
-  <div class="pagenum lemon">02 / 05</div>
+
+  <!-- 盘点重点 col 9-12, row 6-8 -->
+  <div class="card lemon reveal" style="grid-column:9/span 4;grid-row:6/span 3;padding:22px 26px;display:flex;flex-direction:column;justify-content:space-between;">
+    <div class="label" style="opacity:.65;">总部盘点问点</div>
+    <div class="t-sm" style="margin-top:8px;"><strong>华东区总</strong>：本月发车4台，追赶方案？</div>
+    <div style="width:100%;height:1px;background:rgba(10,10,10,.15);"></div>
+    <div class="t-sm"><strong>华南区总</strong>：落后趋势未改，下周加速计划？</div>
+    <div style="width:100%;height:1px;background:rgba(10,10,10,.15);"></div>
+    <div class="t-sm"><strong>江苏（六省最低）</strong>：极兔沙龙本周开，转化目标几台？</div>
+    <div style="width:100%;height:1px;background:rgba(10,10,10,.15);"></div>
+    <div class="t-sm"><strong>各区总</strong>：标杆申请进度？还没提报的请尽快行动。</div>
+  </div>
+</div>
+<div class="pn">02 / 05</div>
 </section>
 
-<!-- ============================================================
-     SLIDE 3: 六省攻坚区逐省盘点
-============================================================ -->
+<!-- ==================== SLIDE 3: 渗透率 + 标杆表扬 ==================== -->
 <section class="slide" id="s3">
-  <div class="frame">
+<div class="frame">
+  <!-- 标题 col 1-12, row 1 -->
+  <div class="card ink reveal" style="grid-column:1/span 7;grid-row:1/span 1;padding:0 28px;display:flex;align-items:center;gap:20px;">
+    <div class="label" style="opacity:.4;">02 / 渗透率</div>
+    <div class="t-sub" style="color:var(--paper);">六省拜访渗透率 <mark style="color:var(--ink);">持续增长</mark></div>
+  </div>
+  <div class="card reveal" style="grid-column:8/span 5;grid-row:1/span 1;padding:0 24px;display:flex;align-items:center;">
+    <div class="t-sm" style="opacity:.75;">渗透率↑ = 拜访覆盖↑ = 意向客户↑ = 订单↑。三个月数据验证路径跑通，非攻坚区请跟进学习。</div>
+  </div>
 
-    <!-- 标题 -->
-    <div class="card ink reveal" style="grid-column:1/span 5;grid-row:1/span 2;padding:24px 28px;display:flex;flex-direction:column;justify-content:flex-end;">
-      <div class="label-sm" style="color:rgba(245,244,239,.4);margin-bottom:8px;">02 / 六省攻坚区</div>
-      <div class="t-sub" style="color:var(--paper);">逐省<mark style="color:var(--ink);">逐条盘点</mark></div>
-    </div>
-    <div class="card lemon reveal" style="grid-column:6/span 2;grid-row:1/span 2;padding:20px;display:flex;flex-direction:column;justify-content:center;gap:4px;">
-      <div class="label-sm" style="opacity:.6;">六省合计</div>
-      <div class="stat-sm">34<span style="font-size:24px;opacity:.6;"> / 650</span></div>
-      <div class="label-sm" style="opacity:.6;">达成率 5.2%</div>
-    </div>
-    <div class="card reveal" style="grid-column:8/span 5;grid-row:1/span 2;padding:20px 28px;display:flex;align-items:center;">
-      <div class="t-body" style="opacity:.7;">本月刚启动9天，后续3周为决战窗口。<strong>沙龙活动已开机，标杆游学同步全省直播为核心打法。</strong></div>
-    </div>
-
-    <!-- 六省卡片 2列3行 -->
-    <!-- 山东 -->
-    <div class="card reveal" style="grid-column:1/span 4;grid-row:3/span 3;padding:28px 32px;display:flex;flex-direction:column;justify-content:space-between;border-top:4px solid #2E7D32;">
-      <div>
-        <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:12px;">
-          <div class="t-h3">🟢 山东</div>
-          <span class="pill ok" style="font-size:18px;">11台 / 7.3%</span>
-        </div>
-        <div class="t-body-sm" style="opacity:.8;margin-bottom:10px;">· 章丘中通试用车 → 高考后出图，首批10台</div>
-        <div class="t-body-sm" style="opacity:.8;margin-bottom:10px;">· 宁阳极兔 6.25大网直播备战中</div>
-        <div class="t-body-sm" style="opacity:.8;">· 平邑共配标杆审核通过，游学筹备启动</div>
+  <!-- 渗透率大展示 col 1-6, row 2-5 -->
+  <div class="card lemon reveal" style="grid-column:1/span 6;grid-row:2/span 4;padding:36px 40px;display:flex;flex-direction:column;justify-content:space-between;">
+    <div class="label" style="opacity:.65;margin-bottom:12px;">六省平均拜访渗透率 · 3月 → 5月</div>
+    <div style="display:flex;align-items:flex-end;gap:20px;margin-bottom:16px;">
+      <div style="text-align:center;">
+        <div style="font-family:'Space Grotesk';font-size:32px;font-weight:700;opacity:.55;">23%</div>
+        <div class="label" style="margin-top:6px;">3月</div>
       </div>
-      <div class="label-sm" style="opacity:.5;">盘点问点：大网直播分配订单跟进？</div>
-    </div>
-
-    <!-- 河北 -->
-    <div class="card reveal" style="grid-column:5/span 4;grid-row:3/span 3;padding:28px 32px;display:flex;flex-direction:column;justify-content:space-between;border-top:4px solid #F57F17;">
-      <div>
-        <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:12px;">
-          <div class="t-h3">🟡 河北</div>
-          <span class="pill warn" style="font-size:18px;">9台 / 6.0%</span>
-        </div>
-        <div class="t-body-sm" style="opacity:.8;margin-bottom:10px;">· 秦皇岛持车资源 5-10台意向，方案对接中</div>
-        <div class="t-body-sm" style="opacity:.8;margin-bottom:10px;">· 天津新港 沟通下单8-10台</div>
-        <div class="t-body-sm" style="opacity:.8;">· 华北主管会完成，作战节奏已下发</div>
+      <div style="font-size:32px;opacity:.4;margin-bottom:8px;">→</div>
+      <div style="text-align:center;">
+        <div style="font-family:'Space Grotesk';font-size:48px;font-weight:700;opacity:.7;">31%</div>
+        <div class="label" style="margin-top:6px;">4月</div>
       </div>
-      <div class="label-sm" style="opacity:.5;">盘点问点：省区例会频率？圆通省区合作深度？</div>
-    </div>
-
-    <!-- 河南 -->
-    <div class="card reveal" style="grid-column:9/span 4;grid-row:3/span 3;padding:28px 32px;display:flex;flex-direction:column;justify-content:space-between;border-top:4px solid #F57F17;">
-      <div>
-        <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:12px;">
-          <div class="t-h3">🟡 河南</div>
-          <span class="pill warn" style="font-size:18px;">8台 / 5.3%</span>
-        </div>
-        <div class="t-body-sm" style="opacity:.8;margin-bottom:10px;">· 漯河中通标杆游学 6.4成功举办 ✓ 全省直播</div>
-        <div class="t-body-sm" style="opacity:.8;margin-bottom:10px;">· 豫南韵达首场沙龙 6.9今日举办 ✓</div>
-        <div class="t-body-sm" style="opacity:.8;">· 洛阳中通承包区活动 下周跟进</div>
+      <div style="font-size:32px;opacity:.4;margin-bottom:8px;">→</div>
+      <div style="text-align:center;">
+        <div style="font-family:'Space Grotesk';font-size:80px;font-weight:700;">41%</div>
+        <div class="label" style="margin-top:6px;font-size:16px;font-weight:700;">5月 ▲</div>
       </div>
-      <div class="label-sm" style="opacity:.5;">盘点问点：沙龙现场转化订单数？</div>
     </div>
-
-    <!-- 安徽 -->
-    <div class="card reveal" style="grid-column:1/span 4;grid-row:6/span 3;padding:28px 32px;display:flex;flex-direction:column;justify-content:space-between;border-top:4px solid #F57F17;">
-      <div>
-        <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:12px;">
-          <div class="t-h3">🟡 安徽</div>
-          <span class="pill warn" style="font-size:18px;">3台 / 4.3%</span>
-        </div>
-        <div class="t-body-sm" style="opacity:.8;margin-bottom:10px;">· 蚌埠城区三通一达一兔全在用新石器，下月+10台</div>
-        <div class="t-body-sm" style="opacity:.8;margin-bottom:10px;">· 滨湖韵达标杆网点本周完成装修</div>
-        <div class="t-body-sm" style="opacity:.8;">· 极免（兔）省区 CRM系统接入需求上报中</div>
+    <div style="display:flex;gap:10px;align-items:flex-end;height:80px;padding-bottom:8px;border-bottom:2px solid rgba(10,10,10,.2);margin-bottom:12px;">
+      <div style="flex:1;display:flex;flex-direction:column;align-items:center;gap:4px;">
+        <div style="font-family:'JetBrains Mono';font-size:14px;font-weight:700;">23%</div>
+        <div style="width:100%;height:44px;background:rgba(10,10,10,.2);"></div>
+        <div style="font-size:12px;opacity:.6;font-family:'JetBrains Mono';">3月</div>
       </div>
-      <div class="label-sm" style="opacity:.5;">盘点问点：极兔省区例会进展？</div>
+      <div style="flex:1;display:flex;flex-direction:column;align-items:center;gap:4px;">
+        <div style="font-family:'JetBrains Mono';font-size:14px;font-weight:700;">31%</div>
+        <div style="width:100%;height:60px;background:rgba(10,10,10,.35);"></div>
+        <div style="font-size:12px;opacity:.6;font-family:'JetBrains Mono';">4月</div>
+      </div>
+      <div style="flex:1;display:flex;flex-direction:column;align-items:center;gap:4px;">
+        <div style="font-family:'JetBrains Mono';font-size:15px;font-weight:700;">41%</div>
+        <div style="width:100%;height:78px;background:rgba(10,10,10,.8);"></div>
+        <div style="font-size:12px;font-family:'JetBrains Mono';font-weight:700;">5月</div>
+      </div>
     </div>
+    <div class="t-sm"><strong>渗透率提升18个百分点，背后是订单的持续增长。</strong><br>所有战区请对标六省打法，提升网点覆盖密度。</div>
+  </div>
 
-    <!-- 辽宁 -->
-    <div class="card reveal" style="grid-column:5/span 4;grid-row:6/span 3;padding:28px 32px;display:flex;flex-direction:column;justify-content:space-between;border-top:4px solid #B71C1C;">
-      <div>
-        <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:12px;">
-          <div class="t-h3">🔴 辽宁</div>
-          <span class="pill no" style="font-size:18px;">1台 / 3.3%</span>
-        </div>
-        <div class="t-body-sm" style="opacity:.8;margin-bottom:10px;">· 沈阳韵达分拨中心沙龙 6.4完成 ✓</div>
-        <div class="t-body-sm" style="opacity:.8;margin-bottom:10px;">· 目标30台，仍需加快发车节奏</div>
-        <div class="t-body-sm" style="color:#B71C1C;font-weight:700;">⚠ 本月剩余窗口紧张，需加压</div>
-      </div>
-      <div class="label-sm" style="opacity:.5;">盘点问点：后续几场沙龙计划？</div>
+  <!-- 省份明细 col 7-12, row 2-5 -->
+  <div class="card reveal" style="grid-column:7/span 6;grid-row:2/span 4;overflow:hidden;">
+    <table class="dt" style="height:100%;">
+      <thead>
+        <tr><th>省份</th><th>3月</th><th>4月</th><th>5月</th><th>趋势</th></tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><strong>山东</strong></td>
+          <td style="opacity:.55;">31%</td><td style="opacity:.7;">39%</td>
+          <td style="font-weight:700;font-size:26px;color:#1B5E20;">50%</td>
+          <td><span class="arr-up">↑+19pp</span></td>
+        </tr>
+        <tr>
+          <td><strong>河北</strong></td>
+          <td style="opacity:.55;">22%</td><td style="opacity:.7;">33%</td>
+          <td style="font-weight:700;font-size:26px;color:#1B5E20;">43%</td>
+          <td><span class="arr-up">↑+21pp</span></td>
+        </tr>
+        <tr>
+          <td><strong>河南</strong></td>
+          <td style="opacity:.55;">21%</td><td style="opacity:.7;">34%</td>
+          <td style="font-weight:700;font-size:26px;color:#1B5E20;">43%</td>
+          <td><span class="arr-up">↑+22pp</span></td>
+        </tr>
+        <tr>
+          <td><strong>安徽</strong></td>
+          <td style="opacity:.55;">22%</td><td style="opacity:.7;">25%</td>
+          <td style="font-weight:700;font-size:24px;color:#33691E;">35%</td>
+          <td><span class="arr-up">↑+13pp</span></td>
+        </tr>
+        <tr>
+          <td><strong>江苏</strong></td>
+          <td style="opacity:.55;">20%</td><td style="opacity:.7;">26%</td>
+          <td style="font-weight:700;font-size:24px;color:#E65100;">31.5%</td>
+          <td><span class="arr-up">↑+11.5pp</span></td>
+        </tr>
+        <tr class="total">
+          <td>六省平均</td><td><span class="mono">23%</span></td><td><span class="mono">31%</span></td>
+          <td><span class="mono" style="font-size:24px;">41%</span></td>
+          <td><span class="mono" style="color:var(--lemon);">↑+18pp</span></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- 标杆表扬区：col 1-12, row 6-8 -->
+  <div class="card ink reveal" style="grid-column:1/span 1;grid-row:6/span 3;padding:16px 12px;display:flex;flex-direction:column;justify-content:center;align-items:center;writing-mode:vertical-rl;">
+    <div class="label" style="opacity:.4;font-size:13px;letter-spacing:.15em;">03 / 标杆提报</div>
+  </div>
+
+  <div class="card lemon reveal" style="grid-column:2/span 5;grid-row:6/span 3;padding:26px 30px;display:flex;flex-direction:column;justify-content:space-between;">
+    <div>
+      <div class="label" style="opacity:.65;margin-bottom:10px;">⭐ 特别表扬 · 华中战区</div>
+      <div class="t-sub">本周新增<span style="font-size:60px;font-weight:700;"> 2 </span>个标杆提报</div>
     </div>
+    <div class="t-sm" style="margin-top:8px;">湖北荆门掇刀区中通 · 已运营7台，追购3台 · 审批已通过 ✓<br>河南漯河中通 · 6.4游学直播，全省同步 ✓</div>
+    <div class="t-sm" style="margin-top:6px;"><strong>华中在重点六省外主动作为，体现强烈的标杆意识。</strong></div>
+  </div>
 
-    <!-- 江苏 -->
-    <div class="card ink reveal" style="grid-column:9/span 4;grid-row:6/span 3;padding:28px 32px;display:flex;flex-direction:column;justify-content:space-between;border-top:4px solid #B71C1C;">
-      <div>
-        <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:12px;">
-          <div class="t-h3" style="color:var(--paper);">🔴 江苏</div>
-          <span class="pill no" style="font-size:18px;">2台 / 2.0%</span>
-        </div>
-        <div class="t-body-sm" style="color:rgba(245,244,239,.8);margin-bottom:10px;">· 极兔连云港+淮阳 <em>本周四五两场沙龙</em> 待落地</div>
-        <div class="t-body-sm" style="color:rgba(245,244,239,.8);margin-bottom:10px;">· 邳州50台招标：首批20台，三方竞争，需总部支援</div>
-        <div class="t-body-sm" style="color:#EF9A9A;font-weight:700;">⚠ 六省最低！靖江5台+泰兴3台意向，抓紧落单</div>
-      </div>
-      <div class="label-sm" style="color:rgba(245,244,239,.4);">盘点问点：邳州招标支持？靖江合同进展？</div>
+  <div class="card reveal" style="grid-column:7/span 6;grid-row:6/span 3;padding:26px 30px;display:flex;flex-direction:column;justify-content:space-between;border-left:4px solid var(--ink);">
+    <div class="label" style="opacity:.5;margin-bottom:10px;">总部要求 · 请各区总跟进</div>
+    <div class="t-body" style="margin-bottom:10px;">标杆网点提报 = 拿政策资源 + 游学转化的前提条件</div>
+    <div class="t-sm" style="opacity:.8;">· 已攻坚6省：请加速提报，不要等到月底</div>
+    <div class="t-sm" style="opacity:.8;margin-top:6px;">· 其他战区：看到华中的示范，主动找标杆网点</div>
+    <div class="t-sm" style="opacity:.8;margin-top:6px;">· 游学活动须 <strong>全省直播同步</strong>，最大化影响力</div>
+    <div style="margin-top:12px;padding:12px 16px;background:#FFF9C4;border-left:4px solid var(--ink);">
+      <div class="t-sm" style="color:var(--ink);font-weight:700;">❓ 本月各区还有几个标杆申请计划？请报备总部。</div>
     </div>
   </div>
-  <div class="pagenum lemon">03 / 05</div>
+</div>
+<div class="pn">03 / 05</div>
 </section>
 
-<!-- ============================================================
-     SLIDE 4: 大网专项 直播·例会·CRM
-============================================================ -->
+<!-- ==================== SLIDE 4: 大网直播 跟单转化 ==================== -->
 <section class="slide" id="s4">
-  <div class="frame">
-    <!-- 标题 -->
-    <div class="card ink reveal" style="grid-column:1/span 12;grid-row:1/span 1;padding:0 28px;display:flex;align-items:center;justify-content:space-between;">
-      <div style="display:flex;align-items:center;gap:24px;">
-        <div class="label-sm" style="color:rgba(245,244,239,.4);">03 / 大网专项</div>
-        <div class="t-sub" style="color:var(--paper);">极兔 · 圆通 · 韵达 · 中通 <mark style="color:var(--ink);">关键进展</mark></div>
-      </div>
-      <div class="label-sm" style="color:rgba(245,244,239,.4);">负责人：李卫琴 · 周韵 · 王政</div>
-    </div>
+<div class="frame">
 
-    <!-- 极兔 CRM 警示 cols 1-6, rows 2-4 -->
-    <div class="card lemon reveal" style="grid-column:1/span 6;grid-row:2/span 3;padding:28px 32px;display:flex;flex-direction:column;justify-content:space-between;">
-      <div>
-        <div class="label-sm" style="opacity:.6;margin-bottom:12px;">🚨 极兔大网 · 紧急决策项</div>
-        <div class="t-sub">极兔CRM系统<br>对接要求</div>
-      </div>
-      <div>
-        <div class="t-body" style="margin-bottom:10px;"><strong>极兔总部强制要求</strong>：所有供应商须在系统展示线索→跟进→成单全流程数据</div>
-        <div class="t-body">开发费用 <strong style="font-size:28px;">8-10万</strong>，周期 <strong>1-3个月</strong></div>
-      </div>
-      <div style="display:flex;gap:12px;">
-        <span class="pill" style="background:var(--ink);color:var(--paper);">负责人：李卫琴</span>
-        <span class="pill" style="background:var(--ink);color:var(--paper);">待领导决策 ⚡</span>
-      </div>
+  <!-- 标题 col 1-12, row 1 -->
+  <div class="card ink reveal" style="grid-column:1/span 12;grid-row:1/span 1;padding:0 28px;display:flex;align-items:center;justify-content:space-between;">
+    <div style="display:flex;align-items:center;gap:20px;">
+      <div class="label" style="opacity:.4;">04 / 大网直播 · 跟单转化</div>
+      <div class="t-sub" style="color:var(--paper);">6月极兔直播 + 申通大网 <mark style="color:var(--ink);">收单转化</mark></div>
     </div>
+    <div class="label" style="opacity:.35;">总部提醒 · 请各省区落实跟单</div>
+  </div>
 
-    <!-- 极兔 直播备战 cols 7-12, rows 2-4 -->
-    <div class="card reveal" style="grid-column:7/span 6;grid-row:2/span 3;padding:28px 32px;display:flex;flex-direction:column;justify-content:space-between;border-left:4px solid var(--ink);">
-      <div class="label-sm" style="opacity:.5;margin-bottom:8px;">极兔大网 · 6.25直播备战</div>
-      <div class="t-h3" style="margin-bottom:12px;">极兔大网直播 — 6月25日</div>
-      <div class="t-body-sm" style="opacity:.8;margin-bottom:8px;">· 8省已拉群，区域网点名录收集启动</div>
-      <div class="t-body-sm" style="opacity:.8;margin-bottom:8px;">· 宁阳极兔探点完成，标杆网点确认</div>
-      <div class="t-body-sm" style="opacity:.8;margin-bottom:8px;">· 直播方案初稿已出，李卫琴确认中</div>
-      <div class="t-body-sm" style="opacity:.8;">· 要求全省直播同步 + 标杆游学联动</div>
+  <!-- 极兔大网直播 col 1-6, row 2-5 -->
+  <div class="card lemon reveal" style="grid-column:1/span 6;grid-row:2/span 4;padding:32px 36px;display:flex;flex-direction:column;justify-content:space-between;">
+    <div>
+      <div class="label" style="opacity:.65;margin-bottom:12px;">🔴 紧急跟进 · 极兔大网直播</div>
+      <div class="t-title" style="margin-bottom:8px;">6月25日<br>极兔大网直播</div>
     </div>
-
-    <!-- 中通数据治理 cols 1-4, rows 5-7 -->
-    <div class="card reveal" style="grid-column:1/span 4;grid-row:5/span 3;padding:24px 28px;display:flex;flex-direction:column;justify-content:space-between;border-top:4px solid var(--ink);">
-      <div class="label-sm" style="opacity:.5;margin-bottom:8px;">中通大网 · 周韵</div>
-      <div class="t-h3" style="margin-bottom:10px;">数据治理专项</div>
-      <div class="t-body-sm" style="opacity:.8;margin-bottom:6px;">· 发现300+条异常数据，强制规范网点编码绑定</div>
-      <div class="t-body-sm" style="opacity:.8;margin-bottom:6px;">· 网格长任务单 <strong>114条</strong> 已下发六省</div>
-      <div class="t-body-sm" style="opacity:.8;">· 中通补充协议已送审，廊洽会展车安排完成</div>
+    <div>
+      <div class="t-body" style="margin-bottom:10px;">全国8省区统一参与，宁阳极兔标杆游学联动<br>已完成探点，标杆网点确认</div>
+      <div class="t-sm" style="margin-bottom:6px;">· 各省区已建群，网点名录收集启动</div>
+      <div class="t-sm">· 全省直播同步，最大化分配订单曝光</div>
     </div>
-
-    <!-- 韵达沙龙 cols 5-8, rows 5-7 -->
-    <div class="card ink reveal" style="grid-column:5/span 4;grid-row:5/span 3;padding:24px 28px;display:flex;flex-direction:column;justify-content:space-between;border-top:4px solid var(--lemon);">
-      <div class="label-sm" style="color:rgba(245,244,239,.4);margin-bottom:8px;">韵达大网 · 沙龙</div>
-      <div class="t-h3" style="color:var(--paper);margin-bottom:10px;"><em>豫南韵达</em><br>首场沙龙 今日落地</div>
-      <div class="t-body-sm" style="color:rgba(245,244,239,.8);margin-bottom:6px;">· 6.9今日举办，周子坤/卢恩主导</div>
-      <div class="t-body-sm" style="color:rgba(245,244,239,.8);margin-bottom:6px;">· 辽宁沈阳韵达分拨中心 6.4完成</div>
-      <div class="t-body-sm" style="color:rgba(245,244,239,.8);">· 江苏连云港+淮阳极兔沙龙本周四五待落地</div>
-    </div>
-
-    <!-- 圆通省区 cols 9-12, rows 5-7 -->
-    <div class="card reveal" style="grid-column:9/span 4;grid-row:5/span 3;padding:24px 28px;display:flex;flex-direction:column;justify-content:space-between;border-top:4px solid var(--ink);">
-      <div class="label-sm" style="opacity:.5;margin-bottom:8px;">圆通大网 · 李卫琴</div>
-      <div class="t-h3" style="margin-bottom:10px;">圆通省区<br>联合办公推进</div>
-      <div class="t-body-sm" style="opacity:.8;margin-bottom:6px;">· 圆通协议已提交盖章</div>
-      <div class="t-body-sm" style="opacity:.8;margin-bottom:6px;">· 河北/内蒙路权核定完成</div>
-      <div class="t-body-sm" style="opacity:.8;">· 本周广西圆通省区出差</div>
-    </div>
-
-    <!-- 底部 cols 1-12, row 8 -->
-    <div class="card lemon reveal" style="grid-column:1/span 12;grid-row:8/span 1;padding:0 28px;display:flex;align-items:center;gap:40px;">
-      <div class="label-sm" style="opacity:.6;">本周例会盘点问点 →</div>
-      <div class="t-body-sm"><strong>极兔CRM决策</strong> 是否拍板？</div>
-      <div style="width:1px;height:28px;background:var(--ink);opacity:.2;"></div>
-      <div class="t-body-sm"><strong>各战区极兔例会</strong> 已建立？频率？</div>
-      <div style="width:1px;height:28px;background:var(--ink);opacity:.2;"></div>
-      <div class="t-body-sm"><strong>大网直播分配订单</strong> 各省跟进情况？</div>
-      <div style="width:1px;height:28px;background:var(--ink);opacity:.2;"></div>
-      <div class="t-body-sm"><strong>6.25直播</strong> 各省准备度？</div>
+    <div style="padding:14px 18px;background:rgba(10,10,10,.1);margin-top:8px;">
+      <div class="t-sm" style="font-weight:700;">❓ 各省极兔大网名录收集进度？直播准备到位了吗？</div>
     </div>
   </div>
-  <div class="pagenum">04 / 05</div>
+
+  <!-- 申通大网收单转化 col 7-12, row 2-5 -->
+  <div class="card ink reveal" style="grid-column:7/span 6;grid-row:2/span 4;padding:32px 36px;display:flex;flex-direction:column;justify-content:space-between;">
+    <div>
+      <div class="label" style="opacity:.4;margin-bottom:12px;">🔵 持续跟单 · 申通大网直播</div>
+      <div class="t-sub" style="color:var(--paper);margin-bottom:12px;">前期申通直播<br><em>收单转化提醒</em></div>
+    </div>
+    <div>
+      <div class="t-body" style="color:rgba(245,244,239,.85);margin-bottom:10px;">前期申通大网直播已积累了一批意向网点，这批线索是存量资产</div>
+      <div class="t-sm" style="color:rgba(245,244,239,.8);margin-bottom:6px;">· 请各区梳理申通直播后的跟进情况</div>
+      <div class="t-sm" style="color:rgba(245,244,239,.8);margin-bottom:6px;">· 未成单的意向网点，本月作为重点转化目标</div>
+      <div class="t-sm" style="color:rgba(245,244,239,.8);">· 沙龙活动是转化载体，要带着名单去做</div>
+    </div>
+    <div style="padding:14px 18px;background:rgba(230,255,61,.12);border:1px solid rgba(230,255,61,.3);margin-top:8px;">
+      <div class="t-sm" style="color:var(--lemon);font-weight:700;">❓ 各区申通直播后意向网点，成单转化了多少？</div>
+    </div>
+  </div>
+
+  <!-- 韵达沙龙 col 1-4, row 6-8 -->
+  <div class="card reveal" style="grid-column:1/span 4;grid-row:6/span 3;padding:24px 26px;display:flex;flex-direction:column;justify-content:space-between;border-top:4px solid var(--ink);">
+    <div class="label" style="opacity:.5;margin-bottom:8px;">韵达大网 · 沙龙推进</div>
+    <div class="t-h3" style="margin-bottom:10px;">韵达沙龙<br>多省同步推进</div>
+    <div class="t-sm" style="opacity:.8;margin-bottom:6px;">· 豫南韵达 6.9今日举办，请密切跟进现场转化</div>
+    <div class="t-sm" style="opacity:.8;margin-bottom:6px;">· 辽宁沈阳韵达分拨 6.4已完成</div>
+    <div class="t-sm" style="font-weight:700;">沙龙后48小时是关键跟单窗口，请各负责人主动出击</div>
+  </div>
+
+  <!-- 中通数据 col 5-8, row 6-8 -->
+  <div class="card reveal" style="grid-column:5/span 4;grid-row:6/span 3;padding:24px 26px;display:flex;flex-direction:column;justify-content:space-between;border-top:4px solid var(--ink);">
+    <div class="label" style="opacity:.5;margin-bottom:8px;">中通 · 标杆游学直播</div>
+    <div class="t-h3" style="margin-bottom:10px;">游学活动<br>全省直播标准化</div>
+    <div class="t-sm" style="opacity:.8;margin-bottom:6px;">· 漯河游学 6.4全省直播 ✓ 已完成</div>
+    <div class="t-sm" style="opacity:.8;margin-bottom:6px;">· 各省后续游学须同步直播，不能只做线下</div>
+    <div class="t-sm" style="font-weight:700;">游学直播是分配订单放大器，请各省执行到位</div>
+  </div>
+
+  <!-- 圆通 col 9-12, row 6-8 -->
+  <div class="card lemon reveal" style="grid-column:9/span 4;grid-row:6/span 3;padding:24px 26px;display:flex;flex-direction:column;justify-content:space-between;">
+    <div class="label" style="opacity:.65;margin-bottom:8px;">圆通 · 省区联合推进</div>
+    <div class="t-h3" style="margin-bottom:10px;">圆通协议<br>已提交盖章</div>
+    <div class="t-sm" style="margin-bottom:6px;">· 协议盖章流程启动</div>
+    <div class="t-sm" style="margin-bottom:6px;">· 河北/内蒙路权核定完成</div>
+    <div class="t-sm" style="font-weight:700;">各省圆通省区联合办公推进情况，本周内报备总部</div>
+  </div>
+</div>
+<div class="pn dark">04 / 05</div>
 </section>
 
-<!-- ============================================================
-     SLIDE 5: 标杆表扬 + 下周重点
-============================================================ -->
+<!-- ==================== SLIDE 5: 总结 + 下周行动 ==================== -->
 <section class="slide" id="s5">
-  <div class="frame">
+<div class="frame">
 
-    <!-- 左上：标杆表扬大卡 cols 1-7, rows 1-5 -->
-    <div class="card lemon reveal" style="grid-column:1/span 7;grid-row:1/span 5;padding:40px 44px;display:flex;flex-direction:column;justify-content:space-between;">
-      <div>
-        <div class="label-sm" style="opacity:.6;margin-bottom:16px;">04 / 标杆打造 · 本周特别表扬</div>
-        <div class="t-title" style="margin-bottom:20px;">华中战区<br>新增 <span style="font-size:96px;font-weight:700;">2</span> 个<br>标杆提报</div>
-      </div>
-      <div style="background:rgba(10,10,10,.08);padding:20px 24px;margin-bottom:16px;">
-        <div class="label-sm" style="opacity:.6;margin-bottom:8px;">湖北荆门掇刀区 · 中通网点</div>
-        <div class="t-body"><strong>已运营7台</strong>，本月追购3台 · 鄂中西体系影响力大<br>申请人：华中战区销售市场部 · 审批：高翔 ✓ <strong>已通过</strong></div>
-      </div>
-      <div style="background:rgba(10,10,10,.08);padding:20px 24px;margin-bottom:16px;">
-        <div class="label-sm" style="opacity:.6;margin-bottom:8px;">河南漯河 · 中通标杆 + 游学</div>
-        <div class="t-body">6.4 标杆游学 <strong>线上线下同步直播</strong>，高志点评"做得挺不错" ✓</div>
-      </div>
-      <div class="t-body"><strong>全团队已形成标杆提报意识</strong>，持续提报是拿资源的关键打法。落后区域区总请注意：标杆申请既能拿政策支持，也是游学转化的必要前提。</div>
-    </div>
-
-    <!-- 右上：新媒体 cols 8-12, rows 1-3 -->
-    <div class="card ink reveal" style="grid-column:8/span 5;grid-row:1/span 3;padding:28px 32px;display:flex;flex-direction:column;justify-content:space-between;">
-      <div class="label-sm" style="color:rgba(245,244,239,.4);margin-bottom:8px;">全员动作 · 本周专项</div>
-      <div class="t-h3" style="color:var(--paper);margin-bottom:12px;">新媒体矩阵<br><em>全员激活</em></div>
-      <div class="t-body-sm" style="color:rgba(245,244,239,.8);margin-bottom:6px;">· 全员完成妙搭智能体安装，录音豆接AI分析</div>
-      <div class="t-body-sm" style="color:rgba(245,244,239,.8);margin-bottom:6px;">· 李鸿鹤小红书已产生快递线索 → 转战略部</div>
-      <div class="t-body-sm" style="color:rgba(245,244,239,.8);">· 6.8起扫码直接更新，晚会统一通报</div>
-      <div style="margin-top:12px;display:flex;gap:8px;">
-        <span class="pill" style="background:rgba(245,244,239,.1);color:var(--paper);border:1px solid rgba(245,244,239,.2);">王政 推动</span>
-        <span class="pill" style="background:var(--lemon);color:var(--ink);">全员已完成</span>
-      </div>
-    </div>
-
-    <!-- 右中：风险 cols 8-12, rows 4-5 -->
-    <div class="card reveal" style="grid-column:8/span 5;grid-row:4/span 2;padding:24px 28px;border-left:4px solid #B71C1C;display:flex;flex-direction:column;justify-content:space-between;">
-      <div class="label-sm" style="opacity:.5;margin-bottom:8px;">⚠ 当前风险卡点</div>
-      <div class="t-body-sm" style="margin-bottom:6px;"><strong style="color:#B71C1C;">极兔CRM</strong> 8-10万待决策 · 影响合作资格</div>
-      <div class="t-body-sm" style="margin-bottom:6px;"><strong style="color:#B71C1C;">邳州50台招标</strong> 三方竞争，总部需支援</div>
-      <div class="t-body-sm"><strong>高考限行</strong> 山东多网点发车推迟，GR跟进中</div>
-    </div>
-
-    <!-- 下周重点 cols 1-12, rows 6-8 -->
-    <div class="card ink reveal" style="grid-column:1/span 12;grid-row:6/span 1;padding:0 28px;display:flex;align-items:center;">
-      <div class="label-sm" style="color:rgba(245,244,239,.4);margin-right:28px;white-space:nowrap;">下周作战重点 →</div>
-      <div style="flex:1;display:flex;gap:24px;align-items:center;">
-        <div class="t-body-sm" style="color:var(--paper);">🔵 <strong style="color:var(--lemon);">河南</strong> 韵达沙龙跟单+洛阳中通</div>
-        <div style="width:1px;height:24px;background:rgba(255,255,255,.15);"></div>
-        <div class="t-body-sm" style="color:var(--paper);">🔵 <strong style="color:var(--lemon);">山东</strong> 6.11章丘出图+6.25极兔直播</div>
-        <div style="width:1px;height:24px;background:rgba(255,255,255,.15);"></div>
-        <div class="t-body-sm" style="color:var(--paper);">🔴 <strong style="color:#EF9A9A;">江苏</strong> 极兔沙龙转化+邳州招标</div>
-        <div style="width:1px;height:24px;background:rgba(255,255,255,.15);"></div>
-        <div class="t-body-sm" style="color:var(--paper);">⚡ <strong style="color:var(--lemon);">极兔CRM</strong> 决策拍板</div>
-      </div>
-    </div>
-
-    <!-- 行动卡 row 7-8 -->
-    <div class="card reveal" style="grid-column:1/span 3;grid-row:7/span 2;padding:20px 22px;display:flex;flex-direction:column;justify-content:center;gap:8px;border-top:3px solid #2E7D32;">
-      <div class="label-sm" style="opacity:.5;">区总必答</div>
-      <div class="t-body-sm"><strong>本周沙龙</strong><br>产生多少订单？</div>
-    </div>
-    <div class="card reveal" style="grid-column:4/span 3;grid-row:7/span 2;padding:20px 22px;display:flex;flex-direction:column;justify-content:center;gap:8px;border-top:3px solid #F57F17;">
-      <div class="label-sm" style="opacity:.5;">区总必答</div>
-      <div class="t-body-sm"><strong>极兔例会</strong><br>建立情况与频率？</div>
-    </div>
-    <div class="card reveal" style="grid-column:7/span 3;grid-row:7/span 2;padding:20px 22px;display:flex;flex-direction:column;justify-content:center;gap:8px;border-top:3px solid #F57F17;">
-      <div class="label-sm" style="opacity:.5;">区总必答</div>
-      <div class="t-body-sm"><strong>标杆申请</strong><br>本月计划几个？</div>
-    </div>
-    <div class="card lemon reveal" style="grid-column:10/span 3;grid-row:7/span 2;padding:20px 22px;display:flex;flex-direction:column;justify-content:center;gap:8px;">
-      <div class="label-sm" style="opacity:.6;">落后区总</div>
-      <div class="t-body-sm"><strong>华东/华南</strong><br>本月加速方案？</div>
-    </div>
+  <!-- 大标语 col 1-7, row 1-4 -->
+  <div class="card ink reveal" style="grid-column:1/span 7;grid-row:1/span 4;padding:36px 44px;display:flex;flex-direction:column;justify-content:space-between;">
+    <div class="label" style="opacity:.4;margin-bottom:16px;">05 / 总结 · 下周行动部署</div>
+    <div class="t-title" style="color:var(--paper);">三周决战<br><em>窗口已开</em></div>
+    <div class="t-body" style="color:rgba(245,244,239,.7);margin-top:16px;">6月9日 → 30日，三周是本月的决战窗口。<br>渗透率验证了打法，标杆游学直播放大了效果。<br><strong style="color:var(--lemon);">现在是执行力的比拼。</strong></div>
   </div>
-  <div class="pagenum lemon">05 / 05</div>
+
+  <!-- 三个关键数字 col 8-12, row 1-4 -->
+  <div class="card lemon reveal" style="grid-column:8/span 2;grid-row:1/span 2;padding:20px 22px;display:flex;flex-direction:column;justify-content:center;gap:4px;">
+    <div class="label" style="opacity:.65;">渗透率增长</div>
+    <div class="stat-md">+18pp</div>
+    <div class="label" style="opacity:.65;">3→5月</div>
+  </div>
+  <div class="card reveal" style="grid-column:10/span 3;grid-row:1/span 2;padding:20px 22px;display:flex;flex-direction:column;justify-content:center;gap:4px;border:1.5px solid var(--ink);">
+    <div class="label" style="opacity:.5;">六省月目标</div>
+    <div class="stat-md">650</div>
+    <div class="label" style="opacity:.5;">已完 34 · 剩 616</div>
+  </div>
+  <div class="card amber reveal" style="grid-column:8/span 2;grid-row:3/span 2;padding:20px 22px;display:flex;flex-direction:column;justify-content:center;gap:4px;">
+    <div class="label" style="color:rgba(245,244,239,.65);">极兔直播</div>
+    <div class="stat-md" style="color:var(--paper);">6.25</div>
+    <div class="label" style="color:rgba(245,244,239,.65);">必须全省备战</div>
+  </div>
+  <div class="card ink reveal" style="grid-column:10/span 3;grid-row:3/span 2;padding:20px 22px;display:flex;flex-direction:column;justify-content:center;gap:4px;">
+    <div class="label" style="opacity:.4;">标杆提报</div>
+    <div class="t-sub" style="color:var(--lemon);">加速申请</div>
+    <div class="label" style="opacity:.4;">资源来自提报，不来自等待</div>
+  </div>
+
+  <!-- 下周重点行动 col 1-12, row 5 -->
+  <div class="card lemon reveal" style="grid-column:1/span 12;grid-row:5/span 1;padding:0 28px;display:flex;align-items:center;gap:28px;">
+    <div class="label" style="opacity:.65;white-space:nowrap;">下周行动重点 →</div>
+    <div class="t-sm"><strong>山东</strong> 6.11章丘中通出图 + 6.25极兔直播最终备战</div>
+    <div style="width:1px;height:26px;background:rgba(10,10,10,.2);"></div>
+    <div class="t-sm"><strong>河南</strong> 今日韵达沙龙跟单转化 + 洛阳中通下周跟进</div>
+    <div style="width:1px;height:26px;background:rgba(10,10,10,.2);"></div>
+    <div class="t-sm"><strong>江苏</strong> 本周极兔沙龙转化 + 邳州招标跟进</div>
+    <div style="width:1px;height:26px;background:rgba(10,10,10,.2);"></div>
+    <div class="t-sm"><strong>全区</strong> 申通大网意向网点梳理 → 本月转化</div>
+  </div>
+
+  <!-- 区总必答 row 6-8 -->
+  <div class="card reveal" style="grid-column:1/span 1;grid-row:6/span 3;padding:10px;display:flex;align-items:center;justify-content:center;background:var(--ink);">
+    <div style="writing-mode:vertical-rl;color:rgba(245,244,239,.4);font-family:'JetBrains Mono';font-size:13px;letter-spacing:.12em;text-transform:uppercase;">区总必答</div>
+  </div>
+
+  <div class="card reveal" style="grid-column:2/span 3;grid-row:6/span 3;padding:20px 22px;display:flex;flex-direction:column;justify-content:center;gap:10px;border-top:4px solid #B71C1C;">
+    <div class="label" style="opacity:.5;">华东 · 华南</div>
+    <div class="t-body"><strong>本月追赶方案</strong>是什么？节奏如何拉起来？</div>
+  </div>
+
+  <div class="card reveal" style="grid-column:5/span 3;grid-row:6/span 3;padding:20px 22px;display:flex;flex-direction:column;justify-content:center;gap:10px;border-top:4px solid #E65100;">
+    <div class="label" style="opacity:.5;">所有区总</div>
+    <div class="t-body"><strong>沙龙现场转化</strong>成单了几台？数字报上来。</div>
+  </div>
+
+  <div class="card reveal" style="grid-column:8/span 3;grid-row:6/span 3;padding:20px 22px;display:flex;flex-direction:column;justify-content:center;gap:10px;border-top:4px solid var(--ink);">
+    <div class="label" style="opacity:.5;">所有区总</div>
+    <div class="t-body"><strong>本月标杆申请</strong>计划几个？还没申请的请说明原因。</div>
+  </div>
+
+  <div class="card lemon reveal" style="grid-column:11/span 2;grid-row:6/span 3;padding:20px 22px;display:flex;flex-direction:column;justify-content:center;gap:10px;">
+    <div class="label" style="opacity:.65;">极兔直播</div>
+    <div class="t-body"><strong>6.25各省准备度</strong>？名录收集进度？</div>
+  </div>
+</div>
+<div class="pn lemon">05 / 05</div>
 </section>
 
 </main>
 </div>
 
-<div class="slide-counter" id="counter">1 / 5</div>
+<div class="counter" id="counter">1 / 5</div>
 
 <script>
 class Deck {
