@@ -1,0 +1,1034 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>快递直播营销成效汇报 | 新石器无人车</title>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Noto+Sans+SC:wght@400;500;700;900&display=swap" rel="stylesheet">
+<style>
+/* === VIEWPORT BASE (mandatory fixed-stage CSS) === */
+html, body {
+  width: 100%; height: 100%;
+  margin: 0; overflow: hidden;
+  background: var(--stage-bg, #000);
+}
+.deck-viewport {
+  position: fixed; inset: 0;
+  overflow: hidden;
+  background: var(--stage-bg, #0a0f1e);
+}
+.deck-stage {
+  position: absolute; left: 0; top: 0;
+  width: 1920px; height: 1080px;
+  overflow: hidden; transform-origin: 0 0;
+  background: var(--slide-bg, #0a0f1e);
+}
+.slide {
+  position: absolute; inset: 0;
+  width: 1920px; height: 1080px;
+  overflow: hidden; display: block;
+  visibility: hidden; opacity: 0;
+  pointer-events: none;
+  background: var(--slide-bg, #0a0f1e);
+}
+.slide.active, .slide.visible {
+  visibility: visible; opacity: 1;
+  pointer-events: auto; z-index: 1;
+}
+img, video, canvas, svg { max-width: 100%; max-height: 100%; }
+.deck-controls {
+  position: fixed; left: 50%; bottom: 22px;
+  transform: translateX(-50%); z-index: 1000;
+}
+@media print {
+  html, body { width: 1920px; height: auto; overflow: visible; background: #fff; }
+  .deck-viewport { position: static; overflow: visible; }
+  .deck-stage { position: static; width: auto; height: auto; transform: none !important; }
+  .slide { position: relative; display: block !important; visibility: visible !important;
+    opacity: 1 !important; pointer-events: auto !important;
+    width: 1920px; height: 1080px; break-after: page; }
+  .slide:last-child { break-after: auto; }
+  .deck-controls { display: none !important; }
+}
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation-duration: 0.01ms !important; transition-duration: 0.2s !important; }
+}
+
+/* === DESIGN SYSTEM === */
+:root {
+  --bg-deep: #060c1a;
+  --bg-dark: #0a1428;
+  --bg-card: #0f1e38;
+  --bg-card2: #0d1730;
+  --accent-gold: #f5a623;
+  --accent-blue: #3b82f6;
+  --accent-cyan: #06b6d4;
+  --accent-green: #22c55e;
+  --accent-red: #ef4444;
+  --text-white: #ffffff;
+  --text-silver: #94a3b8;
+  --text-muted: #64748b;
+  --border: rgba(255,255,255,0.07);
+  --glow-gold: rgba(245,166,35,0.15);
+  --glow-blue: rgba(59,130,246,0.15);
+}
+
+/* === SLIDE 1: TITLE === */
+#slide-title {
+  background: linear-gradient(135deg, #060c1a 0%, #0a1428 50%, #060c1a 100%);
+}
+#slide-title .bg-grid {
+  position: absolute; inset: 0;
+  background-image:
+    linear-gradient(rgba(59,130,246,0.05) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(59,130,246,0.05) 1px, transparent 1px);
+  background-size: 80px 80px;
+}
+#slide-title .glow-orb {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(120px);
+  pointer-events: none;
+}
+#slide-title .orb1 { width: 800px; height: 600px; background: rgba(59,130,246,0.12); top: -200px; right: -100px; }
+#slide-title .orb2 { width: 600px; height: 500px; background: rgba(245,166,35,0.08); bottom: -100px; left: 100px; }
+#slide-title .content {
+  position: absolute; inset: 0;
+  display: flex; flex-direction: column;
+  justify-content: center; padding: 0 180px;
+}
+#slide-title .eyebrow {
+  font-family: 'Manrope', sans-serif;
+  font-size: 22px; font-weight: 600; letter-spacing: 4px;
+  color: var(--accent-gold); text-transform: uppercase;
+  margin-bottom: 32px;
+  display: flex; align-items: center; gap: 16px;
+}
+#slide-title .eyebrow::before {
+  content: ''; width: 48px; height: 2px;
+  background: var(--accent-gold);
+}
+#slide-title h1 {
+  font-family: 'Noto Sans SC', sans-serif;
+  font-size: 96px; font-weight: 900; line-height: 1.1;
+  color: var(--text-white); margin: 0 0 20px;
+  letter-spacing: -1px;
+}
+#slide-title h1 span { color: var(--accent-gold); }
+#slide-title .subtitle {
+  font-family: 'Manrope', sans-serif;
+  font-size: 30px; color: var(--text-silver);
+  font-weight: 400; margin-bottom: 80px;
+}
+#slide-title .metrics-row {
+  display: flex; gap: 48px;
+}
+#slide-title .metric {
+  background: rgba(255,255,255,0.04);
+  border: 1px solid var(--border);
+  border-radius: 16px; padding: 32px 48px;
+  text-align: center;
+}
+#slide-title .metric .num {
+  font-family: 'Manrope', sans-serif;
+  font-size: 52px; font-weight: 800;
+  color: var(--accent-gold); line-height: 1;
+  margin-bottom: 8px;
+}
+#slide-title .metric .lbl {
+  font-family: 'Noto Sans SC', sans-serif;
+  font-size: 18px; color: var(--text-silver);
+}
+#slide-title .tag-right {
+  position: absolute; right: 180px; top: 50%;
+  transform: translateY(-50%);
+  display: flex; flex-direction: column; gap: 20px;
+}
+#slide-title .tag {
+  background: rgba(59,130,246,0.1);
+  border: 1px solid rgba(59,130,246,0.3);
+  border-radius: 100px; padding: 12px 28px;
+  font-family: 'Noto Sans SC', sans-serif;
+  font-size: 18px; color: #60a5fa;
+  display: flex; align-items: center; gap: 10px;
+}
+#slide-title .tag.gold {
+  background: rgba(245,166,35,0.1);
+  border-color: rgba(245,166,35,0.3);
+  color: var(--accent-gold);
+}
+#slide-title .dot { width: 8px; height: 8px; border-radius: 50%; background: currentColor; }
+
+/* === SLIDE 2: OVERVIEW === */
+#slide-overview { background: #060c1a; }
+.slide-header {
+  position: absolute; top: 72px; left: 120px; right: 120px;
+  display: flex; align-items: center; justify-content: space-between;
+}
+.slide-num {
+  font-family: 'Manrope', sans-serif;
+  font-size: 14px; font-weight: 700; letter-spacing: 3px;
+  color: var(--text-muted); text-transform: uppercase;
+}
+.slide-title-bar {
+  font-family: 'Noto Sans SC', sans-serif;
+  font-size: 28px; font-weight: 700; color: var(--text-white);
+  display: flex; align-items: center; gap: 16px;
+}
+.slide-title-bar::before {
+  content: ''; width: 6px; height: 28px;
+  background: var(--accent-gold); border-radius: 3px;
+}
+.slide-divider {
+  position: absolute; top: 130px; left: 120px; right: 120px;
+  height: 1px; background: var(--border);
+}
+
+/* 3-column overview cards */
+#slide-overview .cards {
+  position: absolute;
+  top: 170px; left: 120px; right: 120px; bottom: 80px;
+  display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 32px;
+}
+.brand-card {
+  border-radius: 24px; padding: 56px 48px;
+  display: flex; flex-direction: column;
+  position: relative; overflow: hidden;
+}
+.brand-card.zhong { background: linear-gradient(145deg, #1a2a4a, #0f1e38); border: 1px solid rgba(59,130,246,0.2); }
+.brand-card.yuan { background: linear-gradient(145deg, #1a2a4a, #0f1e38); border: 1px solid rgba(34,197,94,0.2); }
+.brand-card.shen { background: linear-gradient(145deg, #1a2a4a, #0f1e38); border: 1px solid rgba(245,166,35,0.2); }
+.brand-card .brand-tag {
+  display: inline-flex; align-items: center; gap: 12px;
+  background: rgba(255,255,255,0.06); border-radius: 100px;
+  padding: 10px 24px; margin-bottom: 40px; width: fit-content;
+  font-family: 'Noto Sans SC', sans-serif;
+  font-size: 20px; font-weight: 700; color: var(--text-white);
+}
+.brand-card.zhong .brand-tag { color: #60a5fa; }
+.brand-card.yuan .brand-tag { color: #4ade80; }
+.brand-card.shen .brand-tag { color: var(--accent-gold); }
+.brand-card .big-num {
+  font-family: 'Manrope', sans-serif;
+  font-size: 80px; font-weight: 800; line-height: 1;
+  margin-bottom: 8px;
+}
+.brand-card.zhong .big-num { color: #60a5fa; }
+.brand-card.yuan .big-num { color: #4ade80; }
+.brand-card.shen .big-num { color: var(--accent-gold); }
+.brand-card .big-label {
+  font-family: 'Noto Sans SC', sans-serif;
+  font-size: 22px; color: var(--text-silver); margin-bottom: 48px;
+}
+.brand-card .stat-rows { display: flex; flex-direction: column; gap: 20px; margin-top: auto; }
+.stat-row {
+  display: flex; justify-content: space-between; align-items: center;
+  padding: 18px 24px; background: rgba(255,255,255,0.04);
+  border-radius: 12px;
+}
+.stat-row .s-label {
+  font-family: 'Noto Sans SC', sans-serif;
+  font-size: 18px; color: var(--text-silver);
+}
+.stat-row .s-val {
+  font-family: 'Manrope', sans-serif;
+  font-size: 22px; font-weight: 700; color: var(--text-white);
+}
+.stat-row .s-val.hi { color: var(--accent-gold); }
+.stat-row .s-val.green { color: #4ade80; }
+.stat-row .s-val.blue { color: #60a5fa; }
+.brand-card .card-glow {
+  position: absolute; width: 300px; height: 300px;
+  border-radius: 50%; filter: blur(80px); pointer-events: none;
+  top: -80px; right: -80px;
+}
+.brand-card.zhong .card-glow { background: rgba(59,130,246,0.1); }
+.brand-card.yuan .card-glow { background: rgba(34,197,94,0.08); }
+.brand-card.shen .card-glow { background: rgba(245,166,35,0.1); }
+
+/* === SLIDE 3: ZHONGTONG DETAIL === */
+#slide-zhong { background: linear-gradient(160deg, #060c1a 0%, #0a1428 100%); }
+#slide-zhong .main-grid {
+  position: absolute; top: 160px; left: 120px; right: 120px; bottom: 80px;
+  display: grid; grid-template-columns: 1fr 1.2fr; gap: 40px;
+}
+.info-panel {
+  background: var(--bg-card); border-radius: 24px;
+  padding: 56px 48px; display: flex; flex-direction: column;
+  border: 1px solid var(--border);
+  position: relative; overflow: hidden;
+}
+.info-panel .panel-glow {
+  position: absolute; width: 400px; height: 400px;
+  border-radius: 50%; filter: blur(100px);
+  top: -100px; right: -100px; pointer-events: none;
+}
+.info-panel h3 {
+  font-family: 'Noto Sans SC', sans-serif;
+  font-size: 24px; font-weight: 700; color: var(--text-silver);
+  text-transform: uppercase; letter-spacing: 2px;
+  margin: 0 0 40px; display: flex; align-items: center; gap: 12px;
+}
+.info-panel h3::before { content: ''; width: 4px; height: 24px; background: var(--accent-blue); border-radius: 2px; }
+.kpi-big {
+  font-family: 'Manrope', sans-serif;
+  font-size: 96px; font-weight: 800; line-height: 1;
+  color: #60a5fa; margin-bottom: 8px;
+}
+.kpi-sub {
+  font-family: 'Noto Sans SC', sans-serif;
+  font-size: 24px; color: var(--text-silver); margin-bottom: 48px;
+}
+.pill-list { display: flex; flex-direction: column; gap: 16px; }
+.pill-item {
+  display: flex; align-items: center; justify-content: space-between;
+  background: rgba(255,255,255,0.04); border-radius: 12px;
+  padding: 20px 28px;
+}
+.pill-item .p-key {
+  font-family: 'Noto Sans SC', sans-serif;
+  font-size: 19px; color: var(--text-silver);
+}
+.pill-item .p-val {
+  font-family: 'Manrope', sans-serif;
+  font-size: 22px; font-weight: 700; color: var(--text-white);
+}
+.pill-item .p-val.accent { color: var(--accent-gold); }
+
+/* Tier table */
+.tier-table { display: flex; flex-direction: column; gap: 0; overflow: hidden; border-radius: 16px; }
+.tier-row {
+  display: grid; grid-template-columns: 1.4fr 0.8fr 1fr 1fr 1fr;
+  padding: 18px 24px;
+  font-family: 'Noto Sans SC', sans-serif; font-size: 18px;
+}
+.tier-row.header {
+  background: rgba(59,130,246,0.15);
+  color: #60a5fa; font-weight: 700; font-size: 16px;
+}
+.tier-row.data { color: var(--text-white); }
+.tier-row.data:nth-child(even) { background: rgba(255,255,255,0.03); }
+.tier-row.data:nth-child(odd) { background: rgba(255,255,255,0.015); }
+.tier-row .hi { color: var(--accent-gold); font-weight: 700; font-family: 'Manrope', sans-serif; }
+
+/* ROI highlight */
+.roi-box {
+  background: linear-gradient(135deg, rgba(245,166,35,0.15), rgba(245,166,35,0.05));
+  border: 1px solid rgba(245,166,35,0.35);
+  border-radius: 20px; padding: 32px 40px;
+  display: flex; align-items: center; gap: 40px;
+  margin-top: 24px;
+}
+.roi-box .roi-num {
+  font-family: 'Manrope', sans-serif;
+  font-size: 72px; font-weight: 800;
+  color: var(--accent-gold); white-space: nowrap;
+}
+.roi-box .roi-desc {
+  font-family: 'Noto Sans SC', sans-serif;
+  font-size: 20px; color: var(--text-silver); line-height: 1.6;
+}
+.roi-box .roi-desc strong { color: var(--text-white); }
+
+/* === SLIDE 4: YUAN + SHEN === */
+#slide-yuanshen { background: linear-gradient(160deg, #060c1a 0%, #0a1428 100%); }
+#slide-yuanshen .two-col {
+  position: absolute; top: 160px; left: 120px; right: 120px; bottom: 80px;
+  display: grid; grid-template-columns: 1fr 1fr; gap: 40px;
+}
+.ys-panel {
+  border-radius: 24px; padding: 56px 48px;
+  border: 1px solid var(--border); overflow: hidden;
+  position: relative; display: flex; flex-direction: column;
+}
+.ys-panel.yuan { background: linear-gradient(145deg, #0a1e14, #0f2a1c); border-color: rgba(34,197,94,0.2); }
+.ys-panel.shen { background: linear-gradient(145deg, #1c1508, #261c07); border-color: rgba(245,166,35,0.2); }
+.ys-brand {
+  font-family: 'Noto Sans SC', sans-serif;
+  font-size: 28px; font-weight: 700;
+  display: flex; align-items: center; gap: 12px; margin-bottom: 48px;
+}
+.ys-panel.yuan .ys-brand { color: #4ade80; }
+.ys-panel.shen .ys-brand { color: var(--accent-gold); }
+.ys-brand-dot { width: 10px; height: 10px; border-radius: 50%; background: currentColor; }
+
+.ys-hero {
+  display: flex; align-items: baseline; gap: 16px; margin-bottom: 8px;
+}
+.ys-num {
+  font-family: 'Manrope', sans-serif;
+  font-size: 88px; font-weight: 800; line-height: 1;
+}
+.ys-panel.yuan .ys-num { color: #4ade80; }
+.ys-panel.shen .ys-num { color: var(--accent-gold); }
+.ys-unit {
+  font-family: 'Noto Sans SC', sans-serif;
+  font-size: 28px; color: var(--text-silver);
+}
+.ys-label {
+  font-family: 'Noto Sans SC', sans-serif;
+  font-size: 22px; color: var(--text-silver); margin-bottom: 40px;
+}
+
+.breakdown-grid {
+  display: grid; grid-template-columns: 1fr 1fr; gap: 20px;
+  margin-bottom: 32px;
+}
+.bk-cell {
+  background: rgba(255,255,255,0.04); border-radius: 14px;
+  padding: 24px; text-align: center;
+}
+.bk-cell .bk-n {
+  font-family: 'Manrope', sans-serif;
+  font-size: 40px; font-weight: 800; line-height: 1; margin-bottom: 8px;
+}
+.ys-panel.yuan .bk-cell .bk-n { color: #4ade80; }
+.ys-panel.shen .bk-cell .bk-n { color: var(--accent-gold); }
+.bk-cell .bk-l {
+  font-family: 'Noto Sans SC', sans-serif;
+  font-size: 16px; color: var(--text-muted);
+}
+
+.delivery-bar {
+  background: rgba(255,255,255,0.04); border-radius: 16px;
+  padding: 24px 28px; margin-top: auto;
+}
+.delivery-bar .db-title {
+  font-family: 'Noto Sans SC', sans-serif;
+  font-size: 18px; color: var(--text-silver); margin-bottom: 16px;
+}
+.progress-track {
+  height: 10px; background: rgba(255,255,255,0.08);
+  border-radius: 100px; overflow: hidden; margin-bottom: 12px;
+}
+.progress-fill {
+  height: 100%; border-radius: 100px;
+  transition: width 1s ease;
+}
+.ys-panel.yuan .progress-fill { background: linear-gradient(90deg, #22c55e, #4ade80); }
+.ys-panel.shen .progress-fill { background: linear-gradient(90deg, #d97706, #f5a623); }
+.db-nums {
+  display: flex; justify-content: space-between;
+  font-family: 'Manrope', sans-serif; font-size: 17px;
+}
+.db-nums .done { color: var(--text-white); font-weight: 600; }
+.db-nums .pct { color: var(--text-muted); }
+
+/* highlights for shen */
+.highlight-list { display: flex; flex-direction: column; gap: 16px; }
+.hl-item {
+  display: flex; gap: 16px; align-items: flex-start;
+  background: rgba(255,255,255,0.04); border-radius: 12px; padding: 20px 24px;
+}
+.hl-icon {
+  width: 32px; height: 32px; border-radius: 8px;
+  background: rgba(245,166,35,0.15);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 16px; flex-shrink: 0; margin-top: 2px;
+}
+.hl-text {
+  font-family: 'Noto Sans SC', sans-serif;
+  font-size: 18px; color: var(--text-silver); line-height: 1.5;
+}
+.hl-text strong { color: var(--text-white); }
+
+/* === SLIDE 5: SUMMARY === */
+#slide-summary { background: #060c1a; }
+#slide-summary .bg-grid {
+  position: absolute; inset: 0;
+  background-image:
+    linear-gradient(rgba(59,130,246,0.04) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(59,130,246,0.04) 1px, transparent 1px);
+  background-size: 80px 80px;
+}
+#slide-summary .content {
+  position: absolute; top: 160px; left: 120px; right: 120px; bottom: 80px;
+  display: grid; grid-template-columns: 1.1fr 0.9fr; gap: 48px;
+}
+.summary-left { display: flex; flex-direction: column; gap: 24px; }
+.total-card {
+  background: linear-gradient(135deg, rgba(245,166,35,0.12), rgba(245,166,35,0.04));
+  border: 1px solid rgba(245,166,35,0.3); border-radius: 24px;
+  padding: 48px 56px;
+}
+.total-card .tc-eyebrow {
+  font-family: 'Noto Sans SC', sans-serif;
+  font-size: 18px; color: var(--accent-gold); letter-spacing: 2px;
+  text-transform: uppercase; margin-bottom: 20px;
+}
+.total-card .tc-nums {
+  display: flex; gap: 60px; align-items: baseline; margin-bottom: 24px;
+}
+.total-card .tc-big {
+  font-family: 'Manrope', sans-serif;
+  font-size: 96px; font-weight: 800; color: var(--accent-gold); line-height: 1;
+}
+.total-card .tc-unit {
+  font-family: 'Noto Sans SC', sans-serif;
+  font-size: 28px; color: var(--text-silver);
+}
+.total-card .tc-note {
+  font-family: 'Noto Sans SC', sans-serif;
+  font-size: 20px; color: var(--text-silver);
+}
+.total-card .tc-note strong { color: var(--text-white); }
+
+.compare-grid {
+  display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 20px;
+}
+.cmp-cell {
+  background: var(--bg-card); border-radius: 18px; padding: 32px 28px;
+  border: 1px solid var(--border); text-align: center;
+}
+.cmp-cell .c-brand {
+  font-family: 'Noto Sans SC', sans-serif;
+  font-size: 18px; font-weight: 700; margin-bottom: 20px;
+}
+.cmp-cell.z .c-brand { color: #60a5fa; }
+.cmp-cell.y .c-brand { color: #4ade80; }
+.cmp-cell.s .c-brand { color: var(--accent-gold); }
+.cmp-cell .c-num {
+  font-family: 'Manrope', sans-serif;
+  font-size: 44px; font-weight: 800; line-height: 1; margin-bottom: 6px;
+}
+.cmp-cell.z .c-num { color: #60a5fa; }
+.cmp-cell.y .c-num { color: #4ade80; }
+.cmp-cell.s .c-num { color: var(--accent-gold); }
+.cmp-cell .c-label {
+  font-family: 'Noto Sans SC', sans-serif;
+  font-size: 16px; color: var(--text-muted);
+}
+
+.summary-right { display: flex; flex-direction: column; gap: 24px; }
+.insight-card {
+  background: var(--bg-card); border-radius: 20px;
+  padding: 36px 40px; border: 1px solid var(--border);
+  flex: 1;
+}
+.insight-card .ic-title {
+  font-family: 'Noto Sans SC', sans-serif;
+  font-size: 20px; font-weight: 700; color: var(--text-white);
+  margin-bottom: 24px; display: flex; align-items: center; gap: 12px;
+}
+.ic-dot { width: 8px; height: 8px; border-radius: 50%; }
+.ic-dot.gold { background: var(--accent-gold); }
+.ic-dot.blue { background: #60a5fa; }
+.ic-dot.green { background: #4ade80; }
+.insight-list { display: flex; flex-direction: column; gap: 14px; }
+.insight-item {
+  font-family: 'Noto Sans SC', sans-serif;
+  font-size: 18px; color: var(--text-silver); line-height: 1.5;
+  display: flex; gap: 12px; align-items: flex-start;
+}
+.insight-item::before {
+  content: '→'; color: var(--accent-gold);
+  font-weight: 700; flex-shrink: 0; margin-top: 2px;
+}
+
+/* === NAV DOTS === */
+.nav-dots {
+  position: fixed; right: 40px; top: 50%;
+  transform: translateY(-50%); z-index: 1000;
+  display: flex; flex-direction: column; gap: 12px;
+}
+.nav-dot {
+  width: 8px; height: 8px; border-radius: 100px;
+  background: rgba(255,255,255,0.2); cursor: pointer;
+  transition: all 0.3s; border: none; padding: 0;
+}
+.nav-dot.active { background: var(--accent-gold); height: 28px; }
+
+/* === ANIMATIONS === */
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(30px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+@keyframes countUp {
+  from { opacity: 0; transform: scale(0.8); }
+  to { opacity: 1; transform: scale(1); }
+}
+.slide.active .anim-1 { animation: fadeUp 0.6s ease both; }
+.slide.active .anim-2 { animation: fadeUp 0.6s 0.1s ease both; }
+.slide.active .anim-3 { animation: fadeUp 0.6s 0.2s ease both; }
+.slide.active .anim-4 { animation: fadeUp 0.6s 0.3s ease both; }
+.slide.active .anim-5 { animation: fadeUp 0.6s 0.4s ease both; }
+.slide.active .anim-6 { animation: fadeUp 0.6s 0.5s ease both; }
+.slide.active .count { animation: countUp 0.5s 0.2s ease both; }
+
+/* === PAGE INDICATOR === */
+.page-ind {
+  position: fixed; bottom: 40px; right: 60px; z-index: 1000;
+  font-family: 'Manrope', sans-serif;
+  font-size: 14px; color: var(--text-muted);
+}
+</style>
+</head>
+<body>
+<div class="deck-viewport">
+<div class="deck-stage" id="stage">
+
+<!-- ===== SLIDE 1: TITLE ===== -->
+<div class="slide active" id="slide-title">
+  <div class="bg-grid"></div>
+  <div class="glow-orb orb1"></div>
+  <div class="glow-orb orb2"></div>
+  <div class="content">
+    <div class="eyebrow anim-1">新石器无人车 · 快递直播营销</div>
+    <h1 class="anim-2">三大品牌直播<br><span>成效汇报</span></h1>
+    <div class="subtitle anim-3">圆通 · 申通 · 中通 | 2026年5-6月</div>
+    <div class="metrics-row anim-4">
+      <div class="metric">
+        <div class="num">393<span style="font-size:32px">+</span></div>
+        <div class="lbl">三大品牌合计订单台数</div>
+      </div>
+      <div class="metric">
+        <div class="num">1,869<span style="font-size:32px">万</span></div>
+        <div class="lbl">中通专场成交金额</div>
+      </div>
+      <div class="metric">
+        <div class="num">43.7<span style="font-size:32px">倍</span></div>
+        <div class="lbl">中通专场投入产出比ROI</div>
+      </div>
+      <div class="metric">
+        <div class="num">643<span style="font-size:32px">元</span></div>
+        <div class="lbl">申通单台获客成本</div>
+      </div>
+    </div>
+  </div>
+  <div class="tag-right anim-5">
+    <div class="tag gold"><div class="dot"></div>中通专场 168台</div>
+    <div class="tag"><div class="dot"></div>圆通直播 178台</div>
+    <div class="tag gold"><div class="dot"></div>申通直播 47台(进行中)</div>
+    <div class="tag"><div class="dot"></div>覆盖全国20+省市</div>
+  </div>
+</div>
+
+<!-- ===== SLIDE 2: OVERVIEW ===== -->
+<div class="slide" id="slide-overview">
+  <div class="slide-header">
+    <div class="slide-num">01 / 04</div>
+    <div class="slide-title-bar">三品牌数据总览</div>
+    <div class="slide-num">快递直播成效汇报</div>
+  </div>
+  <div class="slide-divider"></div>
+  <div class="cards">
+    <!-- 中通 -->
+    <div class="brand-card zhong anim-1">
+      <div class="card-glow"></div>
+      <div class="brand-tag">🚚 中通专场</div>
+      <div class="big-num count">168</div>
+      <div class="big-label">台无人车成交</div>
+      <div class="stat-rows">
+        <div class="stat-row">
+          <span class="s-label">有效订单数</span>
+          <span class="s-val blue">56单</span>
+        </div>
+        <div class="stat-row">
+          <span class="s-label">总成交金额</span>
+          <span class="s-val hi">1,869.7万元</span>
+        </div>
+        <div class="stat-row">
+          <span class="s-label">激励投入</span>
+          <span class="s-val">42.8万元</span>
+        </div>
+        <div class="stat-row">
+          <span class="s-label">投入产出比ROI</span>
+          <span class="s-val hi">43.68倍</span>
+        </div>
+        <div class="stat-row">
+          <span class="s-label">覆盖省市</span>
+          <span class="s-val">20+省市</span>
+        </div>
+      </div>
+    </div>
+    <!-- 圆通 -->
+    <div class="brand-card yuan anim-2">
+      <div class="card-glow"></div>
+      <div class="brand-tag">🟢 圆通直播</div>
+      <div class="big-num count">178</div>
+      <div class="big-label">台总订单</div>
+      <div class="stat-rows">
+        <div class="stat-row">
+          <span class="s-label">销售订单</span>
+          <span class="s-val green">123台</span>
+        </div>
+        <div class="stat-row">
+          <span class="s-label">租赁订单</span>
+          <span class="s-val">55台</span>
+        </div>
+        <div class="stat-row">
+          <span class="s-label">已发车合计</span>
+          <span class="s-val green">110台</span>
+        </div>
+        <div class="stat-row">
+          <span class="s-label">已发车（售）</span>
+          <span class="s-val">82台</span>
+        </div>
+        <div class="stat-row">
+          <span class="s-label">已发车（租）</span>
+          <span class="s-val">28台</span>
+        </div>
+      </div>
+    </div>
+    <!-- 申通 -->
+    <div class="brand-card shen anim-3">
+      <div class="card-glow"></div>
+      <div class="brand-tag">⭐ 申通直播</div>
+      <div class="big-num count">47</div>
+      <div class="big-label">台已签订单（进行中）</div>
+      <div class="stat-rows">
+        <div class="stat-row">
+          <span class="s-label">第一场已发车</span>
+          <span class="s-val hi">15台</span>
+        </div>
+        <div class="stat-row">
+          <span class="s-label">第二场预估</span>
+          <span class="s-val">+40台</span>
+        </div>
+        <div class="stat-row">
+          <span class="s-label">总投入费用</span>
+          <span class="s-val">3.02万元</span>
+        </div>
+        <div class="stat-row">
+          <span class="s-label">单台获客成本</span>
+          <span class="s-val hi">643元/台</span>
+        </div>
+        <div class="stat-row">
+          <span class="s-label">直播观看人数</span>
+          <span class="s-val">2000+人</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ===== SLIDE 3: ZHONGTONG DETAIL ===== -->
+<div class="slide" id="slide-zhong">
+  <div class="slide-header">
+    <div class="slide-num">02 / 04</div>
+    <div class="slide-title-bar">中通专场深度复盘</div>
+    <div class="slide-num">快递直播成效汇报</div>
+  </div>
+  <div class="slide-divider"></div>
+  <div class="main-grid">
+    <!-- Left: KPI + tier -->
+    <div style="display:flex;flex-direction:column;gap:32px;">
+      <div class="info-panel anim-1" style="flex:0 0 auto;">
+        <div class="panel-glow" style="background:rgba(59,130,246,0.1);"></div>
+        <h3>核心指标</h3>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:20px;">
+          <div>
+            <div class="kpi-big count">168</div>
+            <div class="kpi-sub">台成交总量</div>
+          </div>
+          <div>
+            <div class="kpi-big count" style="color:var(--accent-gold)">56</div>
+            <div class="kpi-sub">单有效订单</div>
+          </div>
+        </div>
+        <div class="pill-list">
+          <div class="pill-item">
+            <span class="p-key">追溯订单</span>
+            <span class="p-val">22单 · 63台</span>
+          </div>
+          <div class="pill-item">
+            <span class="p-key">直播即时订单</span>
+            <span class="p-val">34单 · 105台</span>
+          </div>
+          <div class="pill-item">
+            <span class="p-key">单台平均激励</span>
+            <span class="p-val accent">2,547元/台</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="info-panel anim-2" style="flex:1;">
+        <div class="panel-glow" style="background:rgba(245,166,35,0.08);"></div>
+        <h3 style="color:var(--text-silver);">阶梯激励分区间</h3>
+        <div class="tier-table">
+          <div class="tier-row header">
+            <span>采购台数</span><span>订单数</span><span>发车台数</span><span>奖励金额</span><span>占比</span>
+          </div>
+          <div class="tier-row data">
+            <span>1-2台（1000元/台）</span><span>15单</span><span>18台</span><span class="hi">1.8万</span><span>10.7%</span>
+          </div>
+          <div class="tier-row data">
+            <span>3-4台（2000元/台）</span><span>31单</span><span>95台</span><span class="hi">19万</span><span>56.6%</span>
+          </div>
+          <div class="tier-row data">
+            <span>5台+（4000元/台）</span><span>10单</span><span>55台</span><span class="hi">22万</span><span>32.7%</span>
+          </div>
+        </div>
+        <div style="font-family:'Noto Sans SC',sans-serif;font-size:17px;color:var(--text-muted);margin-top:12px;padding:0 4px;">
+          ✦ 3台及以上批量订单占比超 <strong style="color:var(--text-white)">89%</strong>，阶梯激励精准命中网点采购需求
+        </div>
+      </div>
+    </div>
+
+    <!-- Right: ROI + highlights -->
+    <div style="display:flex;flex-direction:column;gap:32px;">
+      <div class="info-panel anim-3">
+        <div class="panel-glow" style="background:rgba(245,166,35,0.1);"></div>
+        <h3 style="color:var(--text-silver);">投入产出分析</h3>
+        <div class="roi-box">
+          <div class="roi-num">43.68×</div>
+          <div class="roi-desc">
+            <strong>42.8万元激励投入</strong>撬动<strong>1,869.7万元</strong>成交<br>
+            平均每万元投入带动 43.68万元成交<br>
+            远超行业常规营销活动水平
+          </div>
+        </div>
+      </div>
+
+      <div class="info-panel anim-4" style="flex:1;">
+        <div class="panel-glow" style="background:rgba(59,130,246,0.08);"></div>
+        <h3>亮点总结</h3>
+        <div style="display:flex;flex-direction:column;gap:18px;">
+          <div style="background:rgba(59,130,246,0.06);border-radius:14px;padding:22px 28px;">
+            <div style="font-family:'Noto Sans SC',sans-serif;font-size:18px;color:#60a5fa;font-weight:700;margin-bottom:10px;">📦 订单双爆发</div>
+            <div style="font-family:'Noto Sans SC',sans-serif;font-size:17px;color:var(--text-silver);line-height:1.6;">追溯+直播合计56单成交168台，老客复购与新客拓展双增长</div>
+          </div>
+          <div style="background:rgba(34,197,94,0.06);border-radius:14px;padding:22px 28px;">
+            <div style="font-family:'Noto Sans SC',sans-serif;font-size:18px;color:#4ade80;font-weight:700;margin-bottom:10px;">🗺️ 全国覆盖</div>
+            <div style="font-family:'Noto Sans SC',sans-serif;font-size:17px;color:var(--text-silver);line-height:1.6;">覆盖全国20余省市，不同区域、不同规模网点全面落地</div>
+          </div>
+          <div style="background:rgba(245,166,35,0.06);border-radius:14px;padding:22px 28px;">
+            <div style="font-family:'Noto Sans SC',sans-serif;font-size:18px;color:var(--accent-gold);font-weight:700;margin-bottom:10px;">🏆 行业标杆</div>
+            <div style="font-family:'Noto Sans SC',sans-serif;font-size:17px;color:var(--text-silver);line-height:1.6;">ROI 43.68倍，打造物流行业直播营销标杆案例</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ===== SLIDE 4: YUAN + SHEN ===== -->
+<div class="slide" id="slide-yuanshen">
+  <div class="slide-header">
+    <div class="slide-num">03 / 04</div>
+    <div class="slide-title-bar">圆通 · 申通直播成效</div>
+    <div class="slide-num">快递直播成效汇报</div>
+  </div>
+  <div class="slide-divider"></div>
+  <div class="two-col">
+    <!-- 圆通 -->
+    <div class="ys-panel yuan anim-1">
+      <div class="ys-brand"><div class="ys-brand-dot"></div>圆通直播专场</div>
+      <div class="ys-hero">
+        <div class="ys-num">178</div>
+        <div class="ys-unit">台总订单</div>
+      </div>
+      <div class="ys-label">覆盖全国网点 | 年中福利机会</div>
+      <div class="breakdown-grid">
+        <div class="bk-cell">
+          <div class="bk-n">123</div>
+          <div class="bk-l">销售订单（台）</div>
+        </div>
+        <div class="bk-cell">
+          <div class="bk-n">55</div>
+          <div class="bk-l">租赁订单（台）</div>
+        </div>
+        <div class="bk-cell">
+          <div class="bk-n">82</div>
+          <div class="bk-l">已发车·售（台）</div>
+        </div>
+        <div class="bk-cell">
+          <div class="bk-n">28</div>
+          <div class="bk-l">已发车·租（台）</div>
+        </div>
+      </div>
+      <div class="delivery-bar" style="margin-top:auto;">
+        <div class="db-title">整体发车进度（售+租合计）</div>
+        <div class="progress-track">
+          <div class="progress-fill" style="width:61.8%"></div>
+        </div>
+        <div class="db-nums">
+          <span class="done">已发车 110台 / 178台</span>
+          <span class="pct">完成率 61.8%</span>
+        </div>
+      </div>
+      <div style="margin-top:20px;background:rgba(34,197,94,0.06);border-radius:14px;padding:20px 24px;">
+        <div style="font-family:'Noto Sans SC',sans-serif;font-size:17px;color:var(--text-silver);line-height:1.6;">
+          ✦ 本次直播为<strong style="color:#4ade80;">年中福利机会</strong>，全国网点线上参加，覆盖面广<br>
+          ✦ 也是展现<strong style="color:#4ade80;">战略合作官宣</strong>的绝佳机会，对后期持续订单转化有较好助力
+        </div>
+      </div>
+    </div>
+
+    <!-- 申通 -->
+    <div class="ys-panel shen anim-2">
+      <div class="ys-brand"><div class="ys-brand-dot"></div>申通直播专场（进行中）</div>
+      <div class="ys-hero">
+        <div class="ys-num">47</div>
+        <div class="ys-unit">台已签</div>
+      </div>
+      <div class="ys-label">第一场完成 | 第二场预估+40台</div>
+      <div class="breakdown-grid" style="margin-bottom:24px;">
+        <div class="bk-cell">
+          <div class="bk-n">15</div>
+          <div class="bk-l">第一场已发车</div>
+        </div>
+        <div class="bk-cell">
+          <div class="bk-n">~40</div>
+          <div class="bk-l">第二场预估订单</div>
+        </div>
+        <div class="bk-cell">
+          <div class="bk-n">643</div>
+          <div class="bk-l" style="font-size:14px;">元/台获客成本</div>
+        </div>
+        <div class="bk-cell">
+          <div class="bk-n">2000+</div>
+          <div class="bk-l">直播观看人数</div>
+        </div>
+      </div>
+      <div class="highlight-list" style="margin-top:auto;">
+        <div class="hl-item">
+          <div class="hl-icon">💰</div>
+          <div class="hl-text">投入<strong>3.02万元</strong>（礼品1.52万+搭建1.5万），两场摊薄后单台<strong>约347元</strong></div>
+        </div>
+        <div class="hl-item">
+          <div class="hl-icon">🏅</div>
+          <div class="hl-text">5-6月申通内部<strong>只卖新石器</strong>，形成强品牌独占性，客户认知持续沉淀</div>
+        </div>
+        <div class="hl-item">
+          <div class="hl-icon">🤝</div>
+          <div class="hl-text">案例将向<strong>申通总裁韩永彦汇报</strong>，有望推动进入深度战略合作阶段</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ===== SLIDE 5: SUMMARY ===== -->
+<div class="slide" id="slide-summary">
+  <div class="bg-grid"></div>
+  <div class="slide-header">
+    <div class="slide-num">04 / 04</div>
+    <div class="slide-title-bar">综合结论与价值总结</div>
+    <div class="slide-num">快递直播成效汇报</div>
+  </div>
+  <div class="slide-divider"></div>
+  <div class="content">
+    <div class="summary-left">
+      <div class="total-card anim-1">
+        <div class="tc-eyebrow">三大品牌合计成果</div>
+        <div class="tc-nums">
+          <div>
+            <div class="tc-big count">393<span style="font-size:48px">+</span></div>
+            <div class="tc-unit">台订单总量</div>
+          </div>
+        </div>
+        <div class="tc-note">中通168台成交 · 圆通178台订单 · 申通47台已签（预估87台）</div>
+      </div>
+      <div class="compare-grid anim-2">
+        <div class="cmp-cell z">
+          <div class="c-brand">中通专场</div>
+          <div class="c-num">43.7×</div>
+          <div class="c-label">投入产出ROI</div>
+        </div>
+        <div class="cmp-cell y">
+          <div class="c-brand">圆通直播</div>
+          <div class="c-num">61.8%</div>
+          <div class="c-label">已发车完成率</div>
+        </div>
+        <div class="cmp-cell s">
+          <div class="c-brand">申通直播</div>
+          <div class="c-num">643元</div>
+          <div class="c-label">单台获客成本</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="summary-right">
+      <div class="insight-card anim-3">
+        <div class="ic-title"><div class="ic-dot gold"></div>核心价值亮点</div>
+        <div class="insight-list">
+          <div class="insight-item">直播营销获客成本远低于传统地推，中通ROI高达<strong style="color:var(--accent-gold)">43.68倍</strong></div>
+          <div class="insight-item">单场直播实现全国20+省市覆盖，规模化效率显著优于线下逐一拜访</div>
+          <div class="insight-item">阶梯激励精准驱动批量采购，89%订单为3台及以上批量</div>
+          <div class="insight-item">申通体系内形成品牌独占，正推动总裁级战略合作升级</div>
+          <div class="insight-item">圆通直播兼具销售+租赁双线推进，持续转化优势明显</div>
+        </div>
+      </div>
+      <div class="insight-card anim-4" style="background:linear-gradient(135deg,rgba(59,130,246,0.08),rgba(59,130,246,0.03));border-color:rgba(59,130,246,0.2);">
+        <div class="ic-title"><div class="ic-dot blue"></div>后续建议</div>
+        <div class="insight-list">
+          <div class="insight-item">持续复制直播营销模式，扩展至更多快递品牌</div>
+          <div class="insight-item">申通第二场直播完成后，推动总裁汇报及战略合作签约</div>
+          <div class="insight-item">以中通标杆案例向行业广泛传播，强化品牌领先势能</div>
+          <div class="insight-item">优化阶梯激励政策，进一步提升5台以上大单转化比例</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+</div><!-- end deck-stage -->
+</div><!-- end deck-viewport -->
+
+<!-- Nav dots -->
+<div class="nav-dots" id="navDots"></div>
+<div class="page-ind" id="pageInd"></div>
+
+<script>
+const slides = document.querySelectorAll('.slide');
+const navDots = document.getElementById('navDots');
+const pageInd = document.getElementById('pageInd');
+let current = 0;
+
+// Scale stage to viewport
+function scaleStage() {
+  const stage = document.getElementById('stage');
+  const vw = window.innerWidth, vh = window.innerHeight;
+  const scale = Math.min(vw / 1920, vh / 1080);
+  const tx = (vw - 1920 * scale) / 2;
+  const ty = (vh - 1080 * scale) / 2;
+  stage.style.transform = `translate(${tx}px,${ty}px) scale(${scale})`;
+}
+window.addEventListener('resize', scaleStage);
+scaleStage();
+
+// Build nav dots
+slides.forEach((_, i) => {
+  const dot = document.createElement('button');
+  dot.className = 'nav-dot' + (i === 0 ? ' active' : '');
+  dot.addEventListener('click', () => goTo(i));
+  navDots.appendChild(dot);
+});
+
+function updateNav() {
+  document.querySelectorAll('.nav-dot').forEach((d, i) => {
+    d.classList.toggle('active', i === current);
+  });
+  pageInd.textContent = `${current + 1} / ${slides.length}`;
+}
+
+function goTo(n) {
+  slides[current].classList.remove('active');
+  current = Math.max(0, Math.min(n, slides.length - 1));
+  slides[current].classList.add('active');
+  updateNav();
+}
+
+updateNav();
+
+// Keyboard nav
+document.addEventListener('keydown', e => {
+  if (e.key === 'ArrowRight' || e.key === 'ArrowDown' || e.key === ' ') goTo(current + 1);
+  if (e.key === 'ArrowLeft' || e.key === 'ArrowUp') goTo(current - 1);
+});
+
+// Touch nav
+let tx0 = 0;
+document.addEventListener('touchstart', e => tx0 = e.touches[0].clientX);
+document.addEventListener('touchend', e => {
+  const dx = e.changedTouches[0].clientX - tx0;
+  if (Math.abs(dx) > 50) goTo(current + (dx < 0 ? 1 : -1));
+});
+</script>
+</body>
+</html>
