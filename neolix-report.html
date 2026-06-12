@@ -1,0 +1,891 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>新石器（Neolix）国际化进展报告</title>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@300;400;500;700;900&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #0a0e1a;
+    --card: #111827;
+    --card2: #161d2e;
+    --accent: #00d4aa;
+    --accent2: #ff6b35;
+    --accent3: #7c3aed;
+    --text: #e2e8f0;
+    --text-muted: #94a3b8;
+    --border: rgba(255,255,255,0.07);
+    --gold: #f59e0b;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'Noto Sans SC', sans-serif;
+    line-height: 1.6;
+    overflow-x: hidden;
+  }
+
+  /* === HERO === */
+  .hero {
+    position: relative;
+    padding: 80px 60px 60px;
+    background: linear-gradient(135deg, #0a0e1a 0%, #0d1b35 50%, #0a0e1a 100%);
+    border-bottom: 1px solid var(--border);
+    overflow: hidden;
+  }
+  .hero::before {
+    content: '';
+    position: absolute;
+    top: -200px; right: -200px;
+    width: 600px; height: 600px;
+    background: radial-gradient(circle, rgba(0,212,170,0.08) 0%, transparent 70%);
+    pointer-events: none;
+  }
+  .hero::after {
+    content: '';
+    position: absolute;
+    bottom: -100px; left: -100px;
+    width: 400px; height: 400px;
+    background: radial-gradient(circle, rgba(124,58,237,0.06) 0%, transparent 70%);
+    pointer-events: none;
+  }
+  .hero-label {
+    display: inline-block;
+    font-family: 'Space Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: var(--accent);
+    border: 1px solid rgba(0,212,170,0.3);
+    padding: 4px 14px;
+    border-radius: 2px;
+    margin-bottom: 24px;
+  }
+  .hero h1 {
+    font-size: 56px;
+    font-weight: 900;
+    line-height: 1.1;
+    letter-spacing: -1px;
+    max-width: 800px;
+    margin-bottom: 16px;
+  }
+  .hero h1 span { color: var(--accent); }
+  .hero-sub {
+    font-size: 18px;
+    color: var(--text-muted);
+    max-width: 600px;
+    margin-bottom: 48px;
+  }
+  .hero-stats {
+    display: flex;
+    gap: 60px;
+    flex-wrap: wrap;
+  }
+  .hero-stat-num {
+    font-family: 'Space Mono', monospace;
+    font-size: 42px;
+    font-weight: 700;
+    color: var(--accent);
+    line-height: 1;
+  }
+  .hero-stat-num.orange { color: var(--accent2); }
+  .hero-stat-num.purple { color: #a78bfa; }
+  .hero-stat-label {
+    font-size: 13px;
+    color: var(--text-muted);
+    margin-top: 4px;
+    letter-spacing: 0.5px;
+  }
+
+  /* === MAIN LAYOUT === */
+  .container {
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 60px 60px;
+  }
+
+  .section-title {
+    font-family: 'Space Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 32px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+  .section-title::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: var(--border);
+    max-width: 200px;
+  }
+
+  /* === WORLD MAP VISUAL === */
+  .world-section { margin-bottom: 80px; }
+
+  .countries-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 16px;
+    margin-bottom: 24px;
+  }
+
+  .country-card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 20px;
+    position: relative;
+    overflow: hidden;
+    transition: transform 0.2s, border-color 0.2s;
+  }
+  .country-card:hover {
+    transform: translateY(-2px);
+    border-color: rgba(0,212,170,0.3);
+  }
+  .country-card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0;
+    right: 0;
+    height: 2px;
+  }
+  .country-card.active::before { background: var(--accent); }
+  .country-card.trial::before { background: var(--accent2); }
+  .country-card.partner::before { background: #7c3aed; }
+  .country-card.emerging::before { background: var(--gold); }
+
+  .country-flag { font-size: 28px; margin-bottom: 8px; }
+  .country-name {
+    font-size: 15px;
+    font-weight: 700;
+    margin-bottom: 4px;
+  }
+  .country-status {
+    font-size: 11px;
+    font-family: 'Space Mono', monospace;
+    letter-spacing: 0.5px;
+  }
+  .country-card.active .country-status { color: var(--accent); }
+  .country-card.trial .country-status { color: var(--accent2); }
+  .country-card.partner .country-status { color: #a78bfa; }
+  .country-card.emerging .country-status { color: var(--gold); }
+
+  .country-note {
+    font-size: 12px;
+    color: var(--text-muted);
+    margin-top: 6px;
+    line-height: 1.4;
+  }
+
+  .legend {
+    display: flex;
+    gap: 24px;
+    flex-wrap: wrap;
+    margin-bottom: 32px;
+  }
+  .legend-item {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 12px;
+    color: var(--text-muted);
+  }
+  .legend-dot {
+    width: 10px; height: 10px;
+    border-radius: 2px;
+  }
+  .legend-dot.active { background: var(--accent); }
+  .legend-dot.trial { background: var(--accent2); }
+  .legend-dot.partner { background: #7c3aed; }
+  .legend-dot.emerging { background: var(--gold); }
+
+  /* === TIMELINE === */
+  .timeline-section { margin-bottom: 80px; }
+
+  .timeline {
+    position: relative;
+    padding-left: 40px;
+  }
+  .timeline::before {
+    content: '';
+    position: absolute;
+    left: 0; top: 8px; bottom: 8px;
+    width: 1px;
+    background: linear-gradient(to bottom, var(--accent), rgba(0,212,170,0.1));
+  }
+
+  .timeline-item {
+    position: relative;
+    margin-bottom: 40px;
+  }
+  .timeline-dot {
+    position: absolute;
+    left: -44px;
+    top: 4px;
+    width: 10px; height: 10px;
+    border-radius: 50%;
+    background: var(--accent);
+    box-shadow: 0 0 0 3px rgba(0,212,170,0.2);
+  }
+  .timeline-dot.orange { background: var(--accent2); box-shadow: 0 0 0 3px rgba(255,107,53,0.2); }
+  .timeline-dot.purple { background: #7c3aed; box-shadow: 0 0 0 3px rgba(124,58,237,0.2); }
+  .timeline-dot.gold { background: var(--gold); box-shadow: 0 0 0 3px rgba(245,158,11,0.2); }
+
+  .timeline-date {
+    font-family: 'Space Mono', monospace;
+    font-size: 11px;
+    color: var(--accent);
+    letter-spacing: 1px;
+    margin-bottom: 6px;
+  }
+  .timeline-date.orange { color: var(--accent2); }
+  .timeline-date.purple { color: #a78bfa; }
+  .timeline-date.gold { color: var(--gold); }
+
+  .timeline-title {
+    font-size: 16px;
+    font-weight: 700;
+    margin-bottom: 6px;
+  }
+  .timeline-desc {
+    font-size: 14px;
+    color: var(--text-muted);
+    max-width: 700px;
+    line-height: 1.6;
+  }
+  .timeline-tag {
+    display: inline-block;
+    font-size: 10px;
+    padding: 2px 10px;
+    border-radius: 20px;
+    margin-top: 8px;
+    font-family: 'Space Mono', monospace;
+    letter-spacing: 0.5px;
+  }
+  .tag-milestone { background: rgba(0,212,170,0.1); color: var(--accent); border: 1px solid rgba(0,212,170,0.3); }
+  .tag-partnership { background: rgba(124,58,237,0.1); color: #a78bfa; border: 1px solid rgba(124,58,237,0.3); }
+  .tag-funding { background: rgba(245,158,11,0.1); color: var(--gold); border: 1px solid rgba(245,158,11,0.3); }
+  .tag-expansion { background: rgba(255,107,53,0.1); color: var(--accent2); border: 1px solid rgba(255,107,53,0.3); }
+
+  /* === KEY DATA CARDS === */
+  .data-section { margin-bottom: 80px; }
+
+  .data-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+  }
+  @media (max-width: 900px) {
+    .data-grid { grid-template-columns: 1fr 1fr; }
+  }
+  @media (max-width: 600px) {
+    .data-grid { grid-template-columns: 1fr; }
+    .hero h1 { font-size: 36px; }
+    .container { padding: 40px 24px; }
+    .hero { padding: 60px 24px 40px; }
+    .hero-stats { gap: 30px; }
+  }
+
+  .data-card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    padding: 28px;
+    position: relative;
+    overflow: hidden;
+  }
+  .data-card::after {
+    content: '';
+    position: absolute;
+    bottom: 0; right: 0;
+    width: 80px; height: 80px;
+    background: radial-gradient(circle at bottom right, rgba(0,212,170,0.05), transparent);
+  }
+  .data-card-icon {
+    font-size: 28px;
+    margin-bottom: 12px;
+  }
+  .data-card-num {
+    font-family: 'Space Mono', monospace;
+    font-size: 32px;
+    font-weight: 700;
+    color: var(--accent);
+    line-height: 1;
+    margin-bottom: 6px;
+  }
+  .data-card-num.orange { color: var(--accent2); }
+  .data-card-num.purple { color: #a78bfa; }
+  .data-card-num.gold { color: var(--gold); }
+  .data-card-label {
+    font-size: 13px;
+    font-weight: 600;
+    margin-bottom: 8px;
+  }
+  .data-card-note {
+    font-size: 12px;
+    color: var(--text-muted);
+    line-height: 1.5;
+  }
+
+  /* === REGION BLOCKS === */
+  .region-section { margin-bottom: 80px; }
+
+  .region-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 20px;
+  }
+  @media (max-width: 700px) {
+    .region-grid { grid-template-columns: 1fr; }
+  }
+
+  .region-card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    padding: 32px;
+    position: relative;
+    overflow: hidden;
+  }
+  .region-card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 3px;
+  }
+  .region-card.mideast::before { background: linear-gradient(90deg, #f59e0b, #ff6b35); }
+  .region-card.east-asia::before { background: linear-gradient(90deg, #00d4aa, #06b6d4); }
+  .region-card.europe::before { background: linear-gradient(90deg, #7c3aed, #4f46e5); }
+  .region-card.sea::before { background: linear-gradient(90deg, #10b981, #06b6d4); }
+
+  .region-flag-row { font-size: 24px; margin-bottom: 16px; letter-spacing: 4px; }
+  .region-name {
+    font-size: 20px;
+    font-weight: 700;
+    margin-bottom: 12px;
+  }
+  .region-highlight {
+    font-family: 'Space Mono', monospace;
+    font-size: 11px;
+    color: var(--accent);
+    letter-spacing: 0.5px;
+    margin-bottom: 16px;
+    line-height: 1.6;
+  }
+  .region-card.mideast .region-highlight { color: #f59e0b; }
+  .region-card.east-asia .region-highlight { color: var(--accent); }
+  .region-card.europe .region-highlight { color: #a78bfa; }
+  .region-card.sea .region-highlight { color: #34d399; }
+
+  .region-points {
+    list-style: none;
+  }
+  .region-points li {
+    font-size: 13px;
+    color: var(--text-muted);
+    padding: 6px 0;
+    border-bottom: 1px solid var(--border);
+    display: flex;
+    gap: 8px;
+    align-items: flex-start;
+  }
+  .region-points li:last-child { border-bottom: none; }
+  .region-points li::before {
+    content: '▸';
+    color: var(--accent);
+    font-size: 10px;
+    margin-top: 2px;
+    flex-shrink: 0;
+  }
+  .region-card.mideast .region-points li::before { color: #f59e0b; }
+  .region-card.europe .region-points li::before { color: #a78bfa; }
+  .region-card.sea .region-points li::before { color: #34d399; }
+
+  /* === MILESTONE BAR === */
+  .milestone-section { margin-bottom: 80px; }
+
+  .milestone-bar {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    padding: 40px;
+  }
+  .milestone-title {
+    font-size: 18px;
+    font-weight: 700;
+    margin-bottom: 8px;
+  }
+  .milestone-desc {
+    font-size: 14px;
+    color: var(--text-muted);
+    margin-bottom: 32px;
+  }
+  .progress-items {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+  }
+  .progress-item {}
+  .progress-label {
+    display: flex;
+    justify-content: space-between;
+    font-size: 13px;
+    margin-bottom: 8px;
+  }
+  .progress-label span:first-child { font-weight: 600; }
+  .progress-label span:last-child {
+    font-family: 'Space Mono', monospace;
+    font-size: 12px;
+    color: var(--text-muted);
+  }
+  .progress-track {
+    height: 6px;
+    background: rgba(255,255,255,0.06);
+    border-radius: 3px;
+    overflow: hidden;
+  }
+  .progress-fill {
+    height: 100%;
+    border-radius: 3px;
+    transition: width 1s ease;
+  }
+  .fill-green { background: linear-gradient(90deg, var(--accent), #06d6a0); }
+  .fill-orange { background: linear-gradient(90deg, var(--accent2), #f97316); }
+  .fill-purple { background: linear-gradient(90deg, #7c3aed, #a78bfa); }
+  .fill-gold { background: linear-gradient(90deg, var(--gold), #fcd34d); }
+  .fill-blue { background: linear-gradient(90deg, #3b82f6, #06b6d4); }
+
+  /* === FOOTER === */
+  .report-footer {
+    border-top: 1px solid var(--border);
+    padding: 40px 60px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: gap;
+    gap: 20px;
+  }
+  .footer-logo {
+    font-family: 'Space Mono', monospace;
+    font-size: 13px;
+    color: var(--text-muted);
+  }
+  .footer-logo span { color: var(--accent); }
+  .footer-note {
+    font-size: 12px;
+    color: var(--text-muted);
+  }
+
+  /* === SCROLL ANIMATIONS === */
+  .fade-in {
+    opacity: 0;
+    transform: translateY(20px);
+    transition: opacity 0.6s ease, transform 0.6s ease;
+  }
+  .fade-in.visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .fade-in { opacity: 1; transform: none; transition: none; }
+  }
+</style>
+</head>
+<body>
+
+<!-- HERO -->
+<div class="hero">
+  <div class="hero-label">内部研究报告 · 2026.06</div>
+  <h1>新石器（Neolix）<span>全球化进展</span>综合报告</h1>
+  <p class="hero-sub">覆盖中东、东亚、东南亚、欧洲等近20个国家的L4级无人配送网络建设情况</p>
+  <div class="hero-stats">
+    <div>
+      <div class="hero-stat-num">~20</div>
+      <div class="hero-stat-label">已覆盖国家 / 地区</div>
+    </div>
+    <div>
+      <div class="hero-stat-num">300+</div>
+      <div class="hero-stat-label">全球城市覆盖</div>
+    </div>
+    <div>
+      <div class="hero-stat-num orange">16,000+</div>
+      <div class="hero-stat-label">L4级无人车累计部署</div>
+    </div>
+    <div>
+      <div class="hero-stat-num purple">$6亿+</div>
+      <div class="hero-stat-label">D轮融资（2025.10）</div>
+    </div>
+    <div>
+      <div class="hero-stat-num" style="color: var(--gold);">1.5亿km</div>
+      <div class="hero-stat-label">累计自动驾驶里程</div>
+    </div>
+  </div>
+</div>
+
+<div class="container">
+
+  <!-- 全球布局 -->
+  <section class="world-section fade-in">
+    <div class="section-title">01 · 全球市场布局</div>
+    <div class="legend">
+      <div class="legend-item"><div class="legend-dot active"></div>商业化运营 / 持牌上路</div>
+      <div class="legend-item"><div class="legend-dot trial"></div>试点运营中</div>
+      <div class="legend-item"><div class="legend-dot partner"></div>战略合作 / 协议签署</div>
+      <div class="legend-item"><div class="legend-dot emerging"></div>进入 / 布局阶段</div>
+    </div>
+    <div class="countries-grid">
+      <div class="country-card active">
+        <div class="country-flag">🇨🇳</div>
+        <div class="country-name">中国（大本营）</div>
+        <div class="country-status">● 全域规模化运营</div>
+        <div class="country-note">11省93城获路权，50城年内目标</div>
+      </div>
+      <div class="country-card active">
+        <div class="country-flag">🇦🇪</div>
+        <div class="country-name">阿联酋</div>
+        <div class="country-status">● 持牌商业化运营</div>
+        <div class="country-note">全球中东首张牌照，X3/X6双车型，目标2026年底5000台</div>
+      </div>
+      <div class="country-card partner">
+        <div class="country-flag">🇰🇷</div>
+        <div class="country-name">韩国</div>
+        <div class="country-status">◆ 战略合作 + 意向订单</div>
+        <div class="country-note">与仁川市政府合作，已获数百台意向订单</div>
+      </div>
+      <div class="country-card partner">
+        <div class="country-flag">🇯🇵</div>
+        <div class="country-name">日本</div>
+        <div class="country-status">◆ 技术联盟成员</div>
+        <div class="country-note">加入Autoware联盟，京瓷合作自动驾驶移动售货</div>
+      </div>
+      <div class="country-card trial">
+        <div class="country-flag">🇸🇬</div>
+        <div class="country-name">新加坡</div>
+        <div class="country-status">▲ 试点运营</div>
+        <div class="country-note">与QuikBot合作，覆盖"路至门"全链路配送</div>
+      </div>
+      <div class="country-card trial">
+        <div class="country-flag">🇵🇹</div>
+        <div class="country-name">葡萄牙</div>
+        <div class="country-status">▲ 战略合作试点</div>
+        <div class="country-note">与Salvador Caetano Auto合作，欧洲落地据点</div>
+      </div>
+      <div class="country-card partner">
+        <div class="country-flag">🇩🇪</div>
+        <div class="country-name">德国</div>
+        <div class="country-status">◆ 合作伙伴关系</div>
+        <div class="country-note">与Luxmea（欧洲电动货运商）达成合作</div>
+      </div>
+      <div class="country-card emerging">
+        <div class="country-flag">🇸🇦</div>
+        <div class="country-name">沙特阿拉伯</div>
+        <div class="country-status">◈ 布局中</div>
+        <div class="country-note">中东第二站，以阿联酋为桥头堡延伸</div>
+      </div>
+      <div class="country-card emerging">
+        <div class="country-flag">🇲🇾</div>
+        <div class="country-name">马来西亚</div>
+        <div class="country-status">◈ 进入阶段</div>
+        <div class="country-note">东南亚布局延伸</div>
+      </div>
+      <div class="country-card emerging">
+        <div class="country-flag">🇹🇭</div>
+        <div class="country-name">泰国</div>
+        <div class="country-status">◈ 进入阶段</div>
+        <div class="country-note">东南亚扩展市场</div>
+      </div>
+      <div class="country-card emerging">
+        <div class="country-flag">🇦🇺</div>
+        <div class="country-name">澳大利亚</div>
+        <div class="country-status">◈ 进入阶段</div>
+        <div class="country-note">亚太圈扩展，本地化部署推进中</div>
+      </div>
+      <div class="country-card emerging">
+        <div class="country-flag">🌍</div>
+        <div class="country-name">其他地区</div>
+        <div class="country-status">◈ 持续扩展</div>
+        <div class="country-note">瑞士、西班牙等欧洲市场；一带一路延伸布局</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 关键数据 -->
+  <section class="data-section fade-in">
+    <div class="section-title">02 · 核心数据指标</div>
+    <div class="data-grid">
+      <div class="data-card">
+        <div class="data-card-icon">🏆</div>
+        <div class="data-card-num">全球第一</div>
+        <div class="data-card-label">中东地区首张无人配送车牌照</div>
+        <div class="data-card-note">2025年9月，阿布扎比综合交通中心颁发，全球无人配送行业中东首张</div>
+      </div>
+      <div class="data-card">
+        <div class="data-card-icon">🚗</div>
+        <div class="data-card-num orange">16,000+台</div>
+        <div class="data-card-label">L4级无人车全球累计部署</div>
+        <div class="data-card-note">全球最大规模L4级无人配送车队，非快递场景已占50%+</div>
+      </div>
+      <div class="data-card">
+        <div class="data-card-icon">🛣️</div>
+        <div class="data-card-num">1.5亿km</div>
+        <div class="data-card-label">累计自动驾驶里程（2026年2月破1亿）</div>
+        <div class="data-card-note">多气候、复杂路况、多场景深度验证</div>
+      </div>
+      <div class="data-card">
+        <div class="data-card-icon">💰</div>
+        <div class="data-card-num gold">$6亿+</div>
+        <div class="data-card-label">D轮融资（中国自动驾驶领域最大私募）</div>
+        <div class="data-card-note">阿联酋磊石资本领投，腾讯、高成、中信等跟投，Pre-IPO轮，或赴港股上市</div>
+      </div>
+      <div class="data-card">
+        <div class="data-card-icon">🏙️</div>
+        <div class="data-card-num purple">1,200+</div>
+        <div class="data-card-label">累计申请专利数量</div>
+        <div class="data-card-note">技术积累位居全球前列，CES 2026发布下一代无人驾驶物流解决方案X1</div>
+      </div>
+      <div class="data-card">
+        <div class="data-card-icon">🎯</div>
+        <div class="data-card-num orange">1万台</div>
+        <div class="data-card-label">2026年中东部署目标</div>
+        <div class="data-card-note">无任何自动驾驶企业在非本土市场有如此大规模部署先例</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 区域深度 -->
+  <section class="region-section fade-in">
+    <div class="section-title">03 · 分区域详细进展</div>
+    <div class="region-grid">
+      <div class="region-card mideast">
+        <div class="region-flag-row">🇦🇪🇸🇦</div>
+        <div class="region-name">中东 · 核心桥头堡</div>
+        <div class="region-highlight">战略优先级最高 · 唯一持牌大规模商业化区域</div>
+        <ul class="region-points">
+          <li>2025年9月获阿布扎比首张无人配送牌照（全球中东第一张）</li>
+          <li>X3和X6双车型同时获得上路许可</li>
+          <li>2025年10月与K2集团（阿布扎比国有AI企业）签署战略合作，K2旗下AutoGo为当地合作伙伴</li>
+          <li>2026年2月首批数百台运抵阿联酋，率先恢复运营</li>
+          <li>马斯达尔城、穆萨法工业区等地启动商业化试点</li>
+          <li>目标：2026年底5000台 → 2026年全年1万台 → 以中东为基地向一带一路延伸</li>
+          <li>阿联酋磊石资本领投D轮，中东资本与产业深度绑定</li>
+        </ul>
+      </div>
+      <div class="region-card east-asia">
+        <div class="region-flag-row">🇯🇵🇰🇷</div>
+        <div class="region-name">东亚 · 技术合作突破</div>
+        <div class="region-highlight">商业化落地提速 · 政府背书强</div>
+        <ul class="region-points">
+          <li>【韩国】2025年7月与仁川市政府签署战略合作意向书，首家进入韩国无人配送市场</li>
+          <li>【韩国】已获数百台意向订单，实现韩国无人配送商业化零的突破</li>
+          <li>【韩国】2026年持续加大资源投入，深化与仁川自由经济区合作</li>
+          <li>【日本】2025年9月受邀加入Autoware联盟（日本最大自动驾驶技术联盟）</li>
+          <li>【日本】与京瓷合作，推进自动驾驶移动售货场景（路边饮料/零食贩售）</li>
+          <li>【日本】2025年6月亮相中韩经济产业论坛</li>
+        </ul>
+      </div>
+      <div class="region-card sea">
+        <div class="region-flag-row">🇸🇬🇲🇾🇹🇭</div>
+        <div class="region-name">东南亚 · 快速扩张</div>
+        <div class="region-highlight">试点先行 · 整合本地伙伴</div>
+        <ul class="region-points">
+          <li>【新加坡】与QuikBot Technologies达成战略合作（2026年6月）</li>
+          <li>打造覆盖"公共道路至楼宇"全链路自动驾驶配送网络</li>
+          <li>马来西亚、泰国同步布局，东南亚多点开花</li>
+          <li>RaaS（机器人即服务）模式出海，低门槛覆盖当地物流需求</li>
+          <li>已有案可查：覆盖近20个国家和地区，全球300余座城市</li>
+        </ul>
+      </div>
+      <div class="region-card europe">
+        <div class="region-flag-row">🇵🇹🇩🇪🇨🇭🇪🇸</div>
+        <div class="region-name">欧洲 · 合规与合作并举</div>
+        <div class="region-highlight">监管复杂 · 借力本地车企切入</div>
+        <ul class="region-points">
+          <li>2026年与Luxmea（欧洲电动货运车辆制造商）签署战略合作</li>
+          <li>与葡萄牙Salvador Caetano Auto达成合作，作为欧洲首个落地试点国</li>
+          <li>瑞士、西班牙等欧洲市场同步推进布局</li>
+          <li>策略：与本地汽车/出行企业合作，借助其本地监管资源和渠道切入市场</li>
+          <li>CES 2026宣布2026年加速欧洲扩张</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- 重要时间线 -->
+  <section class="timeline-section fade-in">
+    <div class="section-title">04 · 国际化关键时间轴</div>
+    <div class="timeline">
+      <div class="timeline-item">
+        <div class="timeline-dot gold"></div>
+        <div class="timeline-date gold">2025年7月</div>
+        <div class="timeline-title">韩国市场首战：与仁川市政府签署战略合作意向书</div>
+        <div class="timeline-desc">新石器成为首家进入韩国市场的无人配送企业，双方在北京正式达成合作，推动RoboVan在韩国仁川自由经济区落地，开创韩国无人配送商业化零的突破。</div>
+        <span class="timeline-tag tag-partnership">战略合作</span>
+      </div>
+      <div class="timeline-item">
+        <div class="timeline-dot purple"></div>
+        <div class="timeline-date purple">2025年9月</div>
+        <div class="timeline-title">全球第一：获阿布扎比首张无人配送商业化牌照</div>
+        <div class="timeline-desc">新石器协同合作伙伴AutoGo获得阿布扎比综合交通中心核发首张无人配送车辆牌照，为全球无人配送行业在中东地区的第一张商业化牌照，X3和X6双车型同时获得上路许可，在马斯达尔城启动中东首个无人配送车商业化运营。</div>
+        <span class="timeline-tag tag-milestone">里程碑</span>
+      </div>
+      <div class="timeline-item">
+        <div class="timeline-dot purple"></div>
+        <div class="timeline-date purple">2025年9月</div>
+        <div class="timeline-title">加入Autoware联盟：打入日本自动驾驶核心生态</div>
+        <div class="timeline-desc">受邀成为日本最大自动驾驶技术联盟Autoware成员，为后续在日本市场的技术合规和本地合作铺路。</div>
+        <span class="timeline-tag tag-partnership">技术联盟</span>
+      </div>
+      <div class="timeline-item">
+        <div class="timeline-dot orange"></div>
+        <div class="timeline-date orange">2025年10月</div>
+        <div class="timeline-title">D轮融资超6亿美元：中国自动驾驶领域史上最大私募</div>
+        <div class="timeline-desc">阿联酋磊石资本领投，高成投资、信宸资本（中信资本旗下）、鼎晖VGC、腾讯等联合领投，北京市AI基金国家队入场。本轮实质为Pre-IPO轮，外界普遍预期赴港交所上市。以金额计为中国自动驾驶领域迄今最大一笔私募融资。</div>
+        <span class="timeline-tag tag-funding">融资记录</span>
+      </div>
+      <div class="timeline-item">
+        <div class="timeline-dot orange"></div>
+        <div class="timeline-date orange">2025年10月</div>
+        <div class="timeline-title">与阿联酋K2集团正式签署战略合作协议</div>
+        <div class="timeline-desc">在迪拜举行签约仪式，双方将共同打造中国以外的全球第二个国家级RoboVan本地化大规模部署运营体系，计划2026年底在阿联酋范围内达到5000台无人车部署规模。</div>
+        <span class="timeline-tag tag-partnership">战略合作</span>
+      </div>
+      <div class="timeline-item">
+        <div class="timeline-dot"></div>
+        <div class="timeline-date">2026年1月（CES 2026）</div>
+        <div class="timeline-title">全球首发X1下一代无人驾驶物流解决方案</div>
+        <div class="timeline-desc">CES 2026亮相，发布专为城市末端配送设计的X1车型，宣布与欧洲Luxmea和葡萄牙Salvador Caetano Auto达成战略合作，打开欧洲市场正式落地通道，宣布2026年加速全球扩张。</div>
+        <span class="timeline-tag tag-expansion">产品发布</span>
+      </div>
+      <div class="timeline-item">
+        <div class="timeline-dot"></div>
+        <div class="timeline-date">2026年2月</div>
+        <div class="timeline-title">率先恢复阿联酋运营，首批数百台无人车运抵当地</div>
+        <div class="timeline-desc">在中东局势变化后率先完成运营重启，首批数百台无人车于2月底运抵阿联酋，体现出超强的全球化运营能力。累计自动驾驶里程突破1亿公里。</div>
+        <span class="timeline-tag tag-milestone">规模落地</span>
+      </div>
+      <div class="timeline-item">
+        <div class="timeline-dot"></div>
+        <div class="timeline-date">2026年3月</div>
+        <div class="timeline-title">宣布正式进入全域规模化运营，RaaS出海多国</div>
+        <div class="timeline-desc">国内正式宣布全域规模化运营，预计年内覆盖全国50个城市；海外RaaS服务同步出海，在阿联酋、韩国、新加坡、葡萄牙等国开展试点。</div>
+        <span class="timeline-tag tag-expansion">战略升级</span>
+      </div>
+      <div class="timeline-item">
+        <div class="timeline-dot"></div>
+        <div class="timeline-date">2026年5月</div>
+        <div class="timeline-title">入选"福布斯中国2026 AI科技企业TOP50"，无人驾驶领域唯一代表</div>
+        <div class="timeline-desc">全球AI赛道TOP50榜单揭晓，新石器成为无人驾驶领域唯一入选代表，国际影响力和技术认可度进一步提升。</div>
+        <span class="timeline-tag tag-milestone">荣誉认可</span>
+      </div>
+      <div class="timeline-item">
+        <div class="timeline-dot"></div>
+        <div class="timeline-date">2026年6月（最新）</div>
+        <div class="timeline-title">与新加坡QuikBot合作，打造全链路配送网络</div>
+        <div class="timeline-desc">宣布与新加坡深度科技企业QuikBot Technologies达成战略合作，共同打造覆盖公共道路至楼宇的全链路自动驾驶配送网络，累计自动驾驶里程突破1.5亿公里。</div>
+        <span class="timeline-tag tag-partnership">最新进展</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- 进度追踪 -->
+  <section class="milestone-section fade-in">
+    <div class="section-title">05 · 海外目标达成进度</div>
+    <div class="milestone-bar">
+      <div class="milestone-title">关键指标进度追踪</div>
+      <div class="milestone-desc">基于公开报道和目标规划的估算进度</div>
+      <div class="progress-items">
+        <div class="progress-item">
+          <div class="progress-label">
+            <span>🇦🇪 阿联酋车辆部署（目标：2026年底5000台）</span>
+            <span>首批数百台 ≈ 10-15%</span>
+          </div>
+          <div class="progress-track"><div class="progress-fill fill-orange" style="width: 13%"></div></div>
+        </div>
+        <div class="progress-item">
+          <div class="progress-label">
+            <span>🌍 全球市场覆盖（目标：20个国家）</span>
+            <span>约15-20个国家 ≈ 90%</span>
+          </div>
+          <div class="progress-track"><div class="progress-fill fill-green" style="width: 90%"></div></div>
+        </div>
+        <div class="progress-item">
+          <div class="progress-label">
+            <span>🏙️ 全球城市覆盖（目标：300+座城市）</span>
+            <span>300+ ≈ 已达成</span>
+          </div>
+          <div class="progress-track"><div class="progress-fill fill-green" style="width: 100%"></div></div>
+        </div>
+        <div class="progress-item">
+          <div class="progress-label">
+            <span>🚗 L4无人车部署总量（目标：万台车队规模）</span>
+            <span>16,000+台 ≈ 160%超额</span>
+          </div>
+          <div class="progress-track"><div class="progress-fill fill-purple" style="width: 100%"></div></div>
+        </div>
+        <div class="progress-item">
+          <div class="progress-label">
+            <span>🛣️ 全球自动驾驶里程（目标：长期持续积累）</span>
+            <span>1.5亿公里（2026年6月）</span>
+          </div>
+          <div class="progress-track"><div class="progress-fill fill-blue" style="width: 75%"></div></div>
+        </div>
+        <div class="progress-item">
+          <div class="progress-label">
+            <span>🇰🇷 韩国意向订单（目标：首年数百台落地）</span>
+            <span>已获数百台意向，商业化推进中</span>
+          </div>
+          <div class="progress-track"><div class="progress-fill fill-gold" style="width: 45%"></div></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+</div>
+
+<!-- FOOTER -->
+<div class="report-footer">
+  <div class="footer-logo"><span>NEOLIX</span> 新石器无人车 · 国际化进展报告</div>
+  <div class="footer-note">数据来源：公开新闻报道、企业官网、融资公告 · 生成时间：2026年6月</div>
+</div>
+
+<script>
+  // Scroll animations
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('visible');
+      }
+    });
+  }, { threshold: 0.1 });
+
+  document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
+
+  // Animate progress bars on scroll
+  const progressObserver = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        const fills = entry.target.querySelectorAll('.progress-fill');
+        fills.forEach(fill => {
+          const width = fill.style.width;
+          fill.style.width = '0%';
+          setTimeout(() => { fill.style.width = width; }, 100);
+        });
+      }
+    });
+  }, { threshold: 0.3 });
+
+  const milestoneBar = document.querySelector('.milestone-bar');
+  if (milestoneBar) progressObserver.observe(milestoneBar);
+</script>
+
+</body>
+</html>
