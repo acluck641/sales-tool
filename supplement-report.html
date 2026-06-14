@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>快递大网合作——汇报补充材料</title>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@300;400;500;700;900&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#0f1117;--card:#1a1d27;--card2:#1e2130;--accent:#00c9a7;--accent2:#ff6b6b;--accent3:#ffa94d;--text:#e8eaf0;--muted:#8892a4;--border:rgba(255,255,255,0.08)}
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:var(--bg);color:var(--text);font-family:'Noto Sans SC',sans-serif;line-height:1.7;padding:0 0 60px}
+.hero{background:linear-gradient(135deg,#0f1117 0%,#141926 60%,#0f1117 100%);padding:56px 60px 40px;border-bottom:1px solid var(--border);position:relative;overflow:hidden}
+.hero::after{content:'';position:absolute;top:-150px;right:-150px;width:500px;height:500px;background:radial-gradient(circle,rgba(0,201,167,.07),transparent 70%);pointer-events:none}
+.badge{display:inline-block;font-family:'Space Mono',monospace;font-size:10px;letter-spacing:3px;color:var(--accent);border:1px solid rgba(0,201,167,.35);padding:3px 12px;border-radius:2px;margin-bottom:20px}
+.hero h1{font-size:36px;font-weight:900;letter-spacing:-1px;margin-bottom:10px}
+.hero h1 em{font-style:normal;color:var(--accent)}
+.hero .sub{font-size:14px;color:var(--muted)}
+.container{max-width:1100px;margin:0 auto;padding:48px 60px}
+.section{margin-bottom:56px}
+.section-label{font-family:'Space Mono',monospace;font-size:10px;letter-spacing:3px;color:var(--accent);margin-bottom:24px;display:flex;align-items:center;gap:10px}
+.section-label::after{content:'';flex:1;height:1px;background:var(--border);max-width:120px}
+.section h2{font-size:20px;font-weight:700;margin-bottom:20px}
+/* 警告框 */
+.alert{background:rgba(255,107,107,.08);border:1px solid rgba(255,107,107,.3);border-left:3px solid var(--accent2);border-radius:8px;padding:14px 18px;margin:20px 0;font-size:13px;color:#ffb3b3}
+.alert strong{color:var(--accent2)}
+/* 表格 */
+table{width:100%;border-collapse:collapse;margin:16px 0;font-size:13px}
+th{background:rgba(255,255,255,.04);color:var(--muted);font-weight:500;font-size:11px;letter-spacing:.5px;padding:10px 14px;text-align:left;border-bottom:1px solid var(--border)}
+td{padding:10px 14px;border-bottom:1px solid rgba(255,255,255,.04);vertical-align:top}
+tr:last-child td{border-bottom:none}
+.tag-green{color:#00c9a7;font-weight:700}
+.tag-red{color:#ff6b6b}
+.tag-orange{color:var(--accent3)}
+.num-highlight{font-family:'Space Mono',monospace;font-weight:700;color:var(--accent)}
+.num-bad{font-family:'Space Mono',monospace;color:var(--muted);text-decoration:line-through}
+/* 对比卡片 */
+.compare-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin:20px 0}
+.compare-card{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:24px;position:relative}
+.compare-card.us::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;background:linear-gradient(90deg,#00c9a7,#06d6a0);border-radius:12px 12px 0 0}
+.compare-card.them::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;background:linear-gradient(90deg,#ff6b6b,#ff8787);border-radius:12px 12px 0 0}
+.compare-card h3{font-size:13px;font-family:'Space Mono',monospace;letter-spacing:1px;margin-bottom:16px}
+.compare-card.us h3{color:var(--accent)}
+.compare-card.them h3{color:var(--accent2)}
+.compare-item{font-size:13px;padding:6px 0;border-bottom:1px solid var(--border);display:flex;gap:8px}
+.compare-item:last-child{border-bottom:none}
+.compare-item .check{flex-shrink:0}
+/* 进度/数据高亮 */
+.stat-row{display:flex;gap:20px;margin:20px 0;flex-wrap:wrap}
+.stat{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:20px 24px;flex:1;min-width:160px}
+.stat-num{font-family:'Space Mono',monospace;font-size:28px;font-weight:700;color:var(--accent);line-height:1;margin-bottom:4px}
+.stat-num.red{color:var(--accent2)}
+.stat-num.orange{color:var(--accent3)}
+.stat-label{font-size:12px;color:var(--muted)}
+/* 优先级表 */
+.priority-item{display:flex;gap:14px;align-items:flex-start;padding:14px 0;border-bottom:1px solid var(--border)}
+.priority-item:last-child{border-bottom:none}
+.priority-badge{flex-shrink:0;font-size:11px;padding:2px 10px;border-radius:20px;margin-top:2px;font-family:'Space Mono',monospace}
+.p-red{background:rgba(255,107,107,.15);color:#ff6b6b;border:1px solid rgba(255,107,107,.3)}
+.p-orange{background:rgba(255,169,77,.15);color:var(--accent3);border:1px solid rgba(255,169,77,.3)}
+.p-yellow{background:rgba(255,214,0,.1);color:#ffd600;border:1px solid rgba(255,214,0,.25)}
+.p-green{background:rgba(0,201,167,.1);color:var(--accent);border:1px solid rgba(0,201,167,.25)}
+.priority-content h4{font-size:14px;font-weight:600;margin-bottom:4px}
+.priority-content p{font-size:13px;color:var(--muted)}
+/* 核心结论框 */
+.conclusion{background:linear-gradient(135deg,rgba(0,201,167,.06),rgba(0,201,167,.02));border:1px solid rgba(0,201,167,.25);border-radius:12px;padding:24px 28px;margin-bottom:40px}
+.conclusion h3{font-size:13px;color:var(--accent);font-family:'Space Mono',monospace;letter-spacing:1px;margin-bottom:10px}
+.conclusion p{font-size:15px;font-weight:500;line-height:1.7}
+</style>
+</head>
+<body>
+<div class="hero">
+  <div class="badge">内部汇报补充材料 · 2026年6月</div>
+  <h1>快递大网合作<em>政策说明</em></h1>
+  <div class="sub">竞品压力分析 × 新石器差异化优势 × 独家总对总协议价值 | 快递生态大客户管理中心</div>
+</div>
+
+<div class="container">
+
+  <!-- 核心结论 -->
+  <div class="conclusion">
+    <h3>核心结论</h3>
+    <p>竞品正在快递大网侧大规模让利，市场竞争压力空前。<strong>新石器凭借中通、圆通独家总对总协议</strong>——九识无此两家——在价格、背书、管控力三方面建立差异化优势，是快递侧唯一能与竞品全面抗衡的无人车企业。</p>
+  </div>
+
+  <!-- 竞品压力 -->
+  <div class="section">
+    <div class="section-label">01 · 竞品当前优惠力度（外部压力）</div>
+
+    <div class="alert">
+      <strong>⚠️ 紧急预警：</strong>九识 Z5 青春版（6.5m³，约 8.5万 含5年FSD）预计 <strong>6月底/7月初</strong> 在申通正式上线，低于新石器 X6T 全款到手价约 1.7万元，将直接冲击入门市场。需在此前加速签约锁单。
+    </div>
+
+    <h2>九识在各大网的报价</h2>
+    <table>
+      <tr><th>大网</th><th>车型</th><th>价格</th><th>备注</th></tr>
+      <tr><td>中通</td><td>E6 标准版</td><td><span class="tag-red">8.5万（含5年FSD）</span></td><td>低于新石器X6底价1.5万/台</td></tr>
+      <tr><td>中通</td><td>E6 长续航版</td><td class="tag-red">8.9万</td><td></td></tr>
+      <tr><td>申通</td><td>Z5 到手价</td><td class="tag-red">10.8万</td><td>总部补贴1.5万</td></tr>
+      <tr><td>申通</td><td>Z8 到手价</td><td class="tag-red">14.8万</td><td></td></tr>
+      <tr><td>韵达</td><td>Z5 售+租5年合计</td><td class="tag-red">10.62万</td><td>售79800+后2年1100/月，满60期赠车</td></tr>
+      <tr><td>圆通</td><td>—</td><td class="tag-red">仅租赁 1800元/月</td><td>无法通过圆通大网售车</td></tr>
+    </table>
+
+    <h2 style="margin-top:28px">行深智能（极兔618促销）</h2>
+    <table>
+      <tr><th>采购量</th><th>补贴后到手价</th></tr>
+      <tr><td>1-2台</td><td>10.5万</td></tr>
+      <tr><td>3-4台</td><td>10.4万</td></tr>
+      <tr><td>≥5台</td><td><span class="tag-red">10.3万</span></td></tr>
+    </table>
+  </div>
+
+  <!-- 核心优势 -->
+  <div class="section">
+    <div class="section-label">02 · 新石器核心差异化优势</div>
+
+    <h2>中通/圆通独家总对总——九识无此两家</h2>
+    <div class="compare-grid">
+      <div class="compare-card us">
+        <h3>新石器</h3>
+        <div class="compare-item"><span class="check">✅</span><span><strong>中通</strong> 独家总对总协议</span></div>
+        <div class="compare-item"><span class="check">✅</span><span><strong>圆通</strong> 独家总对总，唯一售车方（竞品仅能租赁）</span></div>
+        <div class="compare-item"><span class="check">✅</span><span><strong>申通</strong> 战略合作，售价全面低于九识</span></div>
+        <div class="compare-item"><span class="check">✅</span><span><strong>韵达</strong> 主导售车，九识主打租赁</span></div>
+        <div class="compare-item"><span class="check">✅</span><span><strong>极兔</strong> 4家主推品牌之一</span></div>
+      </div>
+      <div class="compare-card them">
+        <h3>九识</h3>
+        <div class="compare-item"><span class="check tag-red">❌</span><span><strong>中通</strong> 无总对总协议</span></div>
+        <div class="compare-item"><span class="check tag-red">❌</span><span><strong>圆通</strong> 无总对总协议，仅能租赁</span></div>
+        <div class="compare-item"><span class="check tag-orange">⚠️</span><span><strong>申通</strong> 历史强合作，青春版即将上线</span></div>
+        <div class="compare-item"><span class="check tag-orange">⚠️</span><span><strong>韵达</strong> 主打租赁渗透</span></div>
+        <div class="compare-item"><span class="check tag-orange">⚠️</span><span><strong>极兔</strong> 同为入围品牌</span></div>
+      </div>
+    </div>
+
+    <h2 style="margin-top:32px">网点到手价——全面低于九识</h2>
+    <table>
+      <tr><th>级别</th><th>新石器（全款到手价）</th><th>九识（到手价）</th><th>新石器优势</th></tr>
+      <tr>
+        <td>入门级</td>
+        <td><span class="num-highlight">X6T 10.2万</span></td>
+        <td><span class="num-bad">Z5 10.8万</span></td>
+        <td><span class="tag-green">低约 6,000元</span></td>
+      </tr>
+      <tr>
+        <td>中型</td>
+        <td><span class="num-highlight">X6T长续航 11万</span></td>
+        <td><span class="num-bad">Z8 14.8万</span></td>
+        <td><span class="tag-green">低约 38,000元</span></td>
+      </tr>
+      <tr>
+        <td>高配</td>
+        <td><span class="num-highlight">X6TMax长续航 12.3万</span></td>
+        <td><span class="num-bad">Z8Max 16万</span></td>
+        <td><span class="tag-green">低约 37,000元</span></td>
+      </tr>
+    </table>
+
+    <h2 style="margin-top:32px">中通合作成果——数据证明大网政策有效</h2>
+    <div class="stat-row">
+      <div class="stat">
+        <div class="stat-num">1,792</div>
+        <div class="stat-label">新石器在中通保有量（台）</div>
+      </div>
+      <div class="stat">
+        <div class="stat-num red">1,434</div>
+        <div class="stat-label">九识在中通保有量（台）</div>
+      </div>
+      <div class="stat">
+        <div class="stat-num">+25%</div>
+        <div class="stat-label">新石器领先优势</div>
+      </div>
+      <div class="stat">
+        <div class="stat-num orange">1,040</div>
+        <div class="stat-label">累计交付台数（覆盖27省）</div>
+      </div>
+    </div>
+    <p style="font-size:13px;color:var(--muted);margin-top:8px">2025年3月合作前：新石器是九识的1/4 → 合作后完成逆转，领先25%</p>
+  </div>
+
+  <!-- 为什么给政策 -->
+  <div class="section">
+    <div class="section-label">03 · 为什么必须维持大网优惠政策</div>
+    <table>
+      <tr><th>原因</th><th>说明</th></tr>
+      <tr><td><strong>竞品低价压制</strong></td><td>九识E6仅8.5万，不给政策网点直接倒向竞品</td></tr>
+      <tr><td><strong>大网=最低成本规模化渠道</strong></td><td>一个总部入口覆盖全国数万网点，总部让利远比逐一开发便宜</td></tr>
+      <tr><td><strong>数据已验证</strong></td><td>中通一年：从被压制4倍 → 领先25%，模式跑通可复制</td></tr>
+      <tr><td><strong>独家协议是护城河</strong></td><td>中通/圆通总对总来之不易，政策是维系关系的基础，竞品无法复制</td></tr>
+      <tr><td><strong>净价更透明</strong></td><td>竞品低价内含融资成本；新石器给的是真实底价，贴息单独支持，更有诚意</td></tr>
+    </table>
+  </div>
+
+  <!-- 行动建议 -->
+  <div class="section">
+    <div class="section-label">04 · 近期重点行动</div>
+    <div class="priority-item">
+      <span class="priority-badge p-red">🔴 紧急</span>
+      <div class="priority-content">
+        <h4>申通入门款加速签约锁单</h4>
+        <p>九识Z5青春版6月底/7月初上线，时间窗口即将关闭，需在上线前锁定价格敏感型入门客户</p>
+      </div>
+    </div>
+    <div class="priority-item">
+      <span class="priority-badge p-orange">🟠 重要</span>
+      <div class="priority-content">
+        <h4>中通/圆通独家协议持续维护</h4>
+        <p>核心护城河不能松动，政策支撑是独家关系的基础</p>
+      </div>
+    </div>
+    <div class="priority-item">
+      <span class="priority-badge p-yellow">🟡 推进</span>
+      <div class="priority-content">
+        <h4>韵达加大售车渗透</h4>
+        <p>九识在韵达主打租赁，售车市场是新石器主场，加速网点签约</p>
+      </div>
+    </div>
+    <div class="priority-item">
+      <span class="priority-badge p-green">🟢 跟进</span>
+      <div class="priority-content">
+        <h4>极兔代理区联动转化</h4>
+        <p>总部背书已完成，重点推动代理区落地转化</p>
+      </div>
+    </div>
+  </div>
+
+</div>
+</body>
+</html>
