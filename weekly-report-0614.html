@@ -1,0 +1,700 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>WEEKLY_REPORT.DOC</title>
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.7/dist/chart.umd.min.js"></script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=VT323&family=Press+Start+2P&family=Noto+Sans+SC:wght@400;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg-gray: #c0c0c0;
+    --bg-light: #d4d0c8;
+    --bg-dark: #808080;
+    --blue-navy: #000080;
+    --blue-bright: #0000a0;
+    --blue-light: #1084d0;
+    --white: #ffffff;
+    --black: #000000;
+    --text-dark: #222222;
+    --text-gray: #555555;
+    --btn-face: #d4d0c8;
+    --btn-highlight: #ffffff;
+    --btn-shadow: #404040;
+    --btn-dark-shadow: #000000;
+    --green-retro: #008000;
+    --red-retro: #800000;
+    --yellow-retro: #808000;
+    --cyan-retro: #008080;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  html, body {
+    width: 100%; height: 100%; overflow: hidden;
+    font-family: 'MS Sans Serif', 'Segoe UI', Tahoma, Geneva, Verdana, 'Noto Sans SC', sans-serif;
+    font-size: 16px;
+    background: var(--bg-dark);
+    color: var(--text-dark);
+  }
+
+  /* CRT overlay */
+  .crt-overlay {
+    position: fixed; top: 0; left: 0; right: 0; bottom: 0;
+    pointer-events: none; z-index: 9999;
+    background: repeating-linear-gradient(0deg, rgba(0,0,0,0.03) 0px, rgba(0,0,0,0.03) 1px, transparent 1px, transparent 3px);
+  }
+
+  /* Slide system */
+  .slide {
+    position: fixed; top: 0; left: 0;
+    width: 100vw; height: 100vh;
+    display: none; flex-direction: column;
+    align-items: center; justify-content: center;
+    padding: 24px 32px 44px 32px;
+    opacity: 0; transition: opacity 0.3s ease;
+  }
+  .slide.active { display: flex; opacity: 1; }
+
+  /* Window chrome */
+  .win-window {
+    background: var(--bg-light);
+    border: 2px solid var(--white);
+    border-right-color: var(--btn-dark-shadow);
+    border-bottom-color: var(--btn-dark-shadow);
+    box-shadow: inset 1px 1px 0 var(--btn-highlight), inset -1px -1px 0 var(--btn-shadow);
+    display: flex; flex-direction: column;
+    width: 100%; max-width: 1200px;
+    height: 100%; max-height: calc(100vh - 68px);
+  }
+
+  .win-titlebar {
+    background: linear-gradient(90deg, var(--blue-navy) 0%, var(--blue-bright) 100%);
+    color: var(--white);
+    padding: 4px 8px;
+    display: flex; align-items: center; justify-content: space-between;
+    flex-shrink: 0;
+  }
+  .win-titlebar-left { display: flex; align-items: center; gap: 6px; }
+  .win-icon {
+    width: 18px; height: 18px; background: var(--white);
+    border: 1px solid var(--black);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 11px; font-weight: 700; color: var(--blue-navy);
+    flex-shrink: 0;
+  }
+  .win-title { font-size: 14px; font-weight: 700; letter-spacing: 0.5px; }
+  .win-btns { display: flex; gap: 2px; }
+  .win-btn {
+    width: 20px; height: 18px; background: var(--bg-light);
+    border: 2px solid var(--white);
+    border-right-color: var(--black); border-bottom-color: var(--black);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 11px; font-weight: 700; cursor: default;
+  }
+
+  .win-body {
+    padding: 20px 24px 24px 24px;
+    flex: 1; overflow: hidden;
+    display: flex; flex-direction: column; gap: 16px;
+  }
+
+  /* Group box */
+  .group-box {
+    border: 2px solid var(--btn-shadow);
+    border-right-color: var(--white); border-bottom-color: var(--white);
+    padding: 20px 18px 16px 18px;
+    background: var(--bg-light);
+    position: relative; flex: 1;
+  }
+  .group-box-title {
+    position: absolute; top: -10px; left: 12px;
+    background: var(--bg-light); padding: 0 8px;
+    font-size: 13px; font-weight: 700;
+  }
+
+  /* Panels */
+  .panel-raised {
+    background: var(--bg-light);
+    border: 2px solid var(--white);
+    border-right-color: var(--black); border-bottom-color: var(--black);
+    box-shadow: inset 1px 1px 0 var(--btn-highlight), inset -1px -1px 0 var(--btn-shadow);
+    padding: 16px;
+  }
+  .panel-sunken {
+    background: var(--white);
+    border: 2px solid var(--btn-shadow);
+    border-right-color: var(--white); border-bottom-color: var(--white);
+    padding: 12px;
+  }
+
+  /* HR */
+  .hr-retro { border: 0; border-top: 1px solid var(--btn-shadow); border-bottom: 1px solid var(--white); margin: 14px 0; }
+
+  /* Retro list */
+  .retro-list { list-style: none; padding: 0; }
+  .retro-list li { font-size: 14px; line-height: 1.7; display: flex; gap: 6px; }
+  .retro-list li::before { content: ">"; color: var(--blue-navy); font-weight: 700; flex-shrink: 0; }
+
+  /* Status badges */
+  .badge {
+    display: inline-block; padding: 2px 8px;
+    font-size: 12px; font-weight: 700;
+    border: 2px solid var(--white);
+    border-right-color: var(--black); border-bottom-color: var(--black);
+  }
+  .badge-green { background: var(--green-retro); color: var(--white); }
+  .badge-red { background: var(--red-retro); color: var(--white); }
+  .badge-yellow { background: var(--yellow-retro); color: var(--white); }
+  .badge-navy { background: var(--blue-navy); color: var(--white); }
+
+  /* Progress bar */
+  .progress-wrap {
+    background: var(--white);
+    border: 2px solid var(--btn-shadow); border-right-color: var(--white); border-bottom-color: var(--white);
+    padding: 2px; height: 24px;
+  }
+  .progress-fill { height: 100%; background: var(--blue-navy); transition: width 0.5s; }
+
+  /* KPI row */
+  .kpi-row { display: flex; gap: 12px; }
+  .kpi-tile {
+    flex: 1;
+    border: 2px solid var(--btn-shadow);
+    border-right-color: var(--white); border-bottom-color: var(--white);
+    padding: 12px 16px;
+    background: var(--bg-light);
+    position: relative;
+  }
+  .kpi-label { font-size: 12px; font-weight: 700; color: var(--text-gray); margin-bottom: 4px; }
+  .kpi-value { font-size: 30px; font-weight: 700; color: var(--blue-navy); line-height: 1.1; }
+  .kpi-sub { font-size: 12px; margin-top: 4px; }
+
+  /* Table */
+  .retro-table { width: 100%; border-collapse: collapse; font-size: 14px; }
+  .retro-table th {
+    background: var(--bg-gray); font-weight: 700;
+    border: 1px solid var(--btn-shadow); padding: 6px 10px; text-align: left;
+  }
+  .retro-table td { background: var(--white); border: 1px solid var(--bg-gray); padding: 6px 10px; }
+  .retro-table tr:nth-child(even) td { background: #f0f0f0; }
+
+  /* Layout helpers */
+  .row { display: flex; gap: 16px; }
+  .col { flex: 1; display: flex; flex-direction: column; gap: 12px; }
+  .col-2 { flex: 2; }
+
+  /* Typography */
+  .headline { font-size: 22px; font-weight: 700; color: var(--blue-navy); }
+  .subhead { font-size: 18px; font-weight: 700; color: var(--blue-navy); }
+  .text-sm { font-size: 14px; }
+  .text-xs { font-size: 12px; color: var(--text-gray); }
+  .text-green { color: var(--green-retro); font-weight: 700; }
+  .text-red { color: var(--red-retro); font-weight: 700; }
+  .text-yellow { color: var(--yellow-retro); font-weight: 700; }
+
+  /* Pixel font */
+  .pixel { font-family: 'Press Start 2P', cursive; }
+  .terminal { font-family: 'VT323', monospace; }
+
+  /* Separator */
+  .sep-v { width: 2px; background: var(--btn-shadow); border-left: 1px solid var(--white); margin: 0 12px; }
+
+  /* Nav */
+  .nav-bar {
+    position: fixed; bottom: 10px; left: 0; right: 0;
+    display: flex; align-items: center; justify-content: center; gap: 10px;
+    z-index: 1000;
+  }
+  .nav-dot {
+    width: 12px; height: 12px; background: var(--bg-gray);
+    border: 2px solid var(--white); border-right-color: var(--black); border-bottom-color: var(--black);
+    cursor: pointer; position: relative;
+  }
+  .nav-dot.active { background: var(--blue-navy); }
+  .nav-dot.active::after {
+    content: ''; position: absolute; top: 50%; left: 50%;
+    transform: translate(-50%, -50%);
+    width: 4px; height: 4px; background: var(--white);
+  }
+  .slide-counter {
+    position: fixed; bottom: 8px; right: 20px;
+    background: var(--bg-light); padding: 2px 8px;
+    border: 2px solid var(--btn-shadow); border-right-color: var(--white); border-bottom-color: var(--white);
+    font-size: 12px; z-index: 1000;
+  }
+  .nav-hint {
+    position: fixed; bottom: 6px; left: 20px;
+    font-family: 'VT323', monospace; font-size: 16px; color: var(--white);
+    z-index: 1000; opacity: 0.8;
+  }
+
+  /* Marquee */
+  .marquee-wrap {
+    background: var(--white); border: 1px inset var(--bg-gray);
+    padding: 3px 0; overflow: hidden;
+  }
+  .marquee-inner { display: inline-block; white-space: nowrap; animation: marquee 18s linear infinite; font-family: 'VT323', monospace; font-size: 18px; }
+  @keyframes marquee { from { transform: translateX(100vw); } to { transform: translateX(-100%); } }
+
+  /* Scrollbar */
+  ::-webkit-scrollbar { width: 16px; }
+  ::-webkit-scrollbar-track { background: var(--bg-gray); }
+  ::-webkit-scrollbar-thumb {
+    background: var(--bg-gray);
+    border: 2px solid var(--white); border-right-color: var(--black); border-bottom-color: var(--black);
+  }
+</style>
+</head>
+<body>
+<div class="crt-overlay"></div>
+
+<!-- ============ SLIDE 1: COVER ============ -->
+<div class="slide active" id="slide-1">
+  <div class="win-window">
+    <div class="win-titlebar">
+      <div class="win-titlebar-left">
+        <div class="win-icon">W</div>
+        <span class="win-title">WEEKLY_REPORT.DOC — 陈子航 · 快递大客户管理</span>
+      </div>
+      <div class="win-btns">
+        <div class="win-btn">_</div><div class="win-btn">□</div><div class="win-btn">X</div>
+      </div>
+    </div>
+    <div class="win-body" style="align-items:center;justify-content:center;gap:24px;">
+      <div style="text-align:center;">
+        <div class="pixel" style="font-size:20px;color:var(--blue-navy);line-height:2;margin-bottom:16px;">WEEKLY REPORT</div>
+        <div class="headline" style="font-size:32px;margin-bottom:8px;">快递生态大客户管理中心</div>
+        <div class="subhead" style="color:var(--text-gray);font-weight:400;margin-bottom:24px;">陈子航 · 2026年第24周 · 6月9日—6月14日</div>
+        <hr class="hr-retro" style="width:400px;margin:0 auto 24px;">
+      </div>
+      <div class="kpi-row" style="max-width:700px;width:100%;">
+        <div class="kpi-tile" style="text-align:center;">
+          <div class="kpi-label">本周团队发车</div>
+          <div class="kpi-value">19<span style="font-size:16px;color:var(--text-gray);"> 台</span></div>
+          <div class="kpi-sub text-green">▲ 六省主力省</div>
+        </div>
+        <div class="kpi-tile" style="text-align:center;">
+          <div class="kpi-label">沙龙活动</div>
+          <div class="kpi-value">3<span style="font-size:16px;color:var(--text-gray);"> 场</span></div>
+          <div class="kpi-sub" style="color:var(--text-gray);">意向网点 30+</div>
+        </div>
+        <div class="kpi-tile" style="text-align:center;">
+          <div class="kpi-label">大网对接</div>
+          <div class="kpi-value">5<span style="font-size:16px;color:var(--text-gray);"> 家</span></div>
+          <div class="kpi-sub" style="color:var(--text-gray);">极兔/韵达/申通/圆通/中通</div>
+        </div>
+        <div class="kpi-tile" style="text-align:center;">
+          <div class="kpi-label">AI 日报系统</div>
+          <div class="kpi-value badge badge-green" style="font-size:16px;padding:4px 12px;">LIVE</div>
+          <div class="kpi-sub text-green">自动采集·评分·发送</div>
+        </div>
+      </div>
+      <div class="marquee-wrap" style="width:100%;max-width:700px;">
+        <div class="marquee-inner" style="color:var(--blue-navy);">
+          &nbsp;&nbsp;&nbsp;> 本周亮点：极兔淮扬沙龙31家网点到场 · 11家意向 · 荆门中通游学 15家参与 · 徐州移动11台 CP 合同确认 · AI日报系统上线运行 · 中通数据治理完成近1800台匹配 &nbsp;&nbsp;&nbsp;
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ============ SLIDE 2: 本周工作总览 ============ -->
+<div class="slide" id="slide-2">
+  <div class="win-window">
+    <div class="win-titlebar">
+      <div class="win-titlebar-left">
+        <div class="win-icon">A</div>
+        <span class="win-title">AGENDA.TXT — 本周工作总览</span>
+      </div>
+      <div class="win-btns">
+        <div class="win-btn">_</div><div class="win-btn">□</div><div class="win-btn">X</div>
+      </div>
+    </div>
+    <div class="win-body">
+      <div class="row" style="flex:1;">
+        <div class="col">
+          <div class="group-box" style="flex:none;">
+            <div class="group-box-title">📋 大网合作推进</div>
+            <ul class="retro-list" style="margin-top:4px;">
+              <li>与极兔省区联动，组织淮扬分拨中心沙龙（31家网点），现场意向11家</li>
+              <li>荆门中通游学会，15家网点参与，意向4台</li>
+              <li>圆通省区报价沟通（广州/广东），推进6月PK赛收单</li>
+              <li>申通717开放日方案提报，菜鸟合作资源方对接</li>
+              <li>韵达省区沙龙培训（豫南50人，8人填报意向）</li>
+            </ul>
+          </div>
+          <div class="group-box" style="flex:none;">
+            <div class="group-box-title">🏢 管理与系统建设</div>
+            <ul class="retro-list" style="margin-top:4px;">
+              <li>AI日报系统正式上线：自动抓取纪要→评分排名→定时推送</li>
+              <li>发车数据多维表格日报评分系统搭建并运行</li>
+              <li>中通数据治理：车号与网点编码绑定完成，总量近1800台</li>
+              <li>各大网最新报价整理与更新（全款价+金融48期方案）</li>
+              <li>与王梦宇（总部）沟通AI日报系统，获正向反馈</li>
+            </ul>
+          </div>
+        </div>
+        <div class="sep-v"></div>
+        <div class="col">
+          <div class="group-box" style="flex:none;">
+            <div class="group-box-title">📦 重点订单跟进</div>
+            <ul class="retro-list" style="margin-top:4px;">
+              <li><span class="text-green">✔</span> 徐州移动11台长续航 CP 合同确认，CRM 流程完成，下周打款</li>
+              <li><span class="text-green">✔</span> 鹰潭贵溪6台、靖江中通3台协助完成发车流程</li>
+              <li><span class="text-yellow">◎</span> 漯河10台已付款，工厂无车，持续跟进交付</li>
+              <li><span class="text-yellow">◎</span> 开封尉氏中通3台+固始1台确认下单中</li>
+              <li><span class="text-yellow">◎</span> 当涂共配20台意向（圆通大网，利息中），持续推进</li>
+            </ul>
+          </div>
+          <div class="group-box" style="flex:none;">
+            <div class="group-box-title">🔧 运营与内部协调</div>
+            <ul class="retro-list" style="margin-top:4px;">
+              <li>申通付款流程跟进并完成结案</li>
+              <li>陕西退换车流程处理</li>
+              <li>中通补充协议三微调，配合财务确认</li>
+              <li>圆通协议法务侧补充修改跟进</li>
+              <li>山东滨州早晚高峰限行问题协调</li>
+            </ul>
+          </div>
+          <div class="panel-sunken">
+            <div class="text-xs" style="margin-bottom:4px;">本周提交日报智能纪要 · 团队整体合规率</div>
+            <div class="progress-wrap"><div class="progress-fill" style="width:87%;"></div></div>
+            <div class="text-xs" style="margin-top:4px;">13人合规 / 2人未提交（杜明光、许亮）</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ============ SLIDE 3: 团队发车数据 ============ -->
+<div class="slide" id="slide-3">
+  <div class="win-window">
+    <div class="win-titlebar">
+      <div class="win-titlebar-left">
+        <div class="win-icon">D</div>
+        <span class="win-title">DATAVIEW.CSV — 团队本周发车数据</span>
+      </div>
+      <div class="win-btns">
+        <div class="win-btn">_</div><div class="win-btn">□</div><div class="win-btn">X</div>
+      </div>
+    </div>
+    <div class="win-body">
+      <div class="row" style="align-items:flex-start;flex:1;gap:20px;">
+        <div class="col col-2" style="overflow:auto;">
+          <table class="retro-table">
+            <thead>
+              <tr>
+                <th>姓名</th>
+                <th>区域</th>
+                <th>本周目标</th>
+                <th>本周发车</th>
+                <th>达成率</th>
+                <th>状态</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr><td>赵成顺</td><td>山东</td><td>3</td><td><b>4</b></td><td class="text-green">133%</td><td><span class="badge badge-green">超额</span></td></tr>
+              <tr><td>牟青</td><td>山东</td><td>7</td><td>4</td><td class="text-yellow">57%</td><td><span class="badge badge-yellow">推进中</span></td></tr>
+              <tr><td>王政</td><td>河北</td><td>6</td><td>2</td><td class="text-yellow">33%</td><td><span class="badge badge-yellow">推进中</span></td></tr>
+              <tr><td>姚晓强</td><td>河北</td><td>6</td><td>2</td><td class="text-yellow">33%</td><td><span class="badge badge-yellow">推进中</span></td></tr>
+              <tr><td>卢恩</td><td>河南</td><td>10</td><td>0</td><td class="text-red">0%</td><td><span class="badge badge-navy">漯河待交付</span></td></tr>
+              <tr><td>周子坤</td><td>河南</td><td>10</td><td>0</td><td class="text-red">0%</td><td><span class="badge badge-navy">订单确认中</span></td></tr>
+              <tr><td>李苗蒲</td><td>河南</td><td>10</td><td>0</td><td class="text-red">0%</td><td><span class="badge badge-navy">订单确认中</span></td></tr>
+              <tr><td>罗坤</td><td>山东</td><td>4</td><td>0</td><td class="text-red">0%</td><td><span class="badge badge-yellow">推进中</span></td></tr>
+              <tr><td>熊志</td><td>安徽</td><td>8</td><td>0</td><td class="text-red">0%</td><td><span class="badge badge-yellow">推进中</span></td></tr>
+              <tr><td>苏峰</td><td>江苏</td><td>4</td><td>1</td><td class="text-yellow">25%</td><td><span class="badge badge-yellow">推进中</span></td></tr>
+              <tr><td>李鸿鹤</td><td>江苏</td><td>15</td><td>1</td><td class="text-yellow">7%</td><td><span class="badge badge-yellow">流程中3台</span></td></tr>
+              <tr><td>杜明光</td><td>江苏</td><td>11</td><td>0</td><td class="text-green">CP合同锁定</td><td><span class="badge badge-green">11台确认</span></td></tr>
+              <tr><td>李卫琴</td><td>大网BD</td><td>—</td><td>—</td><td style="color:var(--cyan-retro);font-weight:700;">大网对接</td><td><span class="badge badge-navy">广东圆通出差</span></td></tr>
+              <tr><td>周韵</td><td>中通运营</td><td>—</td><td>—</td><td style="color:var(--cyan-retro);font-weight:700;">运营支撑</td><td><span class="badge badge-green">1800台绑定</span></td></tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="col" style="gap:12px;">
+          <div class="group-box" style="flex:none;">
+            <div class="group-box-title">📊 本周发车分布</div>
+            <canvas id="chart-car" style="max-height:180px;margin-top:8px;"></canvas>
+          </div>
+          <div class="kpi-tile" style="text-align:center;">
+            <div class="kpi-label">团队本周合计</div>
+            <div class="kpi-value">19<span style="font-size:16px;color:var(--text-gray);"> 台</span></div>
+            <div class="kpi-sub text-yellow">目标 94 台 · 达成率 20%</div>
+          </div>
+          <div class="kpi-tile" style="text-align:center;">
+            <div class="kpi-label">确认中/流程中</div>
+            <div class="kpi-value" style="font-size:22px;">30+<span style="font-size:14px;color:var(--text-gray);"> 台</span></div>
+            <div class="kpi-sub text-green">▲ 含徐州移动11台</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ============ SLIDE 4: 大网推进详情 ============ -->
+<div class="slide" id="slide-4">
+  <div class="win-window">
+    <div class="win-titlebar">
+      <div class="win-titlebar-left">
+        <div class="win-icon">G</div>
+        <span class="win-title">GW_STATUS.LOG — 五大网推进状态</span>
+      </div>
+      <div class="win-btns">
+        <div class="win-btn">_</div><div class="win-btn">□</div><div class="win-btn">X</div>
+      </div>
+    </div>
+    <div class="win-body">
+      <div class="row" style="flex:1;gap:16px;">
+        <div class="col">
+          <div class="group-box">
+            <div class="group-box-title">极兔 <span class="badge badge-green">活跃</span></div>
+            <ul class="retro-list" style="margin-top:8px;">
+              <li>淮扬分拨中心沙龙31家到场，11家意向，已逐一建联</li>
+              <li>张家港7台需求，下周与省区协同拜访</li>
+              <li>极兔直播海报沟通中，等新型号报价后走采购流程</li>
+              <li>宿迁/连云港沙龙参与</li>
+            </ul>
+            <div class="panel-sunken" style="margin-top:12px;">
+              <div class="text-xs">合作进展</div>
+              <div class="progress-wrap" style="margin-top:4px;"><div class="progress-fill" style="width:65%;background:var(--green-retro);"></div></div>
+            </div>
+          </div>
+          <div class="group-box">
+            <div class="group-box-title">中通 <span class="badge badge-yellow">推进中</span></div>
+            <ul class="retro-list" style="margin-top:8px;">
+              <li>荆门游学会15家参与，意向4台</li>
+              <li>洛阳承包区沙龙，洛阳+焦作意向5台+</li>
+              <li>开封尉氏3台+固始1台确认下单</li>
+              <li>数据治理完成，新石器在中通近1800台</li>
+              <li>补充协议三微调，推进回款</li>
+            </ul>
+            <div class="panel-sunken" style="margin-top:12px;">
+              <div class="text-xs">合作进展</div>
+              <div class="progress-wrap" style="margin-top:4px;"><div class="progress-fill" style="width:55%;"></div></div>
+            </div>
+          </div>
+        </div>
+        <div class="col">
+          <div class="group-box">
+            <div class="group-box-title">韵达 <span class="badge badge-yellow">推进中</span></div>
+            <ul class="retro-list" style="margin-top:8px;">
+              <li>豫南省区培训50人，8人填报意向</li>
+              <li>合肥滨湖标杆站装修验收中，下周约省总沙龙游学</li>
+              <li>沁阳游学下周二确认组织</li>
+              <li>山东线索12条下发，跟进中</li>
+            </ul>
+            <div class="panel-sunken" style="margin-top:12px;">
+              <div class="text-xs">合作进展</div>
+              <div class="progress-wrap" style="margin-top:4px;"><div class="progress-fill" style="width:45%;background:var(--cyan-retro);"></div></div>
+            </div>
+          </div>
+          <div class="group-box">
+            <div class="group-box-title">圆通 <span class="badge badge-navy">对接中</span></div>
+            <ul class="retro-list" style="margin-top:8px;">
+              <li>广东省区拜访，推进6月PK赛，佛山/龙岗重点发力</li>
+              <li>当涂共配20台意向，利息问题推进</li>
+              <li>圆通协议法务补充修改中</li>
+              <li>沧州等区域路权情况对接完成</li>
+            </ul>
+            <div class="panel-sunken" style="margin-top:12px;">
+              <div class="text-xs">合作进展</div>
+              <div class="progress-wrap" style="margin-top:4px;"><div class="progress-fill" style="width:40%;background:var(--yellow-retro);"></div></div>
+            </div>
+          </div>
+          <div class="group-box" style="flex:none;">
+            <div class="group-box-title">申通 <span class="badge badge-green">付款完成</span></div>
+            <ul class="retro-list" style="margin-top:8px;">
+              <li>申通付款流程跟进并结案</li>
+              <li>717方案提报会组织</li>
+              <li>新媒体游学效果复盘完成</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ============ SLIDE 5: 重点事项 & 下周计划 ============ -->
+<div class="slide" id="slide-5">
+  <div class="win-window">
+    <div class="win-titlebar">
+      <div class="win-titlebar-left">
+        <div class="win-icon">P</div>
+        <span class="win-title">PLAN_NEXT.PRJ — 风险预警 & 下周计划</span>
+      </div>
+      <div class="win-btns">
+        <div class="win-btn">_</div><div class="win-btn">□</div><div class="win-btn">X</div>
+      </div>
+    </div>
+    <div class="win-body">
+      <div class="row" style="flex:1;gap:16px;">
+        <div class="col">
+          <div class="group-box">
+            <div class="group-box-title">⚠ 风险与卡点</div>
+            <ul class="retro-list" style="margin-top:8px;gap:2px;">
+              <li><span class="text-red">HIGH</span> 漯河10台已付款，工厂无车可交，客户等待中</li>
+              <li><span class="text-red">HIGH</span> 路权问题：洛阳、仪征等区域路权未开放，制约落单</li>
+              <li><span class="text-yellow">MED</span> 新款X6T报价未正式发布，大量网点处于观望</li>
+              <li><span class="text-yellow">MED</span> 圆通协议法务修改中，协议未签影响后续大规模推进</li>
+              <li><span class="text-yellow">MED</span> 8方车型新款未投产，多个乡镇网点需求等待</li>
+            </ul>
+          </div>
+          <div class="group-box">
+            <div class="group-box-title">📈 本周亮点</div>
+            <ul class="retro-list" style="margin-top:8px;">
+              <li><span class="text-green">★</span> 徐州移动11台CP合同确认，大客户标杆案例</li>
+              <li><span class="text-green">★</span> AI日报系统获总部正向反馈（王梦宇鼓励）</li>
+              <li><span class="text-green">★</span> 极兔淮扬沙龙效果佳，11家意向，省区协同顺畅</li>
+              <li><span class="text-green">★</span> 中通数据治理完成，1800台正确绑定</li>
+              <li><span class="text-green">★</span> 赵成顺本周达成率133%（4台/目标3台）</li>
+            </ul>
+          </div>
+        </div>
+        <div class="sep-v"></div>
+        <div class="col">
+          <div class="group-box">
+            <div class="group-box-title">📅 下周重点计划</div>
+            <ul class="retro-list" style="margin-top:8px;">
+              <li><b>周一</b> 验证08:00三任务自动发送（私信+领导图+群日报）</li>
+              <li><b>周一</b> 韵达沁阳游学确认落地</li>
+              <li><b>周二</b> 中通省区江苏驻点办公（李鸿鹤）</li>
+              <li><b>周二</b> 安阳/鹤壁快递客户拜访（卢恩/李苗蒲）</li>
+              <li><b>周三</b> 山东淄博极兔/申通联合推介会</li>
+              <li><b>周四</b> 洛阳路权推进（交通局授权上报）</li>
+              <li><b>全周</b> 漯河10台交付跟催，尉氏3台+固始1台完成下单</li>
+              <li><b>全周</b> 圆通协议法务侧确认，推进签署</li>
+            </ul>
+          </div>
+          <div class="panel-raised" style="flex:none;">
+            <div class="text-sm" style="font-weight:700;color:var(--blue-navy);margin-bottom:8px;">🎯 下周目标</div>
+            <div class="kpi-row">
+              <div class="kpi-tile" style="text-align:center;flex:1;">
+                <div class="kpi-label">团队发车目标</div>
+                <div class="kpi-value" style="font-size:22px;">25<span style="font-size:14px;">+</span></div>
+              </div>
+              <div class="kpi-tile" style="text-align:center;flex:1;">
+                <div class="kpi-label">沙龙/游学</div>
+                <div class="kpi-value" style="font-size:22px;">3<span style="font-size:14px;"> 场</span></div>
+              </div>
+              <div class="kpi-tile" style="text-align:center;flex:1;">
+                <div class="kpi-label">日报提交率</div>
+                <div class="kpi-value" style="font-size:22px;color:var(--green-retro);">100%</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ============ SLIDE 6: CLOSE ============ -->
+<div class="slide" id="slide-6">
+  <div class="win-window">
+    <div class="win-titlebar">
+      <div class="win-titlebar-left">
+        <div class="win-icon">E</div>
+        <span class="win-title">EXPLORER.EXE — 结语</span>
+      </div>
+      <div class="win-btns">
+        <div class="win-btn">_</div><div class="win-btn">□</div><div class="win-btn">X</div>
+      </div>
+    </div>
+    <div class="win-body" style="align-items:center;justify-content:center;gap:24px;">
+      <div style="text-align:center;">
+        <div style="font-size:52px;margin-bottom:16px;">⌛</div>
+        <div class="pixel" style="font-size:16px;color:var(--blue-navy);line-height:2.2;">LOADING NEXT WEEK...</div>
+        <div class="progress-wrap" style="width:320px;margin:16px auto;">
+          <div class="progress-fill" style="width:100%;transition:none;"></div>
+        </div>
+        <div class="subhead" style="margin-top:16px;">稳扎稳打，六省攻坚</div>
+        <div class="text-sm" style="color:var(--text-gray);margin-top:8px;">快递生态大客户管理中心 · 2026年第24周</div>
+      </div>
+      <div class="panel-sunken" style="max-width:500px;width:100%;">
+        <div class="terminal" style="font-size:18px;color:var(--blue-navy);line-height:1.8;">
+          C:\REPORT> generate weekly_report.exe<br>
+          > 数据采集完成 [OK]<br>
+          > 发车核算完成 [OK]<br>
+          > 大网状态更新 [OK]<br>
+          > AI日报系统 [LIVE]<br>
+          > 下周计划已排期 [READY]<br>
+          <span style="color:var(--green-retro);font-weight:700;">> DONE. GOOD WORK THIS WEEK.</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Nav -->
+<div class="nav-bar" id="nav-dots"></div>
+<div class="slide-counter" id="slide-counter">1 / 6</div>
+<div class="nav-hint">&lt;-- ARROW KEYS to navigate --&gt;</div>
+
+<script>
+const totalSlides = 6;
+let current = 1;
+
+function buildDots() {
+  const bar = document.getElementById('nav-dots');
+  for (let i = 1; i <= totalSlides; i++) {
+    const dot = document.createElement('div');
+    dot.className = 'nav-dot' + (i === 1 ? ' active' : '');
+    dot.onclick = () => goTo(i);
+    bar.appendChild(dot);
+  }
+}
+
+function goTo(n) {
+  document.getElementById('slide-' + current).classList.remove('active');
+  document.querySelectorAll('.nav-dot')[current - 1].classList.remove('active');
+  current = n;
+  document.getElementById('slide-' + current).classList.add('active');
+  document.querySelectorAll('.nav-dot')[current - 1].classList.add('active');
+  document.getElementById('slide-counter').textContent = current + ' / ' + totalSlides;
+  if (current === 3) initChart();
+}
+
+document.addEventListener('keydown', e => {
+  if (['ArrowRight','ArrowDown','Space'].includes(e.code) || e.key === ' ') { if (current < totalSlides) goTo(current + 1); e.preventDefault(); }
+  if (['ArrowLeft','ArrowUp'].includes(e.code)) { if (current > 1) goTo(current - 1); e.preventDefault(); }
+  if (e.key === 'Home') goTo(1);
+  if (e.key === 'End') goTo(totalSlides);
+});
+
+let chartInit = false;
+function initChart() {
+  if (chartInit) return;
+  chartInit = true;
+  const ctx = document.getElementById('chart-car').getContext('2d');
+  new Chart(ctx, {
+    type: 'bar',
+    data: {
+      labels: ['赵成顺','牟青','王政','姚晓强','苏峰','李鸿鹤'],
+      datasets: [{
+        label: '发车台数',
+        data: [4, 4, 2, 2, 1, 1],
+        backgroundColor: '#000080',
+        borderColor: '#000080',
+        borderWidth: 0,
+      }]
+    },
+    options: {
+      responsive: true, maintainAspectRatio: true,
+      plugins: { legend: { display: false } },
+      scales: {
+        x: { ticks: { font: { family: 'MS Sans Serif,Segoe UI,sans-serif', size: 11 }, color: '#222222' }, grid: { color: '#c0c0c0' } },
+        y: { ticks: { font: { family: 'MS Sans Serif,Segoe UI,sans-serif', size: 11 }, color: '#222222', stepSize: 1 }, grid: { color: '#c0c0c0' }, beginAtZero: true }
+      }
+    }
+  });
+}
+
+buildDots();
+</script>
+</body>
+</html>
